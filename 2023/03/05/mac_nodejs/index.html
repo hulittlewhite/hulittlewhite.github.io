@@ -2,7 +2,7 @@
 <html>
 	<head>
 		
-<title>MacOS下安装Node.js避坑指南-Quiet</title>
+<title>校园社区论坛之Redis-Quiet</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -284,7 +284,7 @@
             
         </ul>
         
-        <h1>MacOS下安装Node.js避坑指南</h1>
+        <h1>校园社区论坛之Redis</h1>
         <div class="post-header-info">
             <div class="post-header-info-author">
                 
@@ -309,65 +309,491 @@
   <div id="article" class="post-content-info">
     
 
-    <ul>
-<li><p>不建议的方法：直接到 Node 官网下载<code>.pkg</code>文件进行安装。</p>
+    <p>🌟 本帖记录 Spring Boot 整合 Redis 实现校园社区论坛项目的点赞、关注功能，同时优化了登录模块中的验证码存储、登录凭证存储、用户信息缓存功能。</p>
+<p>🌟 准备工作：</p>
+<ol>
+<li>引入 Redis 依赖到 pom.xml 文件中：</li>
+</ol>
+<pre><code>&lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+<ol start="2">
+<li>在 application.properties 文件中配置 Redis：</li>
+</ol>
+<pre><code># RedisProperties
+spring.redis.database=11
+spring.redis.host=localhost
+spring.redis.port=6379
+</code></pre>
+<ol start="3">
+<li>编写配置类 RedisConfig：</li>
+</ol>
+<pre><code class="java">@Configuration
+public class RedisConfig &#123;
+    @Bean
+    public RedisTemplate&lt;String, Object&gt; redisTemplate(RedisConnectionFactory factory) &#123;
+        RedisTemplate&lt;String, Object&gt; template = new RedisTemplate&lt;&gt;();
+        template.setConnectionFactory(factory);
+
+        // 设置 key 的序列化方式
+        template.setKeySerializer(RedisSerializer.string());
+        // 设置 value 的序列化方式
+        template.setValueSerializer(RedisSerializer.json());
+        // 设置 hash 的 key 的序列化方式
+        template.setHashKeySerializer(RedisSerializer.string());
+        // 设置 hash 的 value 的序列化方式
+        template.setHashValueSerializer(RedisSerializer.json());
+
+        template.afterPropertiesSet();
+        return template;
+    &#125;
+&#125;
+</code></pre>
+<h1 id="1-点赞"><a href="#1-点赞" class="headerlink" title="1. 点赞"></a>1. 点赞</h1><p>点赞模块包含：</p>
+<ol>
+<li>点赞：(1)支持对帖子、评论进行点赞；(2)第一次点击“赞”完成点赞操作，第二次点击“已赞”完成取消点赞操作。</li>
+<li>首页：统计帖子的点赞数。</li>
+<li>详情页：(1)统计帖子的点赞数；(2)显示点赞状态。</li>
+</ol>
+<h2 id="创建工具类-RedisKeyUtil"><a href="#创建工具类-RedisKeyUtil" class="headerlink" title="创建工具类 RedisKeyUtil"></a>创建工具类 RedisKeyUtil</h2><ul>
+<li>定义分隔符 <code>:</code></li>
+<li>定义实体获得赞的 key 前缀常量  <code>like:entity</code></li>
+<li>新增方法 <code>getEntityLikeKey(int entityType, int entityId)</code>，通过实体类型和实体 id 生成对应实体获得赞的 key，这个 key 的呈现形式为 <code>like:entity:entityType:entityId</code>。</li>
+</ul>
+<pre><code class="jade">public class RedisKeyUtil &#123;
+    private static final String SPLIT = &quot;:&quot;;
+    private static final String PREFIX_ENTITY_LIKE = &quot;like:entity&quot;;
+
+    // 某个实体的赞
+    // like:entity:entityType:entityId -&gt; set(userId)
+    public static String getEntityLikeKey(int entityType, int entityId) &#123;
+        return PREFIX_ENTITY_LIKE + SPLIT + entityType + SPLIT + entityId;
+    &#125;
+&#125;
+</code></pre>
+<h2 id="创建业务层的-LikeService-类"><a href="#创建业务层的-LikeService-类" class="headerlink" title="创建业务层的 LikeService 类"></a>创建业务层的 LikeService 类</h2><ul>
+<li>注入 <code>RedisTemplate</code> 实例</li>
+<li>新增方法 <code>like()</code> 实现点赞功能：<ul>
+<li>首先，调用工具类 <code>RedisKeyUtil</code> 中的方法 <code>getEntityLikeKey()</code> 获得实体点赞的 key；</li>
+<li>然后，通过 <code>RedisTemplate</code> 的对象，调用 set 集合的方法 <code>isMember()</code> 查询 userId 是否存在于对应 key 的 set 集合中，如果存在则移出点赞的用户集合，如果不存在则添加到点赞的用户集合中。</li>
+</ul>
 </li>
-<li><p>可能出现的问题：使用<code>npm install -g hexo-cli</code>等指令会报错没有写入的权限，甚至尝试各种<code>sudo</code>权限都无效。</p>
+<li>新增方法 <code>findEntityLikeCount()</code>：查询某实体的点赞数，通过调用 set 集合的方法<code>size()</code>查询元素的个数。</li>
+<li>新增方法 <code>findEntityLikeStatus()</code>：查询某用户对某实体的点赞状态，逻辑实现同方法<code>like()</code>，即通过调用 set 集合的方法 <code>isMember()</code> 实现。</li>
+</ul>
+<pre><code class="java">@Service
+public class LikeService &#123;
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    // 点赞
+    public void like(int userId, int entityType, int entityId) &#123;
+        String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);
+        boolean isMember = redisTemplate.opsForSet().isMember(entityLikeKey, userId);
+      // 判断是否点过赞
+        if (isMember) &#123;
+            redisTemplate.opsForSet().remove(entityLikeKey, userId);
+        &#125; else &#123;
+            redisTemplate.opsForSet().add(entityLikeKey, userId);
+        &#125;
+    &#125;
+
+    // 查询某实体点赞的数量
+    public long findEntityLikeCount(int entityType, int entityId) &#123;
+        String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);
+        return redisTemplate.opsForSet().size(entityLikeKey);
+    &#125;
+
+    // 查询某人对某实体的点赞状态
+    public int findEntityLikeStatus(int userId, int entityType, int entityId) &#123;
+        String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);
+          // 1 表示已赞；0表示未赞
+        return redisTemplate.opsForSet().isMember(entityLikeKey, userId) ? 1 : 0;
+    &#125;
+
+&#125;
+</code></pre>
+<h2 id="创建表现层的-LikeController-类"><a href="#创建表现层的-LikeController-类" class="headerlink" title="创建表现层的 LikeController 类"></a>创建表现层的 LikeController 类</h2><ul>
+<li>注入 <code>LikeService</code> 和 <code>HostHolder</code> 实例</li>
+<li>新增方法 <code>like()</code>：实现点赞功能，调用业务层的方法 <code>like()</code> 进行点赞，调用 <code>findEntityLikeCount()</code> 和 <code>findEntityLikeStatus()</code> 查询点赞数和点赞状态，并封装到 map 集合中，然后通过工具类封装成 JSON 数据返回。</li>
+</ul>
+<pre><code class="java">@Controller
+public class LikeController &#123;
+    @Autowired
+    private LikeService likeService;
+
+    @Autowired
+    private HostHolder hostHolder;
+
+    @PostMapping(&quot;/like&quot;)
+    @ResponseBody
+    public String like(int entityType, int entityId) &#123;
+        User user = hostHolder.getUser();
+        // 点赞
+        likeService.like(user.getId(), entityType, entityId);
+        // 数量
+        long likeCount = likeService.findEntityLikeCount(entityType, entityId);
+        // 状态
+        int likeStatus = likeService.findEntityLikeStatus(user.getId(), entityType, entityId);
+        // 返回的结果
+        Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();
+        map.put(&quot;likeCount&quot;, likeCount);
+        map.put(&quot;likeStatus&quot;, likeStatus);
+
+        return CommunityUtil.getJSONString(0, null, map);
+    &#125;
+&#125;
+</code></pre>
+<h2 id="更新表现层的-HomeController-类"><a href="#更新表现层的-HomeController-类" class="headerlink" title="更新表现层的 HomeController 类"></a>更新表现层的 HomeController 类</h2><ul>
+<li><p>注入  <code>LikeService</code> 实例</p>
 </li>
-<li><p>npm 官网教程也不推荐采用<code>installer</code>进行安装。</p>
+<li><p>更新方法  <code>getIndexPage()</code>：新增更新首页帖子点赞数功能，调用业务层的 <code>LikeService</code> 类的方法获得点赞数，并存储到 map 集合中。</p>
 </li>
 </ul>
-<h2 id="安装Node-js和npm的正确方法"><a href="#安装Node-js和npm的正确方法" class="headerlink" title="安装Node.js和npm的正确方法"></a>安装Node.js和npm的正确方法</h2><p>🌟 使用 node 版本管理工<code>nvm</code>(node version manager)安装 Node.js 和 npm。</p>
-<h3 id="Step-1"><a href="#Step-1" class="headerlink" title="Step 1"></a>Step 1</h3><p>安装<code>nvm</code>：</p>
-<pre><code>~$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+<pre><code class="java">@GetMapping(&quot;/index&quot;)
+public String getIndexPage(Model model, Page page) &#123;
+    // 方法调用之前，SpringMVC 会自动实例化 Model 和 Page，并将 Page 注入到 Model中。
+    // 所以，在 thymeleaf 中可以直接访问 Page 对象中的数据.
+    page.setRows(discussPostService.findDiscussPostRows(0));
+    page.setPath(&quot;/index&quot;);
+
+    List&lt;DiscussPost&gt; list = discussPostService.findDiscussPosts(0, page.getOffset(), page.getLimit());
+    List&lt;Map&lt;String, Object&gt;&gt; discussPosts = new ArrayList&lt;&gt;();
+    if (list != null) &#123;
+        for (DiscussPost post : list) &#123;
+            Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();
+            map.put(&quot;post&quot;, post);
+            User user = userService.findUserById(post.getUserId());
+            map.put(&quot;user&quot;, user);
+
+            long likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_POST, post.getId());
+            map.put(&quot;likeCount&quot;, likeCount);
+
+            discussPosts.add(map);
+        &#125;
+    &#125;
+    model.addAttribute(&quot;discussPosts&quot;, discussPosts);
+    return &quot;/index&quot;;
+&#125;
 </code></pre>
-<p>验证<code>nvm</code>是否安装成功：</p>
-<pre><code>~$ command -v nvm
+<h2 id="更新表现层的-DiscussPostController-类"><a href="#更新表现层的-DiscussPostController-类" class="headerlink" title="更新表现层的 DiscussPostController 类"></a>更新表现层的 DiscussPostController 类</h2><ul>
+<li>注入  <code>LikeService</code> 实例</li>
+<li>更新方法 <code>addDiscussPost()</code>：新增更新详情页帖子（评论、回复）的点赞数功能，调用业务层的 <code>LikeService</code> 类的方法获得点赞数和点赞状态，并将其存入视图对象中。</li>
+</ul>
+<pre><code class="java">@GetMapping(&quot;/detail/&#123;discussPostId&#125;&quot;)
+public String getDiscussPost(@PathVariable(&quot;discussPostId&quot;) int discussPostId, Model model, Page page) &#123;
+    // 帖子
+    DiscussPost post = discussPostService.findDiscussPostById(discussPostId);
+    model.addAttribute(&quot;post&quot;, post);
+    // 作者
+    User user = userService.findUserById(post.getUserId());
+    model.addAttribute(&quot;user&quot;, user);
+    // 点赞数量
+    long likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_POST, discussPostId);
+    model.addAttribute(&quot;likeCount&quot;, likeCount);
+    // 点赞状态
+    int likeStatus = hostHolder.getUser() == null ? 0 :
+            likeService.findEntityLikeStatus(hostHolder.getUser().getId(), ENTITY_TYPE_POST, discussPostId);
+    model.addAttribute(&quot;likeStatus&quot;, likeStatus);
+
+    // 评论分页信息
+    page.setLimit(5);
+    page.setPath(&quot;/discuss/detail/&quot; + discussPostId);
+    page.setRows(post.getCommentCount());
+
+    // 评论: 给帖子的评论
+    // 回复: 给评论的评论
+    // 评论列表
+    List&lt;Comment&gt; commentList = commentService.findCommentsByEntity(
+            ENTITY_TYPE_POST, post.getId(), page.getOffset(), page.getLimit());
+    // 评论VO列表
+    List&lt;Map&lt;String, Object&gt;&gt; commentVoList = new ArrayList&lt;&gt;();
+    if (commentList != null) &#123;
+        for (Comment comment : commentList) &#123;
+            // 评论VO
+            Map&lt;String, Object&gt; commentVo = new HashMap&lt;&gt;();
+            // 评论
+            commentVo.put(&quot;comment&quot;, comment);
+            // 作者
+            commentVo.put(&quot;user&quot;, userService.findUserById(comment.getUserId()));
+            // 点赞数量
+            likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_COMMENT, comment.getId());
+            commentVo.put(&quot;likeCount&quot;, likeCount);
+            // 点赞状态
+            likeStatus = hostHolder.getUser() == null ? 0 :
+                    likeService.findEntityLikeStatus(hostHolder.getUser().getId(), ENTITY_TYPE_COMMENT, comment.getId());
+            commentVo.put(&quot;likeStatus&quot;, likeStatus);
+
+            // 回复列表
+            List&lt;Comment&gt; replyList = commentService.findCommentsByEntity(
+                    ENTITY_TYPE_COMMENT, comment.getId(), 0, Integer.MAX_VALUE);
+            // 回复VO列表
+            List&lt;Map&lt;String, Object&gt;&gt; replyVoList = new ArrayList&lt;&gt;();
+            if (replyList != null) &#123;
+                for (Comment reply : replyList) &#123;
+                    Map&lt;String, Object&gt; replyVo = new HashMap&lt;&gt;();
+                    // 回复
+                    replyVo.put(&quot;reply&quot;, reply);
+                    // 作者
+                    replyVo.put(&quot;user&quot;, userService.findUserById(reply.getUserId()));
+                    // 回复目标
+                    User target = reply.getTargetId() == 0 ? null : userService.findUserById(reply.getTargetId());
+                    replyVo.put(&quot;target&quot;, target);
+                    // 点赞数量
+                    likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_COMMENT, reply.getId());
+                    replyVo.put(&quot;likeCount&quot;, likeCount);
+                    // 点赞状态
+                    likeStatus = hostHolder.getUser() == null ? 0 :
+                            likeService.findEntityLikeStatus(hostHolder.getUser().getId(), ENTITY_TYPE_COMMENT, reply.getId());
+                    replyVo.put(&quot;likeStatus&quot;, likeStatus);
+
+                    replyVoList.add(replyVo);
+                &#125;
+            &#125;
+            commentVo.put(&quot;replys&quot;, replyVoList);
+
+            // 回复数量
+            int replyCount = commentService.findCommentCount(ENTITY_TYPE_COMMENT, comment.getId());
+            commentVo.put(&quot;replyCount&quot;, replyCount);
+
+            commentVoList.add(commentVo);
+        &#125;
+    &#125;
+
+    model.addAttribute(&quot;comments&quot;, commentVoList);
+
+    return &quot;/site/discuss-detail&quot;;
+&#125;
 </code></pre>
-<p>若成功则出现一行<code>nvm</code>字符(若未出现则重启<code>terminal</code>)，查询<code>nvm</code>版本：</p>
-<pre><code>~$ nvm --version
+<h1 id="2-收到的赞"><a href="#2-收到的赞" class="headerlink" title="2. 收到的赞"></a>2. 收到的赞</h1><ol>
+<li>重构点赞功能：以用户为 key，记录点赞数量；<code>increment(key)</code>、<code>decrement(key)</code></li>
+<li>开发个人主页：以用户为 key，查询点赞数。</li>
+</ol>
+<h2 id="更新工具类-RedisUtil"><a href="#更新工具类-RedisUtil" class="headerlink" title="更新工具类 RedisUtil"></a>更新工具类 RedisUtil</h2><ul>
+<li><p>新增用户获得赞 key 的前缀常量 <code>like:user</code></p>
+</li>
+<li><p>新增方法 <code>getUserLikeKey(int userId)</code>，通过用户 id 生成对应用户获得赞的 key。</p>
+</li>
+</ul>
+<pre><code class="java">public class RedisKeyUtil &#123;
+    private static final String SPLIT = &quot;:&quot;;
+    private static final String PREFIX_ENTITY_LIKE = &quot;like:entity&quot;;
+    private static final String PREFIX_USER_LIKE = &quot;like:user&quot;;
+
+    // 某个实体的赞
+    // like:entity:entityType:entityId -&gt; set(userId)
+    public static String getEntityLikeKey(int entityType, int entityId) &#123;
+        return PREFIX_ENTITY_LIKE + SPLIT + entityType + SPLIT + entityId;
+    &#125;
+
+    // 某个用户的赞
+    // like:user:userId -&gt; int
+    public static String getUserLikeKey(int userId) &#123;
+        return PREFIX_USER_LIKE + SPLIT + userId;
+    &#125;
+&#125;
 </code></pre>
-<p>返回<code>nvm</code>版本号：<code>0.34.0</code></p>
-<h3 id="Step-2"><a href="#Step-2" class="headerlink" title="Step 2"></a>Step 2</h3><p>使用<code>nvm</code>安装<code>node</code>：</p>
-<pre><code>~$ nvm install node # &quot;node&quot; is an alias for the latest version
+<h2 id="更新业务层的-LikeService类"><a href="#更新业务层的-LikeService类" class="headerlink" title="更新业务层的 LikeService类"></a>更新业务层的 LikeService类</h2><ul>
+<li>重构方法 <code>like()</code>，在参数列表中新增：entityUserId（表示被点赞用户的 id），该参数用来更新用户的被点赞数量。<ul>
+<li>调用 <code>RedisTemplate</code> 的对象的方法 <code>execute()</code> 实现事务，保证被点赞用户与点赞用户的数据更新保持一致。调用 <code>isMember()</code> 查询用户的点赞状态，之后调用 <code>multi()</code> 开启事务。</li>
+<li>当用户已点赞时，调用方法 <code>remove()</code> 将当前用户从点赞的用户集合中移除，调用方法 <code>decrement()</code> 将被点赞用户的被点赞数减去 1；当用户未点赞时，调用方法 <code>add()</code> 将当前用户添加到点赞的用户集合中，调用方法 <code>increment()</code> 将被点赞用户的点赞数加上 1。</li>
+</ul>
+</li>
+<li>新增方法 <code>findUserLikeCount()</code>，以用户 id 为 key，调用方法 <code>get()</code> 查询用户所获点赞数。</li>
+</ul>
+<pre><code class="java">@Service
+public class LikeService &#123;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    // 点赞
+    public void like(int userId, int entityType, int entityId, int entityUserId) &#123;
+        redisTemplate.execute(new SessionCallback() &#123;
+            @Override
+            public Object execute(RedisOperations operations) throws DataAccessException &#123;
+                String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);
+                String userLikeKey = RedisKeyUtil.getUserLikeKey(entityUserId);
+
+                boolean isMember = operations.opsForSet().isMember(entityLikeKey, userId);
+
+                operations.multi();
+
+                if (isMember) &#123;
+                    operations.opsForSet().remove(entityLikeKey, userId);
+                    operations.opsForValue().decrement(userLikeKey);
+                &#125; else &#123;
+                    operations.opsForSet().add(entityLikeKey, userId);
+                    operations.opsForValue().increment(userLikeKey);
+                &#125;
+
+                return operations.exec();
+            &#125;
+        &#125;);
+    &#125;
+
+    // 查询某实体点赞的数量
+    public long findEntityLikeCount(int entityType, int entityId) &#123;
+        String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);
+        return redisTemplate.opsForSet().size(entityLikeKey);
+    &#125;
+
+    // 查询某人对某实体的点赞状态
+    public int findEntityLikeStatus(int userId, int entityType, int entityId) &#123;
+        String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);
+        return redisTemplate.opsForSet().isMember(entityLikeKey, userId) ? 1 : 0;
+    &#125;
+
+    // 查询某个用户获得的赞
+    public int findUserLikeCount(int userId) &#123;
+        String userLikeKey = RedisKeyUtil.getUserLikeKey(userId);
+        Integer count = (Integer) redisTemplate.opsForValue().get(userLikeKey);
+        return count == null ? 0 : count.intValue();
+    &#125;
+&#125;
 </code></pre>
-<h3 id="Step-3"><a href="#Step-3" class="headerlink" title="Step 3"></a>Step 3</h3><p>使用<code>npm</code>指令安装<code>hexo</code>：</p>
-<pre><code>~$ npm install -g hexo-cli
+<h2 id="更新表现层的-LikeController-类"><a href="#更新表现层的-LikeController-类" class="headerlink" title="更新表现层的 LikeController 类"></a>更新表现层的 LikeController 类</h2><ul>
+<li>更新方法 <code>like()</code>：在参数列表中新增参数 entityUserId（表示被点赞用户的 id）。</li>
+</ul>
+<pre><code class="java">@Controller
+public class LikeController &#123;
+    @Autowired
+    private LikeService likeService;
+
+    @Autowired
+    private HostHolder hostHolder;
+
+    @PostMapping(&quot;/like&quot;)
+    @ResponseBody
+    public String like(int entityType, int entityId, int entityUserId) &#123;
+        User user = hostHolder.getUser();
+
+        // 点赞
+        likeService.like(user.getId(), entityType, entityId, entityUserId);
+
+        // 数量
+        long likeCount = likeService.findEntityLikeCount(entityType, entityId);
+        // 状态
+        int likeStatus = likeService.findEntityLikeStatus(user.getId(), entityType, entityId);
+        // 返回的结果
+        Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();
+        map.put(&quot;likeCount&quot;, likeCount);
+        map.put(&quot;likeStatus&quot;, likeStatus);
+
+        return CommunityUtil.getJSONString(0, null, map);
+    &#125;
+
+&#125;
 </code></pre>
-<p>初始化<code>hexo</code>，指定文件夹名为 blog：</p>
-<pre><code>~$ hexo init blog
+<h2 id="更新表现层的-UserController-类"><a href="#更新表现层的-UserController-类" class="headerlink" title="更新表现层的 UserController 类"></a>更新表现层的 UserController 类</h2><ul>
+<li>新增方法<code>getProfilePage()</code>：调用业务层的方法查询用户和点赞数，并将两项信息存储于 Model 对象中。</li>
+</ul>
+<pre><code class="java">// 个人主页
+@RequestMapping(path = &quot;/profile/&#123;userId&#125;&quot;, method = RequestMethod.GET)
+public String getProfilePage(@PathVariable(&quot;userId&quot;) int userId, Model model) &#123;
+    User user = userService.findUserById(userId);
+    if (user == null) &#123;
+        throw new RuntimeException(&quot;该用户不存在!&quot;);
+    &#125;
+
+    // 用户
+    model.addAttribute(&quot;user&quot;, user);
+    // 点赞数量
+    int likeCount = likeService.findUserLikeCount(userId);
+    model.addAttribute(&quot;likeCount&quot;, likeCount);
+
+    return &quot;/site/profile&quot;;
+&#125;
 </code></pre>
-<p>进入 blog 文件夹下，安装<code>npm</code>：</p>
-<pre><code>~ $ cd blog
-~ $ npm istall
-</code></pre>
-<h2 id="Q-amp-A"><a href="#Q-amp-A" class="headerlink" title="Q &amp; A"></a>Q &amp; A</h2><p>Q1：<code>zsh: command not found: nvm</code></p>
-<p>A1：进入 .nvm 文件夹，查看是否存在 .bash_profile 文件，若存在该文件则直接打开：</p>
-<pre><code>cd ~/.nvm
-open .bash_profile
-</code></pre>
-<p>若不存在则先创建 .bash_profile 文件：</p>
-<pre><code>touch .bash_profile
-</code></pre>
-<p>然后在 .bash_profile 文件内写入：</p>
-<pre><code>export NVM_DIR=&quot;$HOME/.nvm&quot;
-[ -s &quot;$NVM_DIR/nvm.sh&quot; ] &amp;&amp; \. &quot;$NVM_DIR/nvm.sh&quot; # This loads nvm
-</code></pre>
-<p>写入完毕后，关闭文件，执行 .bash_profile 文件：</p>
-<pre><code>source .bash_profile
-</code></pre>
-<p>Q2：每次关闭<code>terminal</code>后，又出现<code>zsh: command not found: nvm</code>等无法找到某指令的情况，需要重新执行 .bash_profile 文件。</p>
-<p>A2：原因是采用的<code>terminal</code>是<code>zsh</code>，需要将配置添加到 .zshrc 文件中。</p>
-<p>打开  .zshrc 文件：</p>
-<pre><code>open ~/.zshrc
-</code></pre>
-<p>在 .zshrc 文件内写入：</p>
-<pre><code>export NVM_DIR=~/.nvm
-[ -s &quot;$NVM_DIR/nvm.sh&quot; ] &amp;&amp; . &quot;$NVM_DIR/nvm.sh&quot;
-</code></pre>
-<p>写入完毕后，关闭文件，执行 .zshrc 文件：</p>
-<pre><code>source ~/.zshrc
-</code></pre>
+<h1 id="3-关注"><a href="#3-关注" class="headerlink" title="3. 关注"></a>3. 关注</h1><h2 id="更新工具类-RedisUtil-1"><a href="#更新工具类-RedisUtil-1" class="headerlink" title="更新工具类 RedisUtil"></a>更新工具类 RedisUtil</h2><ul>
+<li>新增用户关注实体（帖子、评论、用户等）的前缀常量 followee 和粉丝（用户）的前缀常量 follower。</li>
+<li>新增方法 <code>getFolloweeKey(int userId, int entityType)</code>，通过用户 id 和实体类型生成用户关注实体的 key。</li>
+<li>新增方法 <code>getFollowerKey(int entityType, int entityId)</code>，通过实体类型和实体 id 生成实体用户粉丝的 key。</li>
+</ul>
+<h2 id="创建业务层的-FollowService-类"><a href="#创建业务层的-FollowService-类" class="headerlink" title="创建业务层的 FollowService 类"></a>创建业务层的 FollowService 类</h2><ul>
+<li><p>新增方法 <code>follow()</code>，当用户关注某实体时：</p>
+<ul>
+<li>调用方法 <code>add() </code>将当前实体 id 和时间作为 value 和 score 加入到用户的关注集合中。</li>
+<li>调用方法 <code>add()</code> 将当前用户 id 和时间作为 value 和 score 加入到实体的粉丝集合中。</li>
+</ul>
+</li>
+<li><p>新增方法 <code>unfollow()</code>，当用户取关某实体时：</p>
+<ul>
+<li>调用方法 <code>remove()</code> 将当前实体从用户的关注集合中移除。</li>
+<li>调用方法 <code>remove()</code> 将用户从实体的粉丝集合中移除。</li>
+</ul>
+</li>
+</ul>
+<h1 id="4-个人主页"><a href="#4-个人主页" class="headerlink" title="4. 个人主页"></a>4. 个人主页</h1><h2 id="更新业务层的-FollowService-类"><a href="#更新业务层的-FollowService-类" class="headerlink" title="更新业务层的 FollowService 类"></a>更新业务层的 FollowService 类</h2><ul>
+<li><p>新增方法 <code>findFolloweeCount()</code>，调用 zset 集合的方法<code>zcard()</code>查询某用户关注的实体数量。</p>
+</li>
+<li><p>新增方法 <code>findFollowerCount()</code>，调用 zset 集合的方法<code>zcard()</code>查询某实体的粉丝数量。</p>
+</li>
+<li><p>新增方法 <code>hasFollowed()</code>，根据 zset 集合的方法<code>zscore()</code>的返回值查询当前用户是否关注了某实体。</p>
+</li>
+</ul>
+<h2 id="更新表现层的-UserController-类-1"><a href="#更新表现层的-UserController-类-1" class="headerlink" title="更新表现层的 UserController 类"></a>更新表现层的 UserController 类</h2><ul>
+<li>调用业务层的 <code>LikeService</code> 类中的方法 <code>findUserLikeCount()</code> 查询用户获赞数，并添加到 Model 中。</li>
+<li>调用业务层的 <code>FollowService</code> 类中的方法 <code>findFolloweeCount()</code> 查询关注数量，调用方法 <code>findFollowerCount()</code> 查询粉丝数量，调用方法 <code>hasFollowed()</code> 查询用户是否关注，并将三项信息存储于 Model 对象中。</li>
+</ul>
+<h1 id="5-关注列表和粉丝列表"><a href="#5-关注列表和粉丝列表" class="headerlink" title="5.关注列表和粉丝列表"></a>5.关注列表和粉丝列表</h1><h2 id="更新业务层的-FollowService-类-1"><a href="#更新业务层的-FollowService-类-1" class="headerlink" title="更新业务层的 FollowService 类"></a>更新业务层的 FollowService 类</h2><ul>
+<li><p>新增方法 <code>findFollowees()</code>：查询用户关注列表。通过 zset 集合的方法 <code>reverseRange()</code> 获取 value 即关注用户的 userId，再查询出其对应的 user，之后通过 score 获取关注时间，存入 map 集合中，将 map 添加到 list 列表中并返回。</p>
+</li>
+<li><p>新增方法 <code>findFollowers()</code>：查询用户粉丝列表。通过 zset 集合的方法 <code>reverseRange()</code> 获取 value 即粉丝的 userId，再查询出其对应的 user，之后通过 score 获取关注时间，存入 map 集合中，将 map 添加到 list 列表中并返回。</p>
+</li>
+<li><p>新增方法 <code>hasFollowed()</code>，根据 zset 集合的方法 <code>zscore()</code> 的返回值查询当前用户是否关注了某实体。</p>
+</li>
+</ul>
+<h2 id="更新表现层的FollowController类"><a href="#更新表现层的FollowController类" class="headerlink" title="更新表现层的FollowController类"></a>更新表现层的<code>FollowController</code>类</h2><ul>
+<li>新增方法 <code>getFollowees()</code>，获取关注列表，存入 Model 对象中。</li>
+<li>新增方法 <code>getFollowers()</code>，获取粉丝列表，存入 Model 对象中。</li>
+</ul>
+<h1 id="6-优化登录模块"><a href="#6-优化登录模块" class="headerlink" title="6. 优化登录模块"></a>6. 优化登录模块</h1><h2 id="6-1-存储验证码"><a href="#6-1-存储验证码" class="headerlink" title="6.1 存储验证码"></a>6.1 存储验证码</h2><ul>
+<li><p>更新工具类 RedisUtil</p>
+<ul>
+<li>新增验证码前缀常量 <code>kaptcha</code></li>
+<li>新增方法 <code>getKaptchaKey()</code>，通过用户凭证（由于未登录，采用 cookie 实现）获得对应验证码的 key（利用 string 存储验证码）。</li>
+</ul>
+</li>
+<li><p>更新表现层的 LoginController 类</p>
+<ul>
+<li>重构方法 <code>getKaptcha()</code>，将验证码存入 redis，key 为当前随机生成的字符串，同时将该字符串存入 cookie。</li>
+<li>重构方法 <code>login()</code>，从 cookie 中获取随机字符串，生成验证码的 key，然后获取 key 对应的 value 即验证码。</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-2-存储登录凭证"><a href="#6-2-存储登录凭证" class="headerlink" title="6.2 存储登录凭证"></a>6.2 存储登录凭证</h2><ul>
+<li><p>更新工具类 RedisUtil</p>
+<ul>
+<li>新增登录凭证前缀常量 <code>ticket</code></li>
+<li>新增方法 <code>getTicketKey</code>() ，通过字符串获得登录凭证的对应 key （利用 string 存储）。</li>
+</ul>
+</li>
+<li><p>更新业务层的 UserService 类</p>
+<ul>
+<li><p>重构方法 <code>login()</code> ，将登录凭证存入 redis 中。</p>
+</li>
+<li><p>重构方法 <code>logout</code>() ，先从 redis 中获取登录凭证对象，将状态设为无效再重新存储进 redis。</p>
+</li>
+<li><p>重构方法 <code>findLoginTicket</code>() ，根据 ticket 字符串获得对应登录凭证的 key，然后从 redis 查询登录凭证。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-3-缓存用户信息"><a href="#6-3-缓存用户信息" class="headerlink" title="6.3 缓存用户信息"></a>6.3 缓存用户信息</h2><p>更新工具类 RedisUtil </p>
+<ul>
+<li>新增用户前缀常量 <code>user</code></li>
+<li>新增 <code>getUserKey</code> 方法，通过用户 id 获得用户的对应 key 值（利用 string 存储）。</li>
+</ul>
+<p>更新业务层的 UserService 类</p>
+<ul>
+<li>新增 <code>getCache</code>()，从缓存获取用户信息。</li>
+<li>新增 <code>initCache()</code>，从 MySQL 查询用户信息并存入 redis。</li>
+<li>新增 <code>clearCache()</code>，用户信息变更（更新头像，激活）时清除缓存。</li>
+<li>重构 <code>findUserById()</code> 方法，首先调用 <code>getCache()</code>从缓存获取用户信息，如果获取为 null 则调用 <code>initCache()</code>。</li>
+</ul>
 
   </div>
   <div id="gitalk-container"></div>
@@ -428,14 +854,21 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
 
     <div class="post-paging">
     
-    <a href="/2023/03/05/first_post/">
+    <a href="/2023/03/05/hello-world/">
         <div class="post-paging-last">
             <span>上一篇</span>
-            <p>LeetCode算法笔记之链表(双指针解法)</p>
+            <p>Welcome to My HomePage!</p>
         </div>
     </a>
     
 
+    
+    <a href="/2023/03/05/nowcoder4/">
+        <div class="post-paging-next">
+            <span>下一篇</span>
+            <p>MacOS下安装Node.js避坑指南</p>
+        </div>
+    </a>
     
 </div>
 </div>
