@@ -11,8 +11,9 @@
 <link rel="stylesheet" href="/css/index.css">
 
 
-<meta name="keywords" content="Computer Science & Technology,Programming,Java,Python">
-<meta name="description" content="描述">
+
+<meta name="keywords" content="Java,Spring Boot,Redis,">
+<meta name="description" content="">
 
 
 <script src="/js/jquery.min.js"></script>
@@ -281,6 +282,14 @@
 >
     <div class="post-header-background-content">
         <ul class="post-header-tag">
+            
+            
+            <li><a href="/tags/Java">Java</a></li>
+            
+            <li><a href="/tags/Spring Boot">Spring Boot</a></li>
+            
+            <li><a href="/tags/Redis">Redis</a></li>
+            
             
         </ul>
         
@@ -718,6 +727,38 @@ public String getProfilePage(@PathVariable(&quot;userId&quot;) int userId, Model
 <li>新增方法 <code>getFolloweeKey(int userId, int entityType)</code>，通过用户 id 和实体类型生成用户关注实体的 key。</li>
 <li>新增方法 <code>getFollowerKey(int entityType, int entityId)</code>，通过实体类型和实体 id 生成实体用户粉丝的 key。</li>
 </ul>
+<pre><code class="java">public class RedisKeyUtil &#123;
+    private static final String SPLIT = &quot;:&quot;;
+    private static final String PREFIX_ENTITY_LIKE = &quot;like:entity&quot;;
+    private static final String PREFIX_USER_LIKE = &quot;like:user&quot;;
+    private static final String PREFIX_FOLLOWEE = &quot;followee&quot;;
+    private static final String PREFIX_FOLLOWER = &quot;follower&quot;;
+
+    // 某个实体的赞
+    // like:entity:entityType:entityId -&gt; set(userId)
+    public static String getEntityLikeKey(int entityType, int entityId) &#123;
+        return PREFIX_ENTITY_LIKE + SPLIT + entityType + SPLIT + entityId;
+    &#125;
+
+    // 某个用户的赞
+    // like:user:userId -&gt; int
+    public static String getUserLikeKey(int userId) &#123;
+        return PREFIX_USER_LIKE + SPLIT + userId;
+    &#125;
+
+    // 某个用户关注的实体
+    // followee:userId:entityType -&gt; zset(entityId,now)
+    public static String getFolloweeKey(int userId, int entityType) &#123;
+        return PREFIX_FOLLOWEE + SPLIT + userId + SPLIT + entityType;
+    &#125;
+
+    // 某个实体拥有的粉丝
+    // follower:entityType:entityId -&gt; zset(userId,now)
+    public static String getFollowerKey(int entityType, int entityId) &#123;
+        return PREFIX_FOLLOWER + SPLIT + entityType + SPLIT + entityId;
+    &#125;
+&#125;
+</code></pre>
 <h2 id="创建业务层的-FollowService-类"><a href="#创建业务层的-FollowService-类" class="headerlink" title="创建业务层的 FollowService 类"></a>创建业务层的 FollowService 类</h2><ul>
 <li><p>新增方法 <code>follow()</code>，当用户关注某实体时：</p>
 <ul>
@@ -732,6 +773,79 @@ public String getProfilePage(@PathVariable(&quot;userId&quot;) int userId, Model
 </ul>
 </li>
 </ul>
+<pre><code class="java">@Service
+public class FollowService &#123;
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    public void follow(int userId, int entityType, int entityId) &#123;
+        redisTemplate.execute(new SessionCallback() &#123;
+            @Override
+            public Object execute(RedisOperations operations) throws DataAccessException &#123;
+                String followeeKey = RedisKeyUtil.getFolloweeKey(userId, entityType);
+                String followerKey = RedisKeyUtil.getFollowerKey(entityType, entityId);
+
+                operations.multi();
+
+                operations.opsForZSet().add(followeeKey, entityId, System.currentTimeMillis());
+                operations.opsForZSet().add(followerKey, userId, System.currentTimeMillis());
+
+                return operations.exec();
+            &#125;
+        &#125;);
+    &#125;
+
+    public void unfollow(int userId, int entityType, int entityId) &#123;
+        redisTemplate.execute(new SessionCallback() &#123;
+            @Override
+            public Object execute(RedisOperations operations) throws DataAccessException &#123;
+                String followeeKey = RedisKeyUtil.getFolloweeKey(userId, entityType);
+                String followerKey = RedisKeyUtil.getFollowerKey(entityType, entityId);
+
+                operations.multi();
+
+                operations.opsForZSet().remove(followeeKey, entityId);
+                operations.opsForZSet().remove(followerKey, userId);
+
+                return operations.exec();
+            &#125;
+        &#125;);
+    &#125;
+&#125;
+</code></pre>
+<h2 id="创建表现层的-FollowController"><a href="#创建表现层的-FollowController" class="headerlink" title="创建表现层的 FollowController"></a>创建表现层的 FollowController</h2><ul>
+<li>新增方法 <code>follow()</code>：调用 HostHolder 对象的方法获取用户，调用业务层的 <code>FollowService</code> 类的对象的方法 <code>follow()</code> 实现点赞的功能。</li>
+<li>新增方法 <code>unfollow()</code>：调用 HostHolder 对象的方法获取用户，调用业务层的 <code>FollowService</code> 类的对象的方法 <code>unfollow()</code> 实现取消点赞的功能。</li>
+</ul>
+<pre><code class="java">@Controller
+public class FollowController &#123;
+    @Autowired
+    private FollowService followService;
+
+    @Autowired
+    private HostHolder hostHolder;
+
+    @PostMapping(&quot;/follow&quot;)
+    @ResponseBody
+    public String follow(int entityType, int entityId) &#123;
+        User user = hostHolder.getUser();
+
+        followService.follow(user.getId(), entityType, entityId);
+
+        return CommunityUtil.getJSONString(0, &quot;已关注!&quot;);
+    &#125;
+
+    @PostMapping(&quot;/unfollow&quot;)
+    @ResponseBody
+    public String unfollow(int entityType, int entityId) &#123;
+        User user = hostHolder.getUser();
+
+        followService.unfollow(user.getId(), entityType, entityId);
+
+        return CommunityUtil.getJSONString(0, &quot;已取消关注!&quot;);
+    &#125;
+&#125;
+</code></pre>
 <h1 id="4-个人主页"><a href="#4-个人主页" class="headerlink" title="4. 个人主页"></a>4. 个人主页</h1><h2 id="更新业务层的-FollowService-类"><a href="#更新业务层的-FollowService-类" class="headerlink" title="更新业务层的 FollowService 类"></a>更新业务层的 FollowService 类</h2><ul>
 <li><p>新增方法 <code>findFolloweeCount()</code>，调用 zset 集合的方法<code>zcard()</code>查询某用户关注的实体数量。</p>
 </li>
@@ -740,10 +854,62 @@ public String getProfilePage(@PathVariable(&quot;userId&quot;) int userId, Model
 <li><p>新增方法 <code>hasFollowed()</code>，根据 zset 集合的方法<code>zscore()</code>的返回值查询当前用户是否关注了某实体。</p>
 </li>
 </ul>
+<pre><code class="java">// 查询关注的实体的数量
+public long findFolloweeCount(int userId, int entityType) &#123;
+    String followeeKey = RedisKeyUtil.getFolloweeKey(userId, entityType);
+    return redisTemplate.opsForZSet().zCard(followeeKey);
+&#125;
+
+// 查询实体的粉丝的数量
+public long findFollowerCount(int entityType, int entityId) &#123;
+    String followerKey = RedisKeyUtil.getFollowerKey(entityType, entityId);
+    return redisTemplate.opsForZSet().zCard(followerKey);
+&#125;
+
+// 查询当前用户是否已关注该实体
+public boolean hasFollowed(int userId, int entityType, int entityId) &#123;
+    String followeeKey = RedisKeyUtil.getFolloweeKey(userId, entityType);
+    return redisTemplate.opsForZSet().score(followeeKey, entityId) != null;
+&#125;
+</code></pre>
 <h2 id="更新表现层的-UserController-类-1"><a href="#更新表现层的-UserController-类-1" class="headerlink" title="更新表现层的 UserController 类"></a>更新表现层的 UserController 类</h2><ul>
-<li>调用业务层的 <code>LikeService</code> 类中的方法 <code>findUserLikeCount()</code> 查询用户获赞数，并添加到 Model 中。</li>
-<li>调用业务层的 <code>FollowService</code> 类中的方法 <code>findFolloweeCount()</code> 查询关注数量，调用方法 <code>findFollowerCount()</code> 查询粉丝数量，调用方法 <code>hasFollowed()</code> 查询用户是否关注，并将三项信息存储于 Model 对象中。</li>
+<li><p>调用业务层的 <code>LikeService</code> 类中的方法 <code>findUserLikeCount()</code> 查询用户获赞数，并添加到 Model 中。</p>
+</li>
+<li><p>调用业务层的 <code>FollowService</code> 类中的方法 <code>findFolloweeCount()</code> 查询关注数量，调用方法 <code>findFollowerCount()</code> 查询粉丝数量，调用方法 <code>hasFollowed()</code> 查询用户是否关注，并将三项信息存储于 Model 对象中。</p>
+</li>
+<li><p>更新获取个人主页方法 <code>getProfilePage()</code>：新增关注数、粉丝数、判断是否已关注，并将三项信息存储于 Model 对象中。</p>
+</li>
 </ul>
+<pre><code class="java">// 个人主页
+@RequestMapping(path = &quot;/profile/&#123;userId&#125;&quot;, method = RequestMethod.GET)
+public String getProfilePage(@PathVariable(&quot;userId&quot;) int userId, Model model) &#123;
+    User user = userService.findUserById(userId);
+    if (user == null) &#123;
+        throw new RuntimeException(&quot;该用户不存在!&quot;);
+    &#125;
+
+    // 用户
+    model.addAttribute(&quot;user&quot;, user);
+    // 点赞数量
+    int likeCount = likeService.findUserLikeCount(userId);
+    model.addAttribute(&quot;likeCount&quot;, likeCount);
+
+    // 关注数量
+    long followeeCount = followService.findFolloweeCount(userId, ENTITY_TYPE_USER);
+    model.addAttribute(&quot;followeeCount&quot;, followeeCount);
+    // 粉丝数量
+    long followerCount = followService.findFollowerCount(ENTITY_TYPE_USER, userId);
+    model.addAttribute(&quot;followerCount&quot;, followerCount);
+    // 是否已关注
+    boolean hasFollowed = false;
+    if (hostHolder.getUser() != null) &#123;
+        hasFollowed = followService.hasFollowed(hostHolder.getUser().getId(), ENTITY_TYPE_USER, userId);
+    &#125;
+    model.addAttribute(&quot;hasFollowed&quot;, hasFollowed);
+
+    return &quot;/site/profile&quot;;
+&#125;
+</code></pre>
 <h1 id="5-关注列表和粉丝列表"><a href="#5-关注列表和粉丝列表" class="headerlink" title="5.关注列表和粉丝列表"></a>5.关注列表和粉丝列表</h1><h2 id="更新业务层的-FollowService-类-1"><a href="#更新业务层的-FollowService-类-1" class="headerlink" title="更新业务层的 FollowService 类"></a>更新业务层的 FollowService 类</h2><ul>
 <li><p>新增方法 <code>findFollowees()</code>：查询用户关注列表。通过 zset 集合的方法 <code>reverseRange()</code> 获取 value 即关注用户的 userId，再查询出其对应的 user，之后通过 score 获取关注时间，存入 map 集合中，将 map 添加到 list 列表中并返回。</p>
 </li>
@@ -752,31 +918,216 @@ public String getProfilePage(@PathVariable(&quot;userId&quot;) int userId, Model
 <li><p>新增方法 <code>hasFollowed()</code>，根据 zset 集合的方法 <code>zscore()</code> 的返回值查询当前用户是否关注了某实体。</p>
 </li>
 </ul>
-<h2 id="更新表现层的FollowController类"><a href="#更新表现层的FollowController类" class="headerlink" title="更新表现层的FollowController类"></a>更新表现层的<code>FollowController</code>类</h2><ul>
+<pre><code class="java">// 查询某用户关注的人
+public List&lt;Map&lt;String, Object&gt;&gt; findFollowees(int userId, int offset, int limit) &#123;
+    String followeeKey = RedisKeyUtil.getFolloweeKey(userId, ENTITY_TYPE_USER);
+    Set&lt;Integer&gt; targetIds = redisTemplate.opsForZSet().reverseRange(followeeKey, offset, offset + limit - 1);
+
+    if (targetIds == null) &#123;
+        return null;
+    &#125;
+
+    List&lt;Map&lt;String, Object&gt;&gt; list = new ArrayList&lt;&gt;();
+    for (Integer targetId : targetIds) &#123;
+        Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();
+        User user = userService.findUserById(targetId);
+        map.put(&quot;user&quot;, user);
+        Double score = redisTemplate.opsForZSet().score(followeeKey, targetId);
+        map.put(&quot;followTime&quot;, new Date(score.longValue()));
+        list.add(map);
+    &#125;
+
+    return list;
+&#125;
+
+// 查询某用户的粉丝
+public List&lt;Map&lt;String, Object&gt;&gt; findFollowers(int userId, int offset, int limit) &#123;
+    String followerKey = RedisKeyUtil.getFollowerKey(ENTITY_TYPE_USER, userId);
+    Set&lt;Integer&gt; targetIds = redisTemplate.opsForZSet().reverseRange(followerKey, offset, offset + limit - 1);
+
+    if (targetIds == null) &#123;
+        return null;
+    &#125;
+
+    List&lt;Map&lt;String, Object&gt;&gt; list = new ArrayList&lt;&gt;();
+    for (Integer targetId : targetIds) &#123;
+        Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();
+        User user = userService.findUserById(targetId);
+        map.put(&quot;user&quot;, user);
+        Double score = redisTemplate.opsForZSet().score(followerKey, targetId);
+        map.put(&quot;followTime&quot;, new Date(score.longValue()));
+        list.add(map);
+    &#125;
+
+    return list;
+&#125;
+</code></pre>
+<h2 id="更新表现层的-FollowController-类"><a href="#更新表现层的-FollowController-类" class="headerlink" title="更新表现层的 FollowController 类"></a>更新表现层的 FollowController 类</h2><ul>
 <li>新增方法 <code>getFollowees()</code>，获取关注列表，存入 Model 对象中。</li>
 <li>新增方法 <code>getFollowers()</code>，获取粉丝列表，存入 Model 对象中。</li>
 </ul>
-<h1 id="6-优化登录模块"><a href="#6-优化登录模块" class="headerlink" title="6. 优化登录模块"></a>6. 优化登录模块</h1><h2 id="6-1-存储验证码"><a href="#6-1-存储验证码" class="headerlink" title="6.1 存储验证码"></a>6.1 存储验证码</h2><ul>
-<li><p>更新工具类 RedisUtil</p>
-<ul>
+<pre><code class="java">@GetMapping(&quot;/followees/&#123;userId&#125;&quot;)
+public String getFollowees(@PathVariable(&quot;userId&quot;) int userId, Page page, Model model) &#123;
+    User user = userService.findUserById(userId);
+    if (user == null) &#123;
+        throw new RuntimeException(&quot;该用户不存在!&quot;);
+    &#125;
+    model.addAttribute(&quot;user&quot;, user);
+
+    page.setLimit(5);
+    page.setPath(&quot;/followees/&quot; + userId);
+    page.setRows((int) followService.findFolloweeCount(userId, ENTITY_TYPE_USER));
+
+    List&lt;Map&lt;String, Object&gt;&gt; userList = followService.findFollowees(userId, page.getOffset(), page.getLimit());
+    if (userList != null) &#123;
+        for (Map&lt;String, Object&gt; map : userList) &#123;
+            User u = (User) map.get(&quot;user&quot;);
+            map.put(&quot;hasFollowed&quot;, hasFollowed(u.getId()));
+        &#125;
+    &#125;
+    model.addAttribute(&quot;users&quot;, userList);
+
+    return &quot;/site/followee&quot;;
+&#125;
+
+@GetMapping(&quot;/followers/&#123;userId&#125;&quot;)
+public String getFollowers(@PathVariable(&quot;userId&quot;) int userId, Page page, Model model) &#123;
+    User user = userService.findUserById(userId);
+    if (user == null) &#123;
+        throw new RuntimeException(&quot;该用户不存在!&quot;);
+    &#125;
+    model.addAttribute(&quot;user&quot;, user);
+
+    page.setLimit(5);
+    page.setPath(&quot;/followers/&quot; + userId);
+    page.setRows((int) followService.findFollowerCount(ENTITY_TYPE_USER, userId));
+
+    List&lt;Map&lt;String, Object&gt;&gt; userList = followService.findFollowers(userId, page.getOffset(), page.getLimit());
+    if (userList != null) &#123;
+        for (Map&lt;String, Object&gt; map : userList) &#123;
+            User u = (User) map.get(&quot;user&quot;);
+            map.put(&quot;hasFollowed&quot;, hasFollowed(u.getId()));
+        &#125;
+    &#125;
+    model.addAttribute(&quot;users&quot;, userList);
+
+    return &quot;/site/follower&quot;;
+&#125;
+
+private boolean hasFollowed(int userId) &#123;
+    if (hostHolder.getUser() == null) &#123;
+        return false;
+    &#125;
+
+    return followService.hasFollowed(hostHolder.getUser().getId(), ENTITY_TYPE_USER, userId);
+&#125;
+</code></pre>
+<h1 id="6-优化登录模块"><a href="#6-优化登录模块" class="headerlink" title="6. 优化登录模块"></a>6. 优化登录模块</h1><ol>
+<li><p>使用 Redis 存储验证码：验证码需要频繁访问与刷新，对性能要求较高；验证码不需要永久保存，通常在很短的时间内就会失效；分布式部署时，存在 Session 共享的问题。</p>
+</li>
+<li><p>使用 Redis 存储登录凭证：处理每次请求时，都要查询用户的登录凭证，访问的频率非常高。</p>
+</li>
+<li><p>使用 Redis 缓存用户信息：每次处理请求时，都要根据凭证查询用户信息，访问的频率非常高。</p>
+</li>
+</ol>
+<h2 id="6-1-存储验证码"><a href="#6-1-存储验证码" class="headerlink" title="6.1 存储验证码"></a>6.1 存储验证码</h2><ul>
+<li>更新工具类 RedisUtil<ul>
 <li>新增验证码前缀常量 <code>kaptcha</code></li>
-<li>新增方法 <code>getKaptchaKey()</code>，通过用户凭证（由于未登录，采用 cookie 实现）获得对应验证码的 key（利用 string 存储验证码）。</li>
+<li>新增方法 <code>getKaptchaKey()</code>，通过用户凭证（由于未登录，采用 cookie 实现）获得对应验证码的 key（利用 String 存储验证码）。</li>
 </ul>
 </li>
-<li><p>更新表现层的 LoginController 类</p>
+</ul>
+<pre><code class="java">private static final String PREFIX_KAPTCHA = &quot;kaptcha&quot;;
+
+// 登录验证码
+public static String getKaptchaKey(String owner) &#123;
+    return PREFIX_KAPTCHA + SPLIT + owner;
+&#125;
+</code></pre>
 <ul>
+<li>更新表现层的 LoginController 类<ul>
 <li>重构方法 <code>getKaptcha()</code>，将验证码存入 redis，key 为当前随机生成的字符串，同时将该字符串存入 cookie。</li>
 <li>重构方法 <code>login()</code>，从 cookie 中获取随机字符串，生成验证码的 key，然后获取 key 对应的 value 即验证码。</li>
 </ul>
 </li>
 </ul>
+<pre><code class="java">@GetMapping(&quot;/kaptcha&quot;)
+public void getKaptcha(HttpServletResponse response/*, HttpSession session*/) &#123;
+    // 生成验证码
+    String text = kaptchaProducer.createText();
+    BufferedImage image = kaptchaProducer.createImage(text);
+
+    // 原来的做法：将验证码存入 session
+    // session.setAttribute(&quot;kaptcha&quot;, text);
+
+    // 验证码的归属
+    String kaptchaOwner = CommunityUtil.generateUUID();
+    Cookie cookie = new Cookie(&quot;kaptchaOwner&quot;, kaptchaOwner);
+    cookie.setMaxAge(60);
+    cookie.setPath(contextPath);
+    response.addCookie(cookie);
+    // 将验证码存入Redis
+    String redisKey = RedisKeyUtil.getKaptchaKey(kaptchaOwner);
+    redisTemplate.opsForValue().set(redisKey, text, 60, TimeUnit.SECONDS);
+
+    // 将图片输出给浏览器
+    response.setContentType(&quot;image/png&quot;);
+    try &#123;
+        OutputStream os = response.getOutputStream();
+        ImageIO.write(image, &quot;png&quot;, os);
+    &#125; catch (IOException e) &#123;
+        logger.error(&quot;响应验证码失败:&quot; + e.getMessage());
+    &#125;
+&#125;
+
+@PostMapping(&quot;/login&quot;)
+public String login(String username, String password, String code, boolean rememberme,
+                    Model model, /*HttpSession session, */HttpServletResponse response,
+                    @CookieValue(&quot;kaptchaOwner&quot;) String kaptchaOwner) &#123;
+    // 检查验证码
+    // String kaptcha = (String) session.getAttribute(&quot;kaptcha&quot;);
+    String kaptcha = null;
+    if (StringUtils.isNotBlank(kaptchaOwner)) &#123;
+        String redisKey = RedisKeyUtil.getKaptchaKey(kaptchaOwner);
+        kaptcha = (String) redisTemplate.opsForValue().get(redisKey);
+    &#125;
+
+    if (StringUtils.isBlank(kaptcha) || StringUtils.isBlank(code) || !kaptcha.equalsIgnoreCase(code)) &#123;
+        model.addAttribute(&quot;codeMsg&quot;, &quot;验证码不正确!&quot;);
+        return &quot;/site/login&quot;;
+    &#125;
+
+    // 检查账号,密码
+    int expiredSeconds = rememberme ? REMEMBER_EXPIRED_SECONDS : DEFAULT_EXPIRED_SECONDS;
+    Map&lt;String, Object&gt; map = userService.login(username, password, expiredSeconds);
+    if (map.containsKey(&quot;ticket&quot;)) &#123;
+        Cookie cookie = new Cookie(&quot;ticket&quot;, map.get(&quot;ticket&quot;).toString());
+        cookie.setPath(contextPath);
+        cookie.setMaxAge(expiredSeconds);
+        response.addCookie(cookie);
+        return &quot;redirect:/index&quot;;
+    &#125; else &#123;
+        model.addAttribute(&quot;usernameMsg&quot;, map.get(&quot;usernameMsg&quot;));
+        model.addAttribute(&quot;passwordMsg&quot;, map.get(&quot;passwordMsg&quot;));
+        return &quot;/site/login&quot;;
+    &#125;
+&#125;
+</code></pre>
 <h2 id="6-2-存储登录凭证"><a href="#6-2-存储登录凭证" class="headerlink" title="6.2 存储登录凭证"></a>6.2 存储登录凭证</h2><ul>
-<li><p>更新工具类 RedisUtil</p>
-<ul>
+<li>更新工具类 RedisUtil<ul>
 <li>新增登录凭证前缀常量 <code>ticket</code></li>
-<li>新增方法 <code>getTicketKey</code>() ，通过字符串获得登录凭证的对应 key （利用 string 存储）。</li>
+<li>新增方法 <code>getTicketKey</code>() ，通过字符串获得登录凭证的对应 key （利用 String 存储）。</li>
 </ul>
 </li>
+</ul>
+<pre><code class="java">private static final String PREFIX_TICKET = &quot;ticket&quot;;
+
+// 登录的凭证
+public static String getTicketKey(String ticket) &#123;
+    return PREFIX_TICKET + SPLIT + ticket;
+&#125;
+</code></pre>
+<ul>
 <li><p>更新业务层的 UserService 类</p>
 <ul>
 <li><p>重构方法 <code>login()</code> ，将登录凭证存入 redis 中。</p>
@@ -788,18 +1139,135 @@ public String getProfilePage(@PathVariable(&quot;userId&quot;) int userId, Model
 </ul>
 </li>
 </ul>
-<h2 id="6-3-缓存用户信息"><a href="#6-3-缓存用户信息" class="headerlink" title="6.3 缓存用户信息"></a>6.3 缓存用户信息</h2><p>更新工具类 RedisUtil </p>
+<pre><code class="java">public Map&lt;String, Object&gt; login(String username, String password, int expiredSeconds) &#123;
+    Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();
+
+    // 空值处理
+    if (StringUtils.isBlank(username)) &#123;
+        map.put(&quot;usernameMsg&quot;, &quot;账号不能为空!&quot;);
+        return map;
+    &#125;
+    if (StringUtils.isBlank(password)) &#123;
+        map.put(&quot;passwordMsg&quot;, &quot;密码不能为空!&quot;);
+        return map;
+    &#125;
+
+    // 验证账号
+    User user = userMapper.selectByName(username);
+    if (user == null) &#123;
+        map.put(&quot;usernameMsg&quot;, &quot;该账号不存在!&quot;);
+        return map;
+    &#125;
+
+    // 验证状态
+    if (user.getStatus() == 0) &#123;
+        map.put(&quot;usernameMsg&quot;, &quot;该账号未激活!&quot;);
+        return map;
+    &#125;
+
+    // 验证密码
+    password = CommunityUtil.md5(password + user.getSalt());
+    if (!user.getPassword().equals(password)) &#123;
+        map.put(&quot;passwordMsg&quot;, &quot;密码不正确!&quot;);
+        return map;
+    &#125;
+
+    // 生成登录凭证
+    LoginTicket loginTicket = new LoginTicket();
+    loginTicket.setUserId(user.getId());
+    loginTicket.setTicket(CommunityUtil.generateUUID());
+    loginTicket.setStatus(0);
+    loginTicket.setExpired(new Date(System.currentTimeMillis() + expiredSeconds * 1000));
+        // loginTicketMapper.insertLoginTicket(loginTicket);
+
+    String redisKey = RedisKeyUtil.getTicketKey(loginTicket.getTicket());
+    redisTemplate.opsForValue().set(redisKey, loginTicket);
+
+    map.put(&quot;ticket&quot;, loginTicket.getTicket());
+    return map;
+&#125;
+
+public void logout(String ticket) &#123;
+        // loginTicketMapper.updateStatus(ticket, 1);
+    String redisKey = RedisKeyUtil.getTicketKey(ticket);
+    LoginTicket loginTicket = (LoginTicket) redisTemplate.opsForValue().get(redisKey);
+    loginTicket.setStatus(1);
+    redisTemplate.opsForValue().set(redisKey, loginTicket);
+&#125;
+
+public LoginTicket findLoginTicket(String ticket) &#123;
+        // return loginTicketMapper.selectByTicket(ticket);
+    String redisKey = RedisKeyUtil.getTicketKey(ticket);
+    return (LoginTicket) redisTemplate.opsForValue().get(redisKey);
+&#125;
+
+public int updateHeader(int userId, String headerUrl) &#123;
+        // return userMapper.updateHeader(userId, headerUrl);
+    int rows = userMapper.updateHeader(userId, headerUrl);
+    clearCache(userId);
+    return rows;
+&#125;
+</code></pre>
+<h2 id="6-3-缓存用户信息"><a href="#6-3-缓存用户信息" class="headerlink" title="6.3 缓存用户信息"></a>6.3 缓存用户信息</h2><ul>
+<li><p>更新工具类 RedisUtil </p>
 <ul>
-<li>新增用户前缀常量 <code>user</code></li>
-<li>新增 <code>getUserKey</code> 方法，通过用户 id 获得用户的对应 key 值（利用 string 存储）。</li>
+<li><p>新增用户前缀常量 <code>user</code></p>
+</li>
+<li><p>新增 <code>getUserKey</code> 方法，通过用户 id 获得用户的对应 key 值（利用 String 存储）。</p>
+</li>
 </ul>
-<p>更新业务层的 UserService 类</p>
+</li>
+</ul>
+<pre><code class="java">private static final String PREFIX_USER = &quot;user&quot;;
+
+// 用户
+public static String getUserKey(int userId) &#123;
+    return PREFIX_USER + SPLIT + userId;
+&#125;
+</code></pre>
 <ul>
-<li>新增 <code>getCache</code>()，从缓存获取用户信息。</li>
-<li>新增 <code>initCache()</code>，从 MySQL 查询用户信息并存入 redis。</li>
-<li>新增 <code>clearCache()</code>，用户信息变更（更新头像，激活）时清除缓存。</li>
-<li>重构 <code>findUserById()</code> 方法，首先调用 <code>getCache()</code>从缓存获取用户信息，如果获取为 null 则调用 <code>initCache()</code>。</li>
+<li><p>更新业务层的 UserService 类</p>
+<ul>
+<li><p>新增 <code>getCache</code>()，从缓存获取用户信息。</p>
+</li>
+<li><p>新增 <code>initCache()</code>，从 MySQL 查询用户信息并存入 redis。</p>
+</li>
+<li><p>新增 <code>clearCache()</code>，用户信息变更（更新头像，激活）时清除缓存。</p>
+</li>
+<li><p>重构 <code>findUserById()</code> 方法，首先调用 <code>getCache()</code>从缓存获取用户信息，如果获取为 null 则调用 <code>initCache()</code>。</p>
+</li>
 </ul>
+</li>
+</ul>
+<pre><code class="java">// 1.优先从缓存中取值
+private User getCache(int userId) &#123;
+    String redisKey = RedisKeyUtil.getUserKey(userId);
+    return (User) redisTemplate.opsForValue().get(redisKey);
+&#125;
+
+// 2.取不到时初始化缓存数据
+private User initCache(int userId) &#123;
+    User user = userMapper.selectById(userId);
+    String redisKey = RedisKeyUtil.getUserKey(userId);
+    redisTemplate.opsForValue().set(redisKey, user, 3600, TimeUnit.SECONDS);
+    return user;
+&#125;
+
+// 3.数据变更时清除缓存数据
+private void clearCache(int userId) &#123;
+    String redisKey = RedisKeyUtil.getUserKey(userId);
+    redisTemplate.delete(redisKey);
+&#125;
+
+public User findUserById(int id) &#123;
+        // return userMapper.selectById(id);
+    User user = getCache(id);
+    if (user == null) &#123;
+        user = initCache(id);
+    &#125;
+    return user;
+&#125;
+</code></pre>
 
   </div>
   <div id="gitalk-container"></div>
@@ -862,10 +1330,10 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
     
 
     
-    <a href="/2023/03/05/first_post/">
+    <a href="/2023/03/05/hello-world/">
         <div class="post-paging-next">
             <span>下一篇</span>
-            <p>LeetCode算法笔记之链表(双指针解法)</p>
+            <p>Welcome to My HomePage!</p>
         </div>
     </a>
     

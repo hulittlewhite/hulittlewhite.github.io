@@ -2,7 +2,7 @@
 <html>
 	<head>
 		
-<title>MacOS下安装Node.js避坑指南-Quiet</title>
+<title>标签:Spring Boot-Quiet</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -38,6 +38,7 @@
 
 	<body>
 		
+
 	<div class="header">
 		<div class="header-top" id="header-top">
 			<div class="h-left">
@@ -76,13 +77,13 @@
 								
 									
 						
-								<li>
-									<a href="/tags">
-										TAGS
-									</a>
-									<span class="dot"></span>
-								</li>
-								
+							<li class="select">
+								<a href="/tags">
+									TAGS
+								</a>
+								<span class="dot"></span>
+							</li>
+							
 									
 						
 								<li>
@@ -275,170 +276,38 @@
 
 </script>
 
-<div class="post">
-    <div class="post-header-background post-header-img"
-    style="background: url('https://api.ixiaowai.cn/gqapi/gqapi.php')" 
->
-    <div class="post-header-background-content">
-        <ul class="post-header-tag">
-            
-        </ul>
+
+
+
+<div class="tag">
+    <div class="header-body-background">
+    <div class="header-body-background-content">
+        <span>
+            <img src="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imgtags.svg" alt="Quiet">
+        </span>
+
+        <h2>文章标签：Spring Boot</h2>
+    </div>
+</div>
+    <div class="tag-content" id="content">
+        <div class="tag-content-data">
+            <div class="grouping">
+    
+        <p>
+            2023
+        </p>
         
-        <h1>MacOS下安装Node.js避坑指南</h1>
-        <div class="post-header-info">
-            <div class="post-header-info-author">
-                
-                    <svg t="1604839279282" class="icon" viewBox="0 0 1024 1024" version="1.1"
-                        xmlns="http://www.w3.org/2000/svg" p-id="2901" width="20" height="20">
-                        <path
-                            d="M513 956.3c-247.7 0-448-200.3-448-448S265.3 66.2 513 66.2s448 200.3 448 448-200.3 442.1-448 442.1z m0-830.9c-212.2 0-388.8 170.7-388.8 388.8C124.2 726.3 294.9 903 513 903c212.2 0 388.8-170.7 388.8-388.8S725.2 125.4 513 125.4z m0 430.2c-94.2 0-170.7-76.5-170.7-170.7S418.8 207.8 513 207.8s170.7 76.5 170.7 170.7S607.2 555.6 513 555.6z m0-289.1c-64.6 0-112 52.8-112 112s47.4 117.9 112 117.9 112-52.8 112-112-47.4-117.9-112-117.9z m0 689.8c-135.7 0-259-58.7-341.9-158.9l-11.8-17.8 11.8-17.8c76.5-117.9 206.2-188.5 347.8-188.5 135.7 0 265 64.6 341.9 182.6l11.8 17.8-11.8 17.8C778 897.1 648.7 956.3 513 956.3zM230.3 773.2C300.9 849.7 406.9 897 513 897c112 0 218.1-47.4 288.6-129.8-70.5-88.2-170.7-135.6-282.7-135.6s-218.1 53.3-288.6 141.6z"
-                            p-id="2902" fill="#ffffff"></path>
-                    </svg>
-                    
-                <span class="post-header-info-author-text"> <a href="../../about">LebronLe</a></span>
-                <div class="post-header-info-author-categories">
-                    
-                </div>
-                <p>2023-03-05 23:50:46</p>
-            </div>
+        <a href="/2023/03/07/community4/">
+            <span>校园社区论坛项目之Redis</span>
+            <time>03-07</time>
+        </a>
+        
+        
+</div>
         </div>
     </div>
 </div>
-    <div class="post-content" id="content">
-  
-  <div id="article" class="post-content-info">
-    
 
-    <ul>
-<li><p>不建议的方法：直接到 Node 官网下载<code>.pkg</code>文件进行安装。</p>
-</li>
-<li><p>可能出现的问题：使用<code>npm install -g hexo-cli</code>等指令会报错没有写入的权限，甚至尝试各种<code>sudo</code>权限都无效。</p>
-</li>
-<li><p>npm 官网教程也不推荐采用<code>installer</code>进行安装。</p>
-</li>
-</ul>
-<h2 id="安装Node-js和npm的正确方法"><a href="#安装Node-js和npm的正确方法" class="headerlink" title="安装Node.js和npm的正确方法"></a>安装Node.js和npm的正确方法</h2><p>🌟 使用 node 版本管理工<code>nvm</code>(node version manager)安装 Node.js 和 npm。</p>
-<h3 id="Step-1"><a href="#Step-1" class="headerlink" title="Step 1"></a>Step 1</h3><p>安装<code>nvm</code>：</p>
-<pre><code>~$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
-</code></pre>
-<p>验证<code>nvm</code>是否安装成功：</p>
-<pre><code>~$ command -v nvm
-</code></pre>
-<p>若成功则出现一行<code>nvm</code>字符(若未出现则重启<code>terminal</code>)，查询<code>nvm</code>版本：</p>
-<pre><code>~$ nvm --version
-</code></pre>
-<p>返回<code>nvm</code>版本号：<code>0.34.0</code></p>
-<h3 id="Step-2"><a href="#Step-2" class="headerlink" title="Step 2"></a>Step 2</h3><p>使用<code>nvm</code>安装<code>node</code>：</p>
-<pre><code>~$ nvm install node # &quot;node&quot; is an alias for the latest version
-</code></pre>
-<h3 id="Step-3"><a href="#Step-3" class="headerlink" title="Step 3"></a>Step 3</h3><p>使用<code>npm</code>指令安装<code>hexo</code>：</p>
-<pre><code>~$ npm install -g hexo-cli
-</code></pre>
-<p>初始化<code>hexo</code>，指定文件夹名为 blog：</p>
-<pre><code>~$ hexo init blog
-</code></pre>
-<p>进入 blog 文件夹下，安装<code>npm</code>：</p>
-<pre><code>~ $ cd blog
-~ $ npm istall
-</code></pre>
-<h2 id="Q-amp-A"><a href="#Q-amp-A" class="headerlink" title="Q &amp; A"></a>Q &amp; A</h2><p>Q1：<code>zsh: command not found: nvm</code></p>
-<p>A1：进入 .nvm 文件夹，查看是否存在 .bash_profile 文件，若存在该文件则直接打开：</p>
-<pre><code>cd ~/.nvm
-open .bash_profile
-</code></pre>
-<p>若不存在则先创建 .bash_profile 文件：</p>
-<pre><code>touch .bash_profile
-</code></pre>
-<p>然后在 .bash_profile 文件内写入：</p>
-<pre><code>export NVM_DIR=&quot;$HOME/.nvm&quot;
-[ -s &quot;$NVM_DIR/nvm.sh&quot; ] &amp;&amp; \. &quot;$NVM_DIR/nvm.sh&quot; # This loads nvm
-</code></pre>
-<p>写入完毕后，关闭文件，执行 .bash_profile 文件：</p>
-<pre><code>source .bash_profile
-</code></pre>
-<p>Q2：每次关闭<code>terminal</code>后，又出现<code>zsh: command not found: nvm</code>等无法找到某指令的情况，需要重新执行 .bash_profile 文件。</p>
-<p>A2：原因是采用的<code>terminal</code>是<code>zsh</code>，需要将配置添加到 .zshrc 文件中。</p>
-<p>打开  .zshrc 文件：</p>
-<pre><code>open ~/.zshrc
-</code></pre>
-<p>在 .zshrc 文件内写入：</p>
-<pre><code>export NVM_DIR=~/.nvm
-[ -s &quot;$NVM_DIR/nvm.sh&quot; ] &amp;&amp; . &quot;$NVM_DIR/nvm.sh&quot;
-</code></pre>
-<p>写入完毕后，关闭文件，执行 .zshrc 文件：</p>
-<pre><code>source ~/.zshrc
-</code></pre>
-
-  </div>
-  <div id="gitalk-container"></div>
-</div>
-
-<script>
-  
-Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
-  dragToClose: true,
-  Toolbar: true,
-  closeButton: "top",
-  Image: {
-    zoom: true,
-  },
-  on: {
-    initCarousel: (fancybox) => {
-      const slide = fancybox.Carousel.slides[fancybox.Carousel.page];
-      fancybox.$container.style.setProperty(
-        "--bg-image",
-        `url("${slide.$thumb.src}")`
-      );
-    },
-    "Carousel.change": (fancybox, carousel, to, from) => {
-      const slide = carousel.slides[to];
-      fancybox.$container.style.setProperty(
-        "--bg-image",
-        `url("${slide.$thumb.src}")`
-      );
-    },
-  },
-});
-</script>
-
-<style>
-    #noneimg img {
-        display: none;
-        z-index: 9999;
-        /* width: 600px !important; */
-        min-width: 0%;
-        max-width: 90%;
-        max-height: 80%;
-        border-radius: 0px;
-        position: fixed;
-        box-shadow: 0 0 0px #c3c3c300 !important;
-        left: 0;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        margin: auto !important;
-    }
-
-    @media screen and (max-width:600px) {
-        #noneimg img {
-            max-width: 88%
-        }
-    }
-</style>
-
-    <div class="post-paging">
-    
-    <a href="/2023/03/05/first_post/">
-        <div class="post-paging-last">
-            <span>上一篇</span>
-            <p>LeetCode算法笔记之链表(双指针解法)</p>
-        </div>
-    </a>
-    
-
-    
-</div>
-</div>
 		
 <div class="footer">
 	<div class="Copyright">
@@ -542,7 +411,7 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
             distractionFreeMode:false
         })
         
-        if(Boolean('true')){
+        if(Boolean('')){
             gitalk.render('gitalk-container')
         }
     </script>
