@@ -2,7 +2,7 @@
 <html>
 	<head>
 		
-<title>Welcome to My HomePage!-Quiet</title>
+<title>LeetCode算法笔记之链表(双指针解法)-Quiet</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -11,8 +11,9 @@
 <link rel="stylesheet" href="/css/index.css">
 
 
-<meta name="keywords" content="Computer Science & Technology,Programming,Java,Python">
-<meta name="description" content="描述">
+
+<meta name="keywords" content="Java,Algorithm,">
+<meta name="description" content="">
 
 
 <script src="/js/jquery.min.js"></script>
@@ -282,9 +283,15 @@
     <div class="post-header-background-content">
         <ul class="post-header-tag">
             
+            
+            <li><a href="/tags/Java">Java</a></li>
+            
+            <li><a href="/tags/Algorithm">Algorithm</a></li>
+            
+            
         </ul>
         
-        <h1>Welcome to My HomePage!</h1>
+        <h1>LeetCode算法笔记之链表(双指针解法)</h1>
         <div class="post-header-info">
             <div class="post-header-info-author">
                 
@@ -298,8 +305,10 @@
                 <span class="post-header-info-author-text"> <a href="../../about">LebronLe</a></span>
                 <div class="post-header-info-author-categories">
                     
+                         <a href="../../categories/Java/" target="_blank" >Java</a>
+                    
                 </div>
-                <p>2023-03-05 23:50:55</p>
+                <p>2023-03-01 01:25:50</p>
             </div>
         </div>
     </div>
@@ -309,19 +318,93 @@
   <div id="article" class="post-content-info">
     
 
-    <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre><code class="bash">$ hexo new &quot;My New Post&quot;
+    <p>🌟 LeetCode算法笔记之链表，复习整理双指针解决链表题目。</p>
+<h1 id="141-Linked-List-Cycle"><a href="#141-Linked-List-Cycle" class="headerlink" title="141. Linked List Cycle"></a>141. Linked List Cycle</h1><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/linked-list-cycle/">题源：141. Linked List Cycle</a></p>
+<p>Given head, the head of a linked list, determine if the linked list has a cycle in it.</p>
+<p>There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail’s next pointer is connected to. Note that pos is not passed as a parameter.</p>
+<p>Return <code>true</code> if there is a cycle in the linked list. Otherwise, return <code>false</code>.</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><ul>
+<li>设置双指针，慢指针 slow 每次前进一步，快指针 fast 每次前进两步。</li>
+<li>如果 fast 最终遇到空指针，说明链表中没有环.</li>
+<li>如果 fast 最终和 slow 相遇，那肯定是 fast 超过了 slow 一圈，说明链表中含有环。</li>
+</ul>
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><pre><code class="java">/**
+ * Definition for singly-linked list.
+ * class ListNode &#123;
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) &#123;
+ *         val = x;
+ *         next = null;
+ *     &#125;
+ * &#125;
+ */
+public class Solution &#123;
+    public boolean hasCycle(ListNode head) &#123;
+        ListNode fast = head, slow = head;
+        while (fast != null &amp;&amp; fast.next != null) &#123;
+            fast = fast.next.next;
+            slow = slow.next;
+            if (fast == slow) return true;
+        &#125;
+        return false;
+    &#125;
+&#125;
 </code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre><code class="bash">$ hexo server
+<h1 id="142-Linked-List-Cycle-II"><a href="#142-Linked-List-Cycle-II" class="headerlink" title="142. Linked List Cycle II"></a>142. Linked List Cycle II</h1><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/linked-list-cycle-ii/">题源：142. Linked List Cycle II</a></p>
+<p>Given head, the head of a linked list, determine if the linked list has a cycle in it.</p>
+<p>There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail’s next pointer is connected to. Note that pos is not passed as a parameter.</p>
+<p>Return <code>true</code> if there is a cycle in the linked list. Otherwise, return <code>false</code>.</p>
+<h2 id="Solution-1"><a href="#Solution-1" class="headerlink" title="Solution"></a>Solution</h2><ul>
+<li><p>设置双指针，慢指针 slow 每次前进一步，快指针 fast 每次前进两步。</p>
+</li>
+<li><p>当快、慢指针相遇时：</p>
+<ul>
+<li>让其中一个指针指向头节点；</li>
+<li>此时，设置快、慢指针前进速度一致，均每次前进一步。</li>
+</ul>
+</li>
+<li><p>原理：当快、慢指针分别以 2v、v 的速度前进并第一次相遇时：</p>
+<ul>
+<li>如果慢指针走了 k 步，则快指针一定走了 2k 步。</li>
+<li>快指针比慢指针多走的 k 步，其实就是快指针在环内转圈，即 k 值为环长度的 <em>整数倍</em>。</li>
+<li>假设相遇点 M 距离环的起点 C 的距离为 m，则慢指针从头节点 H 到环的起点 C 的移动距离HC 为 <code>k - m</code>。</li>
+<li>也就是说如果快、慢指针在相遇点 M 时，重置慢指针，让慢指针再次从头节点 H 出发，前进 <code>k - m</code> 步即可到达环的起点 C。</li>
+<li>此时，如果快指针从相遇点继续前进，且速度和慢指针保持一致都为 v，恰巧也需前进 <code>k - m</code> 步即可到达环的起点 C。</li>
+</ul>
+</li>
+</ul>
+<h2 id="Code-1"><a href="#Code-1" class="headerlink" title="Code"></a>Code</h2><pre><code class="java">/**
+ * Definition for singly-linked list.
+ * class ListNode &#123;
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) &#123;
+ *         val = x;
+ *         next = null;
+ *     &#125;
+ * &#125;
+ */
+public class Solution &#123;
+    public ListNode detectCycle(ListNode head) &#123;
+        ListNode fast = head, slow = head;
+          // 第一个 while 循环是为了寻找相遇点 M
+        while (fast != null &amp;&amp; fast.next != null) &#123;
+            fast = fast.next.next;
+            slow = slow.next;
+            if (slow == fast) break;
+        &#125;
+        if (fast == null || fast.next == null) return null;
+        slow = head;
+          // 第二个 while 循环是为了重置慢指针到头节点并寻找两个指针最终的目的地即 环起点
+        while (slow != fast) &#123;
+            fast = fast.next;
+            slow = slow.next;
+        &#125;
+        return slow;
+    &#125;
+&#125;
 </code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre><code class="bash">$ hexo generate
-</code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre><code class="bash">$ hexo deploy
-</code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 
   </div>
   <div id="gitalk-container"></div>
@@ -382,21 +465,14 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
 
     <div class="post-paging">
     
-    <a href="/2023/03/07/kafka/">
+    <a href="/2023/03/05/macos_nodejs/">
         <div class="post-paging-last">
             <span>上一篇</span>
-            <p>分布式流媒体平台 Kafka</p>
+            <p>MacOS下安装Node.js避坑指南</p>
         </div>
     </a>
     
 
-    
-    <a href="/2023/03/05/macos_nodejs/">
-        <div class="post-paging-next">
-            <span>下一篇</span>
-            <p>MacOS下安装Node.js避坑指南</p>
-        </div>
-    </a>
     
 </div>
 </div>
