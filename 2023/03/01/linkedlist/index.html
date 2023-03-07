@@ -2,7 +2,7 @@
 <html>
 	<head>
 		
-<title>LeetCode算法笔记之链表(双指针解法)-Quiet</title>
+<title>LeetCode 算法笔记之链表 (双指针解法)-Quiet</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -38,7 +38,16 @@
 	<meta name="generator" content="Hexo 6.3.0"></head>
 
 	<body>
-		
+		<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?e2863d3856a812993ba034f5145bf77c";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
 	<div class="header">
 		<div class="header-top" id="header-top">
 			<div class="h-left">
@@ -291,7 +300,7 @@
             
         </ul>
         
-        <h1>LeetCode算法笔记之链表(双指针解法)</h1>
+        <h1>LeetCode 算法笔记之链表 (双指针解法)</h1>
         <div class="post-header-info">
             <div class="post-header-info-author">
                 
@@ -318,15 +327,15 @@
   <div id="article" class="post-content-info">
     
 
-    <p>🌟 LeetCode算法笔记之链表，复习整理双指针解决链表题目。</p>
-<h1 id="141-Linked-List-Cycle"><a href="#141-Linked-List-Cycle" class="headerlink" title="141. Linked List Cycle"></a>141. Linked List Cycle</h1><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/linked-list-cycle/">题源：141. Linked List Cycle</a></p>
+    <p>🌟 LeetCode 算法笔记之链表，复习整理双指针解决链表题目。</p>
+<h1 id="141-Linked-List-Cycle"><a href="#141-Linked-List-Cycle" class="headerlink" title="141. Linked List Cycle"></a>141. Linked List Cycle</h1><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/linked-list-cycle/"> 题源：141. Linked List Cycle</a></p>
 <p>Given head, the head of a linked list, determine if the linked list has a cycle in it.</p>
 <p>There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail’s next pointer is connected to. Note that pos is not passed as a parameter.</p>
 <p>Return <code>true</code> if there is a cycle in the linked list. Otherwise, return <code>false</code>.</p>
 <h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><ul>
-<li>设置双指针，慢指针 slow 每次前进一步，快指针 fast 每次前进两步。</li>
-<li>如果 fast 最终遇到空指针，说明链表中没有环.</li>
-<li>如果 fast 最终和 slow 相遇，那肯定是 fast 超过了 slow 一圈，说明链表中含有环。</li>
+<li> 设置双指针，慢指针 slow 每次前进一步，快指针 fast 每次前进两步。</li>
+<li> 如果 fast 最终遇到空指针，说明链表中没有环.</li>
+<li> 如果 fast 最终和 slow 相遇，那肯定是 fast 超过了 slow 一圈，说明链表中含有环。</li>
 </ul>
 <h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><pre><code class="java">/**
  * Definition for singly-linked list.
@@ -351,26 +360,26 @@ public class Solution &#123;
     &#125;
 &#125;
 </code></pre>
-<h1 id="142-Linked-List-Cycle-II"><a href="#142-Linked-List-Cycle-II" class="headerlink" title="142. Linked List Cycle II"></a>142. Linked List Cycle II</h1><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/linked-list-cycle-ii/">题源：142. Linked List Cycle II</a></p>
+<h1 id="142-Linked-List-Cycle-II"><a href="#142-Linked-List-Cycle-II" class="headerlink" title="142. Linked List Cycle II"></a>142. Linked List Cycle II</h1><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/linked-list-cycle-ii/"> 题源：142. Linked List Cycle II</a></p>
 <p>Given head, the head of a linked list, determine if the linked list has a cycle in it.</p>
 <p>There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail’s next pointer is connected to. Note that pos is not passed as a parameter.</p>
 <p>Return <code>true</code> if there is a cycle in the linked list. Otherwise, return <code>false</code>.</p>
 <h2 id="Solution-1"><a href="#Solution-1" class="headerlink" title="Solution"></a>Solution</h2><ul>
-<li><p>设置双指针，慢指针 slow 每次前进一步，快指针 fast 每次前进两步。</p>
+<li><p> 设置双指针，慢指针 slow 每次前进一步，快指针 fast 每次前进两步。</p>
 </li>
-<li><p>当快、慢指针相遇时：</p>
+<li><p> 当快、慢指针相遇时：</p>
 <ul>
-<li>让其中一个指针指向头节点；</li>
-<li>此时，设置快、慢指针前进速度一致，均每次前进一步。</li>
+<li> 让其中一个指针指向头节点；</li>
+<li> 此时，设置快、慢指针前进速度一致，均每次前进一步。</li>
 </ul>
 </li>
-<li><p>原理：当快、慢指针分别以 2v、v 的速度前进并第一次相遇时：</p>
+<li><p> 原理：当快、慢指针分别以 2v、v 的速度前进并第一次相遇时：</p>
 <ul>
-<li>如果慢指针走了 k 步，则快指针一定走了 2k 步。</li>
-<li>快指针比慢指针多走的 k 步，其实就是快指针在环内转圈，即 k 值为环长度的 <em>整数倍</em>。</li>
-<li>假设相遇点 M 距离环的起点 C 的距离为 m，则慢指针从头节点 H 到环的起点 C 的移动距离HC 为 <code>k - m</code>。</li>
-<li>也就是说如果快、慢指针在相遇点 M 时，重置慢指针，让慢指针再次从头节点 H 出发，前进 <code>k - m</code> 步即可到达环的起点 C。</li>
-<li>此时，如果快指针从相遇点继续前进，且速度和慢指针保持一致都为 v，恰巧也需前进 <code>k - m</code> 步即可到达环的起点 C。</li>
+<li> 如果慢指针走了 k 步，则快指针一定走了 2k 步。</li>
+<li> 快指针比慢指针多走的 k 步，其实就是快指针在环内转圈，即 k 值为环长度的 <em> 整数倍 </em>。</li>
+<li> 假设相遇点 M 距离环的起点 C 的距离为 m，则慢指针从头节点 H 到环的起点 C 的移动距离 HC 为 <code>k - m</code>。</li>
+<li> 也就是说如果快、慢指针在相遇点 M 时，重置慢指针，让慢指针再次从头节点 H 出发，前进 <code>k - m</code> 步即可到达环的起点 C。</li>
+<li> 此时，如果快指针从相遇点继续前进，且速度和慢指针保持一致都为 v，恰巧也需前进 <code>k - m</code> 步即可到达环的起点 C。</li>
 </ul>
 </li>
 </ul>
@@ -468,7 +477,7 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
     <a href="/2023/03/05/macos_nodejs/">
         <div class="post-paging-last">
             <span>上一篇</span>
-            <p>MacOS下安装Node.js避坑指南</p>
+            <p>MacOS 下安装 Node.js 避坑指南</p>
         </div>
     </a>
     
@@ -479,7 +488,7 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
 		
 <div class="footer">
 	<div class="Copyright">
-		©2023 By LebronLe. 主题：<a
+		©2023 By LebronLe. Theme：<a
 			style="text-decoration: none;display: contents; color: #898F9F;"
 			target="_blank" rel="noopener" href="https://github.com/79e/hexo-theme-quiet">Quiet</a>
 	</div>
@@ -575,7 +584,7 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
     var _hmt = _hmt || [];
     (function () {
         var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?4b5fe1472f22fadsfs";
+        hm.src = "https://hm.baidu.com/hm.js?e2863d3856a812993ba034f5145bf77c";
         var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(hm, s);
     })();
@@ -596,6 +605,7 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
             gitalk.render('gitalk-container')
         }
     </script>
+
 
 <script>
 	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')

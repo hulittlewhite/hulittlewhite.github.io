@@ -38,7 +38,16 @@
 	<meta name="generator" content="Hexo 6.3.0"></head>
 
 	<body>
-		
+		<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?e2863d3856a812993ba034f5145bf77c";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
 	<div class="header">
 		<div class="header-top" id="header-top">
 			<div class="h-left">
@@ -318,18 +327,18 @@
   <div id="article" class="post-content-info">
     
 
-    <h1 id="Kafka-简介"><a href="#Kafka-简介" class="headerlink" title="Kafka 简介"></a>Kafka 简介</h1><p>🌟 <a target="_blank" rel="noopener" href="http://kafka.apach.org/">Kafka官网</a></p>
+    <h1 id="Kafka- 简介"><a href="#Kafka- 简介" class="headerlink" title="Kafka 简介"></a>Kafka 简介 </h1><p>🌟 <a target="_blank" rel="noopener" href="http://kafka.apach.org/">Kafka 官网 </a></p>
 <ul>
 <li>Kafka 是一个分布式的流媒体平台。</li>
-<li>应用场景：消息系统、日志收集、用户行为追踪、流式处理。</li>
+<li> 应用场景：消息系统、日志收集、用户行为追踪、流式处理。</li>
 </ul>
-<h1 id="Kafka-特点"><a href="#Kafka-特点" class="headerlink" title="Kafka 特点"></a>Kafka 特点</h1><ul>
-<li>高吞吐量</li>
-<li>消息持久化</li>
-<li>高可靠性</li>
-<li>高扩展性</li>
+<h1 id="Kafka- 特点"><a href="#Kafka- 特点" class="headerlink" title="Kafka 特点"></a>Kafka 特点 </h1><ul>
+<li> 高吞吐量 </li>
+<li> 消息持久化 </li>
+<li> 高可靠性 </li>
+<li> 高扩展性 </li>
 </ul>
-<h1 id="Kafka-术语"><a href="#Kafka-术语" class="headerlink" title="Kafka 术语"></a>Kafka 术语</h1><ul>
+<h1 id="Kafka- 术语"><a href="#Kafka- 术语" class="headerlink" title="Kafka 术语"></a>Kafka 术语 </h1><ul>
 <li>Broker</li>
 <li>Zookeeper</li>
 <li>Topic</li>
@@ -338,38 +347,38 @@
 <li>Leader Replica</li>
 <li>Follower Replica</li>
 </ul>
-<h1 id="Kafka-配置"><a href="#Kafka-配置" class="headerlink" title="Kafka 配置"></a>Kafka 配置</h1><ol>
-<li>在 Kafka 安装包下的 config 文件夹下的 <code>zookeeper.properties</code>文件内修改：</li>
+<h1 id="Kafka- 配置"><a href="#Kafka- 配置" class="headerlink" title="Kafka 配置"></a>Kafka 配置 </h1><ol>
+<li> 在 Kafka 安装包下的 config 文件夹下的 <code>zookeeper.properties</code> 文件内修改：</li>
 </ol>
 <pre><code class="properties"># 默认存放路径
 dataDir=/tmp/zookeeper
 </code></pre>
 <ol start="2">
-<li>在 Kafka 安装包下的 config 文件夹下的 <code>server.properties</code>文件内修改：</li>
+<li> 在 Kafka 安装包下的 config 文件夹下的 <code>server.properties</code> 文件内修改：</li>
 </ol>
 <pre><code class="properties"># 默认存放路径
 log.dirs=/tmp/kafka-logs
 </code></pre>
-<h1 id="Kafka-常用命令"><a href="#Kafka-常用命令" class="headerlink" title="Kafka 常用命令"></a>Kafka 常用命令</h1><ol>
-<li>打开一个 terminal 窗口，启动 Zookeeper：</li>
+<h1 id="Kafka- 常用命令"><a href="#Kafka- 常用命令" class="headerlink" title="Kafka 常用命令"></a>Kafka 常用命令 </h1><ol>
+<li> 打开一个 terminal 窗口，启动 Zookeeper：</li>
 </ol>
 <pre><code class="sh"># cd 到 Kafka 的 bin 目录下，eg: /usr/local/kafka_2.13-3.4.0/bin
 ~$ zookeeper-server-start.sh config\zookeeper.properties
 </code></pre>
 <ol start="2">
-<li>打开另一个 terminal 窗口，启动 Kafka：</li>
+<li> 打开另一个 terminal 窗口，启动 Kafka：</li>
 </ol>
 <pre><code class="sh"># cd 到 Kafka 的 bin 目录下，eg: /usr/local/kafka_2.13-3.4.0/bin
 ~$ zookeeper-server-start.sh config\server.properties
 </code></pre>
 <ol start="3">
-<li>打开另一个 terminal 窗口，发布 topic 为 test，创建 1 个副本，创建 1 个分区：</li>
+<li> 打开另一个 terminal 窗口，发布 topic 为 test，创建 1 个副本，创建 1 个分区：</li>
 </ol>
 <pre><code class="sh"># cd 到 Kafka 的 bin 目录下，eg: /usr/local/kafka_2.13-3.4.0/bin
 ~$ kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic test
 </code></pre>
 <ol start="4">
-<li>查看是否成功发布 topic：</li>
+<li> 查看是否成功发布 topic：</li>
 </ol>
 <pre><code class="sh"># cd 到 Kafka 的 bin 目录下，eg: /usr/local/kafka_2.13-3.4.0/bin
 ~$ kafka-topics.sh --list --bootstrap-server localhost:9092
@@ -378,22 +387,22 @@ log.dirs=/tmp/kafka-logs
 test
 </code></pre>
 <ol start="5">
-<li>生产者发布消息：</li>
+<li> 生产者发布消息：</li>
 </ol>
 <pre><code class="sh"># cd 到 Kafka 的 bin 目录下，eg: /usr/local/kafka_2.13-3.4.0/bin
 ~$ kafka-console-producer.sh --broker-list localhost:9092 --topic test
 </code></pre>
 <ol start="6">
-<li>消费者订阅消息：</li>
+<li> 消费者订阅消息：</li>
 </ol>
 <pre><code class="sh"># cd 到 Kafka 的 bin 目录下，eg: /usr/local/kafka_2.13-3.4.0/bin
 ~$ kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning
 </code></pre>
-<h1 id="Windows-下关于-Kafka-的使用注意点"><a href="#Windows-下关于-Kafka-的使用注意点" class="headerlink" title="Windows 下关于 Kafka 的使用注意点"></a>Windows 下关于 Kafka 的使用注意点</h1><ul>
-<li>问题：在 Windows 的命令行里启动 Kafka 之后，当关闭命令行窗口时，就会强制关闭 Kafka。这种关闭方式为暴力关闭，很可能会导致 Kafka 无法完成对日志文件的解锁。届时，再次启动 Kafka 的时候，就会提示日志文件被锁，无法成功启动。</li>
-<li>方案：将 Kafka 的日志文件全部删除，再次启动即可。</li>
-<li>建议：不要暴力关闭 Kafka，建议通过在命令行执行 <code>kafka-server-stop</code> 命令来关闭它。</li>
-<li>其他：将来在 Linux 上部署 Kafka 之后，采用后台运行的方式，就会避免这样的问题。</li>
+<h1 id="Windows- 下关于 -Kafka- 的使用注意点"><a href="#Windows- 下关于 -Kafka- 的使用注意点" class="headerlink" title="Windows 下关于 Kafka 的使用注意点"></a>Windows 下关于 Kafka 的使用注意点 </h1><ul>
+<li> 问题：在 Windows 的命令行里启动 Kafka 之后，当关闭命令行窗口时，就会强制关闭 Kafka。这种关闭方式为暴力关闭，很可能会导致 Kafka 无法完成对日志文件的解锁。届时，再次启动 Kafka 的时候，就会提示日志文件被锁，无法成功启动。</li>
+<li> 方案：将 Kafka 的日志文件全部删除，再次启动即可。</li>
+<li> 建议：不要暴力关闭 Kafka，建议通过在命令行执行 <code>kafka-server-stop</code> 命令来关闭它。</li>
+<li> 其他：将来在 Linux 上部署 Kafka 之后，采用后台运行的方式，就会避免这样的问题。</li>
 </ul>
 
   </div>
@@ -476,7 +485,7 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
 		
 <div class="footer">
 	<div class="Copyright">
-		©2023 By LebronLe. 主题：<a
+		©2023 By LebronLe. Theme：<a
 			style="text-decoration: none;display: contents; color: #898F9F;"
 			target="_blank" rel="noopener" href="https://github.com/79e/hexo-theme-quiet">Quiet</a>
 	</div>
@@ -572,7 +581,7 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
     var _hmt = _hmt || [];
     (function () {
         var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?4b5fe1472f22fadsfs";
+        hm.src = "https://hm.baidu.com/hm.js?e2863d3856a812993ba034f5145bf77c";
         var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(hm, s);
     })();
@@ -593,6 +602,7 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
             gitalk.render('gitalk-container')
         }
     </script>
+
 
 <script>
 	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')

@@ -38,7 +38,16 @@
 	<meta name="generator" content="Hexo 6.3.0"></head>
 
 	<body>
-		
+		<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?e2863d3856a812993ba034f5145bf77c";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
 	<div class="header">
 		<div class="header-top" id="header-top">
 			<div class="h-left">
@@ -362,13 +371,13 @@ public class RedisConfig &#123;
     &#125;
 &#125;
 </code></pre>
-<h1 id="1-点赞"><a href="#1-点赞" class="headerlink" title="1. 点赞"></a>1. 点赞</h1><p>点赞模块包含：</p>
+<h1 id="1- 点赞"><a href="#1- 点赞" class="headerlink" title="1. 点赞"></a>1. 点赞 </h1><p> 点赞模块包含：</p>
 <ol>
 <li>点赞：(1)支持对帖子、评论进行点赞；(2)第一次点击“赞”完成点赞操作，第二次点击“已赞”完成取消点赞操作。</li>
 <li>首页：统计帖子的点赞数。</li>
 <li>详情页：(1)统计帖子的点赞数；(2)显示点赞状态。</li>
 </ol>
-<h2 id="创建工具类-RedisKeyUtil"><a href="#创建工具类-RedisKeyUtil" class="headerlink" title="创建工具类 RedisKeyUtil"></a>创建工具类 RedisKeyUtil</h2><ul>
+<h2 id="创建工具类 -RedisKeyUtil"><a href="# 创建工具类 -RedisKeyUtil" class="headerlink" title="创建工具类 RedisKeyUtil"></a>创建工具类 RedisKeyUtil</h2><ul>
 <li>定义分隔符 <code>:</code></li>
 <li>定义实体获得赞的 key 前缀常量  <code>like:entity</code></li>
 <li>新增方法 <code>getEntityLikeKey(int entityType, int entityId)</code>，通过实体类型和实体 id 生成对应实体获得赞的 key，这个 key 的呈现形式为 <code>like:entity:entityType:entityId</code>。</li>
@@ -384,14 +393,14 @@ public class RedisConfig &#123;
     &#125;
 &#125;
 </code></pre>
-<h2 id="创建业务层的-LikeService-类"><a href="#创建业务层的-LikeService-类" class="headerlink" title="创建业务层的 LikeService 类"></a>创建业务层的 LikeService 类</h2><ul>
+<h2 id="创建业务层的 -LikeService- 类"><a href="# 创建业务层的 -LikeService- 类" class="headerlink" title="创建业务层的 LikeService 类"></a>创建业务层的 LikeService 类</h2><ul>
 <li>注入 <code>RedisTemplate</code> 实例</li>
 <li>新增方法 <code>like()</code> 实现点赞功能：<ul>
 <li>首先，调用工具类 <code>RedisKeyUtil</code> 中的方法 <code>getEntityLikeKey()</code> 获得实体点赞的 key；</li>
 <li>然后，通过 <code>RedisTemplate</code> 的对象，调用 set 集合的方法 <code>isMember()</code> 查询 userId 是否存在于对应 key 的 set 集合中，如果存在则移出点赞的用户集合，如果不存在则添加到点赞的用户集合中。</li>
 </ul>
 </li>
-<li>新增方法 <code>findEntityLikeCount()</code>：查询某实体的点赞数，通过调用 set 集合的方法<code>size()</code>查询元素的个数。</li>
+<li>新增方法 <code>findEntityLikeCount()</code>：查询某实体的点赞数，通过调用 set 集合的方法 <code>size()</code> 查询元素的个数。</li>
 <li>新增方法 <code>findEntityLikeStatus()</code>：查询某用户对某实体的点赞状态，逻辑实现同方法<code>like()</code>，即通过调用 set 集合的方法 <code>isMember()</code> 实现。</li>
 </ul>
 <pre><code class="java">@Service
@@ -420,13 +429,13 @@ public class LikeService &#123;
     // 查询某人对某实体的点赞状态
     public int findEntityLikeStatus(int userId, int entityType, int entityId) &#123;
         String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);
-          // 1 表示已赞；0表示未赞
+          // 1 表示已赞；0 表示未赞
         return redisTemplate.opsForSet().isMember(entityLikeKey, userId) ? 1 : 0;
     &#125;
 
 &#125;
 </code></pre>
-<h2 id="创建表现层的-LikeController-类"><a href="#创建表现层的-LikeController-类" class="headerlink" title="创建表现层的 LikeController 类"></a>创建表现层的 LikeController 类</h2><ul>
+<h2 id="创建表现层的 -LikeController- 类"><a href="# 创建表现层的 -LikeController- 类" class="headerlink" title="创建表现层的 LikeController 类"></a>创建表现层的 LikeController 类</h2><ul>
 <li>注入 <code>LikeService</code> 和 <code>HostHolder</code> 实例</li>
 <li>新增方法 <code>like()</code>：实现点赞功能，调用业务层的方法 <code>like()</code> 进行点赞，调用 <code>findEntityLikeCount()</code> 和 <code>findEntityLikeStatus()</code> 查询点赞数和点赞状态，并封装到 map 集合中，然后通过工具类封装成 JSON 数据返回。</li>
 </ul>
@@ -457,7 +466,7 @@ public class LikeController &#123;
     &#125;
 &#125;
 </code></pre>
-<h2 id="更新表现层的-HomeController-类"><a href="#更新表现层的-HomeController-类" class="headerlink" title="更新表现层的 HomeController 类"></a>更新表现层的 HomeController 类</h2><ul>
+<h2 id="更新表现层的 -HomeController- 类"><a href="# 更新表现层的 -HomeController- 类" class="headerlink" title="更新表现层的 HomeController 类"></a>更新表现层的 HomeController 类</h2><ul>
 <li><p>注入  <code>LikeService</code> 实例</p>
 </li>
 <li><p>更新方法  <code>getIndexPage()</code>：新增更新首页帖子点赞数功能，调用业务层的 <code>LikeService</code> 类的方法获得点赞数，并存储到 map 集合中。</p>
@@ -465,7 +474,7 @@ public class LikeController &#123;
 </ul>
 <pre><code class="java">@GetMapping(&quot;/index&quot;)
 public String getIndexPage(Model model, Page page) &#123;
-    // 方法调用之前，SpringMVC 会自动实例化 Model 和 Page，并将 Page 注入到 Model中。
+    // 方法调用之前，SpringMVC 会自动实例化 Model 和 Page，并将 Page 注入到 Model 中。
     // 所以，在 thymeleaf 中可以直接访问 Page 对象中的数据.
     page.setRows(discussPostService.findDiscussPostRows(0));
     page.setPath(&quot;/index&quot;);
@@ -489,7 +498,7 @@ public String getIndexPage(Model model, Page page) &#123;
     return &quot;/index&quot;;
 &#125;
 </code></pre>
-<h2 id="更新表现层的-DiscussPostController-类"><a href="#更新表现层的-DiscussPostController-类" class="headerlink" title="更新表现层的 DiscussPostController 类"></a>更新表现层的 DiscussPostController 类</h2><ul>
+<h2 id="更新表现层的 -DiscussPostController- 类"><a href="# 更新表现层的 -DiscussPostController- 类" class="headerlink" title="更新表现层的 DiscussPostController 类"></a>更新表现层的 DiscussPostController 类</h2><ul>
 <li>注入  <code>LikeService</code> 实例</li>
 <li>更新方法 <code>addDiscussPost()</code>：新增更新详情页帖子（评论、回复）的点赞数功能，调用业务层的 <code>LikeService</code> 类的方法获得点赞数和点赞状态，并将其存入视图对象中。</li>
 </ul>
@@ -517,13 +526,12 @@ public String getDiscussPost(@PathVariable(&quot;discussPostId&quot;) int discus
     // 评论: 给帖子的评论
     // 回复: 给评论的评论
     // 评论列表
-    List&lt;Comment&gt; commentList = commentService.findCommentsByEntity(
-            ENTITY_TYPE_POST, post.getId(), page.getOffset(), page.getLimit());
-    // 评论VO列表
+    List&lt;Comment&gt; commentList = commentService.findCommentsByEntity(ENTITY_TYPE_POST, post.getId(), page.getOffset(), page.getLimit());
+    // 评论 VO 列表
     List&lt;Map&lt;String, Object&gt;&gt; commentVoList = new ArrayList&lt;&gt;();
     if (commentList != null) &#123;
         for (Comment comment : commentList) &#123;
-            // 评论VO
+            // 评论 VO
             Map&lt;String, Object&gt; commentVo = new HashMap&lt;&gt;();
             // 评论
             commentVo.put(&quot;comment&quot;, comment);
@@ -538,9 +546,8 @@ public String getDiscussPost(@PathVariable(&quot;discussPostId&quot;) int discus
             commentVo.put(&quot;likeStatus&quot;, likeStatus);
 
             // 回复列表
-            List&lt;Comment&gt; replyList = commentService.findCommentsByEntity(
-                    ENTITY_TYPE_COMMENT, comment.getId(), 0, Integer.MAX_VALUE);
-            // 回复VO列表
+            List&lt;Comment&gt; replyList = commentService.findCommentsByEntity(ENTITY_TYPE_COMMENT, comment.getId(), 0, Integer.MAX_VALUE);
+            // 回复 VO 列表
             List&lt;Map&lt;String, Object&gt;&gt; replyVoList = new ArrayList&lt;&gt;();
             if (replyList != null) &#123;
                 for (Comment reply : replyList) &#123;
@@ -578,11 +585,11 @@ public String getDiscussPost(@PathVariable(&quot;discussPostId&quot;) int discus
     return &quot;/site/discuss-detail&quot;;
 &#125;
 </code></pre>
-<h1 id="2-收到的赞"><a href="#2-收到的赞" class="headerlink" title="2. 收到的赞"></a>2. 收到的赞</h1><ol>
+<h1 id="2- 收到的赞"><a href="#2- 收到的赞" class="headerlink" title="2. 收到的赞"></a>2. 收到的赞</h1><ol>
 <li>重构点赞功能：以用户为 key，记录点赞数量；<code>increment(key)</code>、<code>decrement(key)</code></li>
 <li>开发个人主页：以用户为 key，查询点赞数。</li>
 </ol>
-<h2 id="更新工具类-RedisUtil"><a href="#更新工具类-RedisUtil" class="headerlink" title="更新工具类 RedisUtil"></a>更新工具类 RedisUtil</h2><ul>
+<h2 id="更新工具类 -RedisUtil"><a href="# 更新工具类 -RedisUtil" class="headerlink" title="更新工具类 RedisUtil"></a>更新工具类 RedisUtil</h2><ul>
 <li><p>新增用户获得赞 key 的前缀常量 <code>like:user</code></p>
 </li>
 <li><p>新增方法 <code>getUserLikeKey(int userId)</code>，通过用户 id 生成对应用户获得赞的 key。</p>
@@ -606,7 +613,7 @@ public String getDiscussPost(@PathVariable(&quot;discussPostId&quot;) int discus
     &#125;
 &#125;
 </code></pre>
-<h2 id="更新业务层的-LikeService类"><a href="#更新业务层的-LikeService类" class="headerlink" title="更新业务层的 LikeService类"></a>更新业务层的 LikeService类</h2><ul>
+<h2 id="更新业务层的 -LikeService 类"><a href="# 更新业务层的 -LikeService 类" class="headerlink" title="更新业务层的 LikeService 类"></a>更新业务层的 LikeService 类</h2><ul>
 <li>重构方法 <code>like()</code>，在参数列表中新增：entityUserId（表示被点赞用户的 id），该参数用来更新用户的被点赞数量。<ul>
 <li>调用 <code>RedisTemplate</code> 的对象的方法 <code>execute()</code> 实现事务，保证被点赞用户与点赞用户的数据更新保持一致。调用 <code>isMember()</code> 查询用户的点赞状态，之后调用 <code>multi()</code> 开启事务。</li>
 <li>当用户已点赞时，调用方法 <code>remove()</code> 将当前用户从点赞的用户集合中移除，调用方法 <code>decrement()</code> 将被点赞用户的被点赞数减去 1；当用户未点赞时，调用方法 <code>add()</code> 将当前用户添加到点赞的用户集合中，调用方法 <code>increment()</code> 将被点赞用户的点赞数加上 1。</li>
@@ -665,7 +672,7 @@ public class LikeService &#123;
     &#125;
 &#125;
 </code></pre>
-<h2 id="更新表现层的-LikeController-类"><a href="#更新表现层的-LikeController-类" class="headerlink" title="更新表现层的 LikeController 类"></a>更新表现层的 LikeController 类</h2><ul>
+<h2 id="更新表现层的 -LikeController- 类"><a href="# 更新表现层的 -LikeController- 类" class="headerlink" title="更新表现层的 LikeController 类"></a>更新表现层的 LikeController 类</h2><ul>
 <li>更新方法 <code>like()</code>：在参数列表中新增参数 entityUserId（表示被点赞用户的 id）。</li>
 </ul>
 <pre><code class="java">@Controller
@@ -698,7 +705,7 @@ public class LikeController &#123;
 
 &#125;
 </code></pre>
-<h2 id="更新表现层的-UserController-类"><a href="#更新表现层的-UserController-类" class="headerlink" title="更新表现层的 UserController 类"></a>更新表现层的 UserController 类</h2><ul>
+<h2 id="更新表现层的 -UserController- 类"><a href="# 更新表现层的 -UserController- 类" class="headerlink" title="更新表现层的 UserController 类"></a>更新表现层的 UserController 类</h2><ul>
 <li>新增方法<code>getProfilePage()</code>：调用业务层的方法查询用户和点赞数，并将两项信息存储于 Model 对象中。</li>
 </ul>
 <pre><code class="java">// 个人主页
@@ -706,7 +713,7 @@ public class LikeController &#123;
 public String getProfilePage(@PathVariable(&quot;userId&quot;) int userId, Model model) &#123;
     User user = userService.findUserById(userId);
     if (user == null) &#123;
-        throw new RuntimeException(&quot;该用户不存在!&quot;);
+        throw new RuntimeException(&quot; 该用户不存在!&quot;);
     &#125;
 
     // 用户
@@ -718,7 +725,7 @@ public String getProfilePage(@PathVariable(&quot;userId&quot;) int userId, Model
     return &quot;/site/profile&quot;;
 &#125;
 </code></pre>
-<h1 id="3-关注"><a href="#3-关注" class="headerlink" title="3. 关注"></a>3. 关注</h1><h2 id="更新工具类-RedisUtil-1"><a href="#更新工具类-RedisUtil-1" class="headerlink" title="更新工具类 RedisUtil"></a>更新工具类 RedisUtil</h2><ul>
+<h1 id="3- 关注"><a href="#3- 关注" class="headerlink" title="3. 关注"></a>3. 关注 </h1><h2 id="更新工具类 -RedisUtil-1"><a href="# 更新工具类 -RedisUtil-1" class="headerlink" title="更新工具类 RedisUtil"></a> 更新工具类 RedisUtil</h2><ul>
 <li>新增用户关注实体（帖子、评论、用户等）的前缀常量 followee 和粉丝（用户）的前缀常量 follower。</li>
 <li>新增方法 <code>getFolloweeKey(int userId, int entityType)</code>，通过用户 id 和实体类型生成用户关注实体的 key。</li>
 <li>新增方法 <code>getFollowerKey(int entityType, int entityId)</code>，通过实体类型和实体 id 生成实体用户粉丝的 key。</li>
@@ -755,7 +762,7 @@ public String getProfilePage(@PathVariable(&quot;userId&quot;) int userId, Model
     &#125;
 &#125;
 </code></pre>
-<h2 id="创建业务层的-FollowService-类"><a href="#创建业务层的-FollowService-类" class="headerlink" title="创建业务层的 FollowService 类"></a>创建业务层的 FollowService 类</h2><ul>
+<h2 id="创建业务层的 -FollowService- 类"><a href="# 创建业务层的 -FollowService- 类" class="headerlink" title="创建业务层的 FollowService 类"></a>创建业务层的 FollowService 类</h2><ul>
 <li><p>新增方法 <code>follow()</code>，当用户关注某实体时：</p>
 <ul>
 <li>调用方法 <code>add() </code>将当前实体 id 和时间作为 value 和 score 加入到用户的关注集合中。</li>
@@ -809,7 +816,7 @@ public class FollowService &#123;
     &#125;
 &#125;
 </code></pre>
-<h2 id="创建表现层的-FollowController"><a href="#创建表现层的-FollowController" class="headerlink" title="创建表现层的 FollowController"></a>创建表现层的 FollowController</h2><ul>
+<h2 id="创建表现层的 -FollowController"><a href="# 创建表现层的 -FollowController" class="headerlink" title="创建表现层的 FollowController"></a>创建表现层的 FollowController</h2><ul>
 <li>新增方法 <code>follow()</code>：调用 HostHolder 对象的方法获取用户，调用业务层的 <code>FollowService</code> 类的对象的方法 <code>follow()</code> 实现点赞的功能。</li>
 <li>新增方法 <code>unfollow()</code>：调用 HostHolder 对象的方法获取用户，调用业务层的 <code>FollowService</code> 类的对象的方法 <code>unfollow()</code> 实现取消点赞的功能。</li>
 </ul>
@@ -828,7 +835,7 @@ public class FollowController &#123;
 
         followService.follow(user.getId(), entityType, entityId);
 
-        return CommunityUtil.getJSONString(0, &quot;已关注!&quot;);
+        return CommunityUtil.getJSONString(0, &quot; 已关注!&quot;);
     &#125;
 
     @PostMapping(&quot;/unfollow&quot;)
@@ -838,16 +845,16 @@ public class FollowController &#123;
 
         followService.unfollow(user.getId(), entityType, entityId);
 
-        return CommunityUtil.getJSONString(0, &quot;已取消关注!&quot;);
+        return CommunityUtil.getJSONString(0, &quot; 已取消关注!&quot;);
     &#125;
 &#125;
 </code></pre>
-<h1 id="4-个人主页"><a href="#4-个人主页" class="headerlink" title="4. 个人主页"></a>4. 个人主页</h1><h2 id="更新业务层的-FollowService-类"><a href="#更新业务层的-FollowService-类" class="headerlink" title="更新业务层的 FollowService 类"></a>更新业务层的 FollowService 类</h2><ul>
-<li><p>新增方法 <code>findFolloweeCount()</code>，调用 zset 集合的方法<code>zcard()</code>查询某用户关注的实体数量。</p>
+<h1 id="4- 个人主页"><a href="#4- 个人主页" class="headerlink" title="4. 个人主页"></a>4. 个人主页 </h1><h2 id="更新业务层的 -FollowService- 类"><a href="# 更新业务层的 -FollowService- 类" class="headerlink" title="更新业务层的 FollowService 类"></a> 更新业务层的 FollowService 类</h2><ul>
+<li><p>新增方法 <code>findFolloweeCount()</code>，调用 zset 集合的方法 <code>zcard()</code> 查询某用户关注的实体数量。</p>
 </li>
-<li><p>新增方法 <code>findFollowerCount()</code>，调用 zset 集合的方法<code>zcard()</code>查询某实体的粉丝数量。</p>
+<li><p>新增方法 <code>findFollowerCount()</code>，调用 zset 集合的方法 <code>zcard()</code> 查询某实体的粉丝数量。</p>
 </li>
-<li><p>新增方法 <code>hasFollowed()</code>，根据 zset 集合的方法<code>zscore()</code>的返回值查询当前用户是否关注了某实体。</p>
+<li><p>新增方法 <code>hasFollowed()</code>，根据 zset 集合的方法 <code>zscore()</code> 的返回值查询当前用户是否关注了某实体。</p>
 </li>
 </ul>
 <pre><code class="java">// 查询关注的实体的数量
@@ -868,7 +875,7 @@ public boolean hasFollowed(int userId, int entityType, int entityId) &#123;
     return redisTemplate.opsForZSet().score(followeeKey, entityId) != null;
 &#125;
 </code></pre>
-<h2 id="更新表现层的-UserController-类-1"><a href="#更新表现层的-UserController-类-1" class="headerlink" title="更新表现层的 UserController 类"></a>更新表现层的 UserController 类</h2><ul>
+<h2 id="更新表现层的 -UserController- 类 -1"><a href="# 更新表现层的 -UserController- 类 -1" class="headerlink" title="更新表现层的 UserController 类"></a>更新表现层的 UserController 类</h2><ul>
 <li><p>调用业务层的 <code>LikeService</code> 类中的方法 <code>findUserLikeCount()</code> 查询用户获赞数，并添加到 Model 中。</p>
 </li>
 <li><p>调用业务层的 <code>FollowService</code> 类中的方法 <code>findFolloweeCount()</code> 查询关注数量，调用方法 <code>findFollowerCount()</code> 查询粉丝数量，调用方法 <code>hasFollowed()</code> 查询用户是否关注，并将三项信息存储于 Model 对象中。</p>
@@ -881,7 +888,7 @@ public boolean hasFollowed(int userId, int entityType, int entityId) &#123;
 public String getProfilePage(@PathVariable(&quot;userId&quot;) int userId, Model model) &#123;
     User user = userService.findUserById(userId);
     if (user == null) &#123;
-        throw new RuntimeException(&quot;该用户不存在!&quot;);
+        throw new RuntimeException(&quot; 该用户不存在!&quot;);
     &#125;
 
     // 用户
@@ -906,7 +913,7 @@ public String getProfilePage(@PathVariable(&quot;userId&quot;) int userId, Model
     return &quot;/site/profile&quot;;
 &#125;
 </code></pre>
-<h1 id="5-关注列表和粉丝列表"><a href="#5-关注列表和粉丝列表" class="headerlink" title="5.关注列表和粉丝列表"></a>5.关注列表和粉丝列表</h1><h2 id="更新业务层的-FollowService-类-1"><a href="#更新业务层的-FollowService-类-1" class="headerlink" title="更新业务层的 FollowService 类"></a>更新业务层的 FollowService 类</h2><ul>
+<h1 id="5- 关注列表和粉丝列表"><a href="#5- 关注列表和粉丝列表" class="headerlink" title="5. 关注列表和粉丝列表"></a>5. 关注列表和粉丝列表 </h1><h2 id="更新业务层的 -FollowService- 类 -1"><a href="# 更新业务层的 -FollowService- 类 -1" class="headerlink" title="更新业务层的 FollowService 类"></a> 更新业务层的 FollowService 类</h2><ul>
 <li><p>新增方法 <code>findFollowees()</code>：查询用户关注列表。通过 zset 集合的方法 <code>reverseRange()</code> 获取 value 即关注用户的 userId，再查询出其对应的 user，之后通过 score 获取关注时间，存入 map 集合中，将 map 添加到 list 列表中并返回。</p>
 </li>
 <li><p>新增方法 <code>findFollowers()</code>：查询用户粉丝列表。通过 zset 集合的方法 <code>reverseRange()</code> 获取 value 即粉丝的 userId，再查询出其对应的 user，之后通过 score 获取关注时间，存入 map 集合中，将 map 添加到 list 列表中并返回。</p>
@@ -958,7 +965,7 @@ public List&lt;Map&lt;String, Object&gt;&gt; findFollowers(int userId, int offse
     return list;
 &#125;
 </code></pre>
-<h2 id="更新表现层的-FollowController-类"><a href="#更新表现层的-FollowController-类" class="headerlink" title="更新表现层的 FollowController 类"></a>更新表现层的 FollowController 类</h2><ul>
+<h2 id="更新表现层的 -FollowController- 类"><a href="# 更新表现层的 -FollowController- 类" class="headerlink" title="更新表现层的 FollowController 类"></a>更新表现层的 FollowController 类</h2><ul>
 <li>新增方法 <code>getFollowees()</code>，获取关注列表，存入 Model 对象中。</li>
 <li>新增方法 <code>getFollowers()</code>，获取粉丝列表，存入 Model 对象中。</li>
 </ul>
@@ -966,7 +973,7 @@ public List&lt;Map&lt;String, Object&gt;&gt; findFollowers(int userId, int offse
 public String getFollowees(@PathVariable(&quot;userId&quot;) int userId, Page page, Model model) &#123;
     User user = userService.findUserById(userId);
     if (user == null) &#123;
-        throw new RuntimeException(&quot;该用户不存在!&quot;);
+        throw new RuntimeException(&quot; 该用户不存在!&quot;);
     &#125;
     model.addAttribute(&quot;user&quot;, user);
 
@@ -990,7 +997,7 @@ public String getFollowees(@PathVariable(&quot;userId&quot;) int userId, Page pa
 public String getFollowers(@PathVariable(&quot;userId&quot;) int userId, Page page, Model model) &#123;
     User user = userService.findUserById(userId);
     if (user == null) &#123;
-        throw new RuntimeException(&quot;该用户不存在!&quot;);
+        throw new RuntimeException(&quot; 该用户不存在!&quot;);
     &#125;
     model.addAttribute(&quot;user&quot;, user);
 
@@ -1018,7 +1025,7 @@ private boolean hasFollowed(int userId) &#123;
     return followService.hasFollowed(hostHolder.getUser().getId(), ENTITY_TYPE_USER, userId);
 &#125;
 </code></pre>
-<h1 id="6-优化登录模块"><a href="#6-优化登录模块" class="headerlink" title="6. 优化登录模块"></a>6. 优化登录模块</h1><ol>
+<h1 id="6- 优化登录模块"><a href="#6- 优化登录模块" class="headerlink" title="6. 优化登录模块"></a>6. 优化登录模块</h1><ol>
 <li><p>使用 Redis 存储验证码：验证码需要频繁访问与刷新，对性能要求较高；验证码不需要永久保存，通常在很短的时间内就会失效；分布式部署时，存在 Session 共享的问题。</p>
 </li>
 <li><p>使用 Redis 存储登录凭证：处理每次请求时，都要查询用户的登录凭证，访问的频率非常高。</p>
@@ -1026,7 +1033,7 @@ private boolean hasFollowed(int userId) &#123;
 <li><p>使用 Redis 缓存用户信息：每次处理请求时，都要根据凭证查询用户信息，访问的频率非常高。</p>
 </li>
 </ol>
-<h2 id="6-1-存储验证码"><a href="#6-1-存储验证码" class="headerlink" title="6.1 存储验证码"></a>6.1 存储验证码</h2><ul>
+<h2 id="6-1- 存储验证码"><a href="#6-1- 存储验证码" class="headerlink" title="6.1 存储验证码"></a>6.1 存储验证码</h2><ul>
 <li>更新工具类 RedisUtil<ul>
 <li>新增验证码前缀常量 <code>kaptcha</code></li>
 <li>新增方法 <code>getKaptchaKey()</code>，通过用户凭证（由于未登录，采用 cookie 实现）获得对应验证码的 key（利用 String 存储验证码）。</li>
@@ -1062,7 +1069,7 @@ public void getKaptcha(HttpServletResponse response/*, HttpSession session*/) &#
     cookie.setMaxAge(60);
     cookie.setPath(contextPath);
     response.addCookie(cookie);
-    // 将验证码存入Redis
+    // 将验证码存入 Redis
     String redisKey = RedisKeyUtil.getKaptchaKey(kaptchaOwner);
     redisTemplate.opsForValue().set(redisKey, text, 60, TimeUnit.SECONDS);
 
@@ -1072,7 +1079,7 @@ public void getKaptcha(HttpServletResponse response/*, HttpSession session*/) &#
         OutputStream os = response.getOutputStream();
         ImageIO.write(image, &quot;png&quot;, os);
     &#125; catch (IOException e) &#123;
-        logger.error(&quot;响应验证码失败:&quot; + e.getMessage());
+        logger.error(&quot; 响应验证码失败:&quot; + e.getMessage());
     &#125;
 &#125;
 
@@ -1089,11 +1096,11 @@ public String login(String username, String password, String code, boolean remem
     &#125;
 
     if (StringUtils.isBlank(kaptcha) || StringUtils.isBlank(code) || !kaptcha.equalsIgnoreCase(code)) &#123;
-        model.addAttribute(&quot;codeMsg&quot;, &quot;验证码不正确!&quot;);
+        model.addAttribute(&quot;codeMsg&quot;, &quot; 验证码不正确!&quot;);
         return &quot;/site/login&quot;;
     &#125;
 
-    // 检查账号,密码
+    // 检查账号, 密码
     int expiredSeconds = rememberme ? REMEMBER_EXPIRED_SECONDS : DEFAULT_EXPIRED_SECONDS;
     Map&lt;String, Object&gt; map = userService.login(username, password, expiredSeconds);
     if (map.containsKey(&quot;ticket&quot;)) &#123;
@@ -1109,7 +1116,7 @@ public String login(String username, String password, String code, boolean remem
     &#125;
 &#125;
 </code></pre>
-<h2 id="6-2-存储登录凭证"><a href="#6-2-存储登录凭证" class="headerlink" title="6.2 存储登录凭证"></a>6.2 存储登录凭证</h2><ul>
+<h2 id="6-2- 存储登录凭证"><a href="#6-2- 存储登录凭证" class="headerlink" title="6.2 存储登录凭证"></a>6.2 存储登录凭证</h2><ul>
 <li>更新工具类 RedisUtil<ul>
 <li>新增登录凭证前缀常量 <code>ticket</code></li>
 <li>新增方法 <code>getTicketKey</code>() ，通过字符串获得登录凭证的对应 key （利用 String 存储）。</li>
@@ -1140,31 +1147,31 @@ public static String getTicketKey(String ticket) &#123;
 
     // 空值处理
     if (StringUtils.isBlank(username)) &#123;
-        map.put(&quot;usernameMsg&quot;, &quot;账号不能为空!&quot;);
+        map.put(&quot;usernameMsg&quot;, &quot; 账号不能为空!&quot;);
         return map;
     &#125;
     if (StringUtils.isBlank(password)) &#123;
-        map.put(&quot;passwordMsg&quot;, &quot;密码不能为空!&quot;);
+        map.put(&quot;passwordMsg&quot;, &quot; 密码不能为空!&quot;);
         return map;
     &#125;
 
     // 验证账号
     User user = userMapper.selectByName(username);
     if (user == null) &#123;
-        map.put(&quot;usernameMsg&quot;, &quot;该账号不存在!&quot;);
+        map.put(&quot;usernameMsg&quot;, &quot; 该账号不存在!&quot;);
         return map;
     &#125;
 
     // 验证状态
     if (user.getStatus() == 0) &#123;
-        map.put(&quot;usernameMsg&quot;, &quot;该账号未激活!&quot;);
+        map.put(&quot;usernameMsg&quot;, &quot; 该账号未激活!&quot;);
         return map;
     &#125;
 
     // 验证密码
     password = CommunityUtil.md5(password + user.getSalt());
     if (!user.getPassword().equals(password)) &#123;
-        map.put(&quot;passwordMsg&quot;, &quot;密码不正确!&quot;);
+        map.put(&quot;passwordMsg&quot;, &quot; 密码不正确!&quot;);
         return map;
     &#125;
 
@@ -1204,7 +1211,7 @@ public int updateHeader(int userId, String headerUrl) &#123;
     return rows;
 &#125;
 </code></pre>
-<h2 id="6-3-缓存用户信息"><a href="#6-3-缓存用户信息" class="headerlink" title="6.3 缓存用户信息"></a>6.3 缓存用户信息</h2><ul>
+<h2 id="6-3- 缓存用户信息"><a href="#6-3- 缓存用户信息" class="headerlink" title="6.3 缓存用户信息"></a>6.3 缓存用户信息</h2><ul>
 <li><p>更新工具类 RedisUtil </p>
 <ul>
 <li><p>新增用户前缀常量 <code>user</code></p>
@@ -1235,13 +1242,13 @@ public static String getUserKey(int userId) &#123;
 </ul>
 </li>
 </ul>
-<pre><code class="java">// 1.优先从缓存中取值
+<pre><code class="java">// 1. 优先从缓存中取值
 private User getCache(int userId) &#123;
     String redisKey = RedisKeyUtil.getUserKey(userId);
     return (User) redisTemplate.opsForValue().get(redisKey);
 &#125;
 
-// 2.取不到时初始化缓存数据
+// 2. 取不到时初始化缓存数据
 private User initCache(int userId) &#123;
     User user = userMapper.selectById(userId);
     String redisKey = RedisKeyUtil.getUserKey(userId);
@@ -1249,7 +1256,7 @@ private User initCache(int userId) &#123;
     return user;
 &#125;
 
-// 3.数据变更时清除缓存数据
+// 3. 数据变更时清除缓存数据
 private void clearCache(int userId) &#123;
     String redisKey = RedisKeyUtil.getUserKey(userId);
     redisTemplate.delete(redisKey);
@@ -1345,7 +1352,7 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
 		
 <div class="footer">
 	<div class="Copyright">
-		©2023 By LebronLe. 主题：<a
+		©2023 By LebronLe. Theme：<a
 			style="text-decoration: none;display: contents; color: #898F9F;"
 			target="_blank" rel="noopener" href="https://github.com/79e/hexo-theme-quiet">Quiet</a>
 	</div>
@@ -1441,7 +1448,7 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
     var _hmt = _hmt || [];
     (function () {
         var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?4b5fe1472f22fadsfs";
+        hm.src = "https://hm.baidu.com/hm.js?e2863d3856a812993ba034f5145bf77c";
         var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(hm, s);
     })();
@@ -1462,6 +1469,7 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
             gitalk.render('gitalk-container')
         }
     </script>
+
 
 <script>
 	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')

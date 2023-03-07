@@ -38,7 +38,16 @@
 	<meta name="generator" content="Hexo 6.3.0"></head>
 
 	<body>
-		
+		<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?e2863d3856a812993ba034f5145bf77c";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
 	<div class="header">
 		<div class="header-top" id="header-top">
 			<div class="h-left">
@@ -350,11 +359,11 @@ spring.kafka.consumer.auto-commit-interval=3000
 </code></pre>
 <pre><code>public void handleMessage(ConsumerRecord record)&#123;&#125;
 </code></pre>
-<h1 id="1-发送系统通知"><a href="#1-发送系统通知" class="headerlink" title="1. 发送系统通知"></a>1. 发送系统通知</h1><ol>
+<h1 id="1- 发送系统通知"><a href="#1- 发送系统通知" class="headerlink" title="1. 发送系统通知"></a>1. 发送系统通知</h1><ol>
 <li>触发事件：评论后发布通知；点赞后发布通知；关注后发布通知。</li>
 <li>处理事件：封装事件对象；开发事件的生产者；开发事件的消费者。</li>
 </ol>
-<h2 id="创建实体类-Event"><a href="#创建实体类-Event" class="headerlink" title="创建实体类 Event"></a>创建实体类 Event</h2><ul>
+<h2 id="创建实体类 -Event"><a href="# 创建实体类 -Event" class="headerlink" title="创建实体类 Event"></a>创建实体类 Event</h2><ul>
 <li>封装事件对象，包括主题、用户 id、实体类型、实体 id、实体用户 id 以及一个 map 集合存放其它信息。</li>
 </ul>
 <pre><code class="java">public class Event &#123;
@@ -420,7 +429,7 @@ spring.kafka.consumer.auto-commit-interval=3000
     &#125;
 &#125;
 </code></pre>
-<h2 id="更新接口-CommunityConstant"><a href="#更新接口-CommunityConstant" class="headerlink" title="更新接口 CommunityConstant"></a>更新接口 CommunityConstant</h2><ul>
+<h2 id="更新接口 -CommunityConstant"><a href="# 更新接口 -CommunityConstant" class="headerlink" title="更新接口 CommunityConstant"></a>更新接口 CommunityConstant</h2><ul>
 <li>在接口中新增三个常量，代表三个主题：评论、点赞、关注。</li>
 </ul>
 <pre><code class="java">/**
@@ -438,7 +447,7 @@ String TOPIC_LIKE = &quot;like&quot;;
  */
 String TOPIC_FOLLOW = &quot;follow&quot;;
 </code></pre>
-<h2 id="创建事件生产者类-EventProducer"><a href="#创建事件生产者类-EventProducer" class="headerlink" title="创建事件生产者类 EventProducer"></a>创建事件生产者类 EventProducer</h2><ul>
+<h2 id="创建事件生产者类 -EventProducer"><a href="# 创建事件生产者类 -EventProducer" class="headerlink" title="创建事件生产者类 EventProducer"></a>创建事件生产者类 EventProducer</h2><ul>
 <li>新增方法 <code>fireEvent(Event event)</code> ：通过 Event 获取事件类型，并将其封装成 JSON 数据，然后调用注入的 KafkaTemplate 实例的方法 <code>send()</code> 发送。</li>
 </ul>
 <pre><code class="java">@Component
@@ -453,7 +462,7 @@ public class EventProducer &#123;
     &#125;
 &#125;
 </code></pre>
-<h2 id="更新表现层的-CommentController、LikeController、FollowController"><a href="#更新表现层的-CommentController、LikeController、FollowController" class="headerlink" title="更新表现层的 CommentController、LikeController、FollowController"></a>更新表现层的 CommentController、LikeController、FollowController</h2><ul>
+<h2 id="更新表现层的 -CommentController、LikeController、FollowController"><a href="# 更新表现层的 -CommentController、LikeController、FollowController" class="headerlink" title="更新表现层的 CommentController、LikeController、FollowController"></a>更新表现层的 CommentController、LikeController、FollowController</h2><ul>
 <li>注入 EventProducer 实例。</li>
 <li>重构表现层 CommentController 类的方法 <code>addComment()</code>  ，封装 Event 对象，然后调用 EventProducer 类的 <code>fireEvent()</code>  方法发布通知。</li>
 </ul>
@@ -537,10 +546,10 @@ public String follow(int entityType, int entityId) &#123;
             .setEntityUserId(entityId);
     eventProducer.fireEvent(event);
 
-    return CommunityUtil.getJSONString(0, &quot;已关注!&quot;);
+    return CommunityUtil.getJSONString(0, &quot; 已关注!&quot;);
 &#125;
 </code></pre>
-<h2 id="创建事件消费者类-EventConsumer"><a href="#创建事件消费者类-EventConsumer" class="headerlink" title="创建事件消费者类 EventConsumer"></a>创建事件消费者类 EventConsumer</h2><ul>
+<h2 id="创建事件消费者类 -EventConsumer"><a href="# 创建事件消费者类 -EventConsumer" class="headerlink" title="创建事件消费者类 EventConsumer"></a>创建事件消费者类 EventConsumer</h2><ul>
 <li>注入 MessageService 实例。</li>
 <li>新增方法 <code>handleCommentMessage(ConsumerRecord record)</code> ：通过 <code>@KafkaListener</code> 注解，topic 包括了评论、点赞和关注。从 record 中获取信息，封装成 Message 对象然后调用方法 <code>addMessage()</code> 插入数据库。</li>
 </ul>
@@ -554,13 +563,13 @@ public class EventConsumer implements CommunityConstant &#123;
     @KafkaListener(topics = &#123;TOPIC_COMMENT, TOPIC_LIKE, TOPIC_FOLLOW&#125;)
     public void handleCommentMessage(ConsumerRecord record) &#123;
         if (record == null || record.value() == null) &#123;
-            logger.error(&quot;消息的内容为空!&quot;);
+            logger.error(&quot; 消息的内容为空!&quot;);
             return;
         &#125;
 
         Event event = JSONObject.parseObject(record.value().toString(), Event.class);
         if (event == null) &#123;
-            logger.error(&quot;消息格式错误!&quot;);
+            logger.error(&quot; 消息格式错误!&quot;);
             return;
         &#125;
 
@@ -587,12 +596,12 @@ public class EventConsumer implements CommunityConstant &#123;
     &#125;
 &#125;
 </code></pre>
-<h1 id="2-显示系统通知"><a href="#2-显示系统通知" class="headerlink" title="2. 显示系统通知"></a>2. 显示系统通知</h1><ol>
+<h1 id="2- 显示系统通知"><a href="#2- 显示系统通知" class="headerlink" title="2. 显示系统通知"></a>2. 显示系统通知</h1><ol>
 <li>通知列表：显示评论、点赞、关注三种类型的通知。</li>
 <li>通知详情：分页显示某一类主题所包含的通知。</li>
 <li>未读消息：在页面头部显示所有未读消息的数量。</li>
 </ol>
-<h2 id="更新接口-MessageMapper"><a href="#更新接口-MessageMapper" class="headerlink" title="更新接口 MessageMapper"></a>更新接口 MessageMapper</h2><ul>
+<h2 id="更新接口 -MessageMapper"><a href="# 更新接口 -MessageMapper" class="headerlink" title="更新接口 MessageMapper"></a>更新接口 MessageMapper</h2><ul>
 <li>新增方法 <code>selectLatestNotice(int userId, String topic)</code> ，查询某主题最新的通知。</li>
 <li>新增方法 <code>selectNoticeCount(int userId, String topic)</code> ，查询某主题通知的数量。</li>
 <li>新增方法 <code>selectNoticeUnreadCount(int userId, String topic)</code> ，查询未读通知的数量。</li>
@@ -616,8 +625,7 @@ int selectNoticeUnreadCount(int userId, String topic);
 &lt;select id=&quot;selectLatestNotice&quot; resultType=&quot;Message&quot;&gt;
     select &lt;include refid=&quot;selectFields&quot;&gt;&lt;/include&gt;
     from message
-    where id in (
-        select max(id) from message
+    where id in (select max(id) from message
         where status != 2
         and from_id = 1
         and to_id = #&#123;userId&#125;
@@ -643,7 +651,7 @@ int selectNoticeUnreadCount(int userId, String topic);
     &lt;/if&gt;
 &lt;/select&gt;
 </code></pre>
-<h2 id="更新业务层的-MessageService-类"><a href="#更新业务层的-MessageService-类" class="headerlink" title="更新业务层的 MessageService 类"></a>更新业务层的 MessageService 类</h2><ul>
+<h2 id="更新业务层的 -MessageService- 类"><a href="# 更新业务层的 -MessageService- 类" class="headerlink" title="更新业务层的 MessageService 类"></a>更新业务层的 MessageService 类</h2><ul>
 <li>新增方法 <code>findLatestNotice()</code> ，调用方法 <code>selectLatestNotice()</code> 查询最新通知。</li>
 <li>新增方法 <code>findNoticeCount()</code> ，调用方法 <code>selectNoticeCount()</code> 查询某主题通知的数量。</li>
 <li>新增方法 <code>findNoticeUnreadCount()</code> ，调用方法 <code>selectNoticeUnreadCount()</code> 查询未读通知的数量。</li>
@@ -660,7 +668,7 @@ public int findNoticeUnreadCount(int userId, String topic) &#123;
     return messageMapper.selectNoticeUnreadCount(userId, topic);
 &#125;
 </code></pre>
-<h2 id="更新表现层的-MessageController-类"><a href="#更新表现层的-MessageController-类" class="headerlink" title="更新表现层的 MessageController 类"></a>更新表现层的 MessageController 类</h2><ul>
+<h2 id="更新表现层的 -MessageController- 类"><a href="# 更新表现层的 -MessageController- 类" class="headerlink" title="更新表现层的 MessageController 类"></a>更新表现层的 MessageController 类</h2><ul>
 <li>新增方法 <code>getNoticeList()</code> ：获取通知列表。<ul>
 <li>调用业务层的 MessageService 类的方法查询评论、点赞、关注的通知，将其封装在一个 HashMap 集合中然后添加到 Model 对象中。</li>
 <li>调用业务层的 MessageService 类的方法查询私信和通知的总未读数量，添加到 Model 对象中。</li>
@@ -747,7 +755,7 @@ public String getNoticeList(Model model) &#123;
     return &quot;/site/notice&quot;;
 &#125;
 </code></pre>
-<h2 id="再次更新接口-MessageMapper"><a href="#再次更新接口-MessageMapper" class="headerlink" title="再次更新接口 MessageMapper"></a>再次更新接口 MessageMapper</h2><ul>
+<h2 id="再次更新接口 -MessageMapper"><a href="# 再次更新接口 -MessageMapper" class="headerlink" title="再次更新接口 MessageMapper"></a>再次更新接口 MessageMapper</h2><ul>
 <li>新增方法 <code>selectNotices()</code> ：查询某个主题的通知列表。</li>
 <li>在 <code>message-mapper.xml</code> 文件中配置 SQL。</li>
 </ul>
@@ -765,12 +773,12 @@ List&lt;Message&gt; selectNotices(int userId, String topic, int offset, int limi
     limit #&#123;offset&#125;, #&#123;limit&#125;
 &lt;/select&gt;
 </code></pre>
-<h2 id="再次更新业务层的-MessageService-类"><a href="#再次更新业务层的-MessageService-类" class="headerlink" title="再次更新业务层的 MessageService 类"></a>再次更新业务层的 MessageService 类</h2><p>新增方法 <code>findNotices()</code> ：调用方法 <code>selectNotices()</code> 。</p>
+<h2 id="再次更新业务层的 -MessageService- 类"><a href="# 再次更新业务层的 -MessageService- 类" class="headerlink" title="再次更新业务层的 MessageService 类"></a>再次更新业务层的 MessageService 类 </h2><p> 新增方法 <code>findNotices()</code> ：调用方法 <code>selectNotices()</code> 。</p>
 <pre><code class="java">public List&lt;Message&gt; findNotices(int userId, String topic, int offset, int limit) &#123;
     return messageMapper.selectNotices(userId, topic, offset, limit);
 &#125;
 </code></pre>
-<h2 id="再次更新业务层的-MessageController-类"><a href="#再次更新业务层的-MessageController-类" class="headerlink" title="再次更新业务层的 MessageController 类"></a>再次更新业务层的 MessageController 类</h2><ul>
+<h2 id="再次更新业务层的 -MessageController- 类"><a href="# 再次更新业务层的 -MessageController- 类" class="headerlink" title="再次更新业务层的 MessageController 类"></a>再次更新业务层的 MessageController 类</h2><ul>
 <li>新增方法 <code>getNoticeDetail()</code> ：<ul>
 <li>调用方法 <code>findNotices()</code> 获取通知列表详情，封装到 List 集合并存入 Model 对象。</li>
 <li>从通知集合中获取 id 集合，调用方法 <code>readMessage()</code> 将消息设为已读。</li>
@@ -817,7 +825,7 @@ public String getNoticeDetail(@PathVariable(&quot;topic&quot;) String topic, Pag
     return &quot;/site/notice-detail&quot;;
 &#125;
 </code></pre>
-<h2 id="创建表现层的拦截器-MessageInterceptor-类"><a href="#创建表现层的拦截器-MessageInterceptor-类" class="headerlink" title="创建表现层的拦截器 MessageInterceptor 类"></a>创建表现层的拦截器 MessageInterceptor 类</h2><ul>
+<h2 id="创建表现层的拦截器 -MessageInterceptor- 类"><a href="# 创建表现层的拦截器 -MessageInterceptor- 类" class="headerlink" title="创建表现层的拦截器 MessageInterceptor 类"></a>创建表现层的拦截器 MessageInterceptor 类</h2><ul>
 <li>注入 MessageService 实例和 HostHolder 实例。</li>
 <li>重写方法 <code>postHandle()</code> ，查询私信和通知的未读数量和，然后添加到 ModelAndView 对象。</li>
 </ul>
@@ -840,7 +848,7 @@ public class MessageInterceptor implements HandlerInterceptor &#123;
     &#125;
 &#125;
 </code></pre>
-<h2 id="更新配置类-WebConfig"><a href="#更新配置类-WebConfig" class="headerlink" title="更新配置类 WebConfig"></a>更新配置类 WebConfig</h2><ul>
+<h2 id="更新配置类 -WebConfig"><a href="# 更新配置类 -WebConfig" class="headerlink" title="更新配置类 WebConfig"></a>更新配置类 WebConfig</h2><ul>
 <li>注入 MessageInterceptor 实例。</li>
 <li>在方法 <code>addInterceptors()</code> 中添加拦截器 MessageInterceptor 实例。</li>
 </ul>
@@ -941,7 +949,7 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
 		
 <div class="footer">
 	<div class="Copyright">
-		©2023 By LebronLe. 主题：<a
+		©2023 By LebronLe. Theme：<a
 			style="text-decoration: none;display: contents; color: #898F9F;"
 			target="_blank" rel="noopener" href="https://github.com/79e/hexo-theme-quiet">Quiet</a>
 	</div>
@@ -1037,7 +1045,7 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
     var _hmt = _hmt || [];
     (function () {
         var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?4b5fe1472f22fadsfs";
+        hm.src = "https://hm.baidu.com/hm.js?e2863d3856a812993ba034f5145bf77c";
         var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(hm, s);
     })();
@@ -1058,6 +1066,7 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
             gitalk.render('gitalk-container')
         }
     </script>
+
 
 <script>
 	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')

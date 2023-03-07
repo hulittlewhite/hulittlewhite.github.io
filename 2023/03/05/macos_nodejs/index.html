@@ -2,7 +2,7 @@
 <html>
 	<head>
 		
-<title>MacOS下安装Node.js避坑指南-Quiet</title>
+<title>MacOS 下安装 Node.js 避坑指南-Quiet</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -37,7 +37,16 @@
 	<meta name="generator" content="Hexo 6.3.0"></head>
 
 	<body>
-		
+		<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?e2863d3856a812993ba034f5145bf77c";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
 	<div class="header">
 		<div class="header-top" id="header-top">
 			<div class="h-left">
@@ -284,7 +293,7 @@
             
         </ul>
         
-        <h1>MacOS下安装Node.js避坑指南</h1>
+        <h1>MacOS 下安装 Node.js 避坑指南</h1>
         <div class="post-header-info">
             <div class="post-header-info-author">
                 
@@ -310,28 +319,28 @@
     
 
     <ul>
-<li><p>不建议的方法：直接到 Node 官网下载<code>.pkg</code>文件进行安装。</p>
+<li><p>不建议的方法：直接到 Node 官网下载 <code>.pkg</code> 文件进行安装。</p>
 </li>
-<li><p>可能出现的问题：使用<code>npm install -g hexo-cli</code>等指令会报错没有写入的权限，甚至尝试各种<code>sudo</code>权限都无效。</p>
+<li><p>可能出现的问题：使用 <code>npm install -g hexo-cli</code> 等指令会报错没有写入的权限，甚至尝试各种 <code>sudo</code> 权限都无效。</p>
 </li>
-<li><p>npm 官网教程也不推荐采用<code>installer</code>进行安装。</p>
+<li><p>npm 官网教程也不推荐采用 <code>installer</code> 进行安装。</p>
 </li>
 </ul>
-<h2 id="安装Node-js和npm的正确方法"><a href="#安装Node-js和npm的正确方法" class="headerlink" title="安装Node.js和npm的正确方法"></a>安装Node.js和npm的正确方法</h2><p>🌟 使用 node 版本管理工<code>nvm</code>(node version manager)安装 Node.js 和 npm。</p>
+<h2 id="安装 Node-js 和 npm 的正确方法"><a href="# 安装 Node-js 和 npm 的正确方法" class="headerlink" title="安装 Node.js 和 npm 的正确方法"></a>安装 Node.js 和 npm 的正确方法 </h2><p>🌟 使用 node 版本管理工<code>nvm</code>(node version manager) 安装 Node.js 和 npm。</p>
 <h3 id="Step-1"><a href="#Step-1" class="headerlink" title="Step 1"></a>Step 1</h3><p>安装<code>nvm</code>：</p>
 <pre><code>~$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
 </code></pre>
-<p>验证<code>nvm</code>是否安装成功：</p>
+<p>验证 <code>nvm</code> 是否安装成功：</p>
 <pre><code>~$ command -v nvm
 </code></pre>
-<p>若成功则出现一行<code>nvm</code>字符(若未出现则重启<code>terminal</code>)，查询<code>nvm</code>版本：</p>
+<p>若成功则出现一行 <code>nvm</code> 字符 (若未出现则重启<code>terminal</code>)，查询<code>nvm</code> 版本：</p>
 <pre><code>~$ nvm --version
 </code></pre>
-<p>返回<code>nvm</code>版本号：<code>0.34.0</code></p>
-<h3 id="Step-2"><a href="#Step-2" class="headerlink" title="Step 2"></a>Step 2</h3><p>使用<code>nvm</code>安装<code>node</code>：</p>
+<p>返回 <code>nvm</code> 版本号：<code>0.34.0</code></p>
+<h3 id="Step-2"><a href="#Step-2" class="headerlink" title="Step 2"></a>Step 2</h3><p>使用 <code>nvm</code> 安装<code>node</code>：</p>
 <pre><code>~$ nvm install node # &quot;node&quot; is an alias for the latest version
 </code></pre>
-<h3 id="Step-3"><a href="#Step-3" class="headerlink" title="Step 3"></a>Step 3</h3><p>使用<code>npm</code>指令安装<code>hexo</code>：</p>
+<h3 id="Step-3"><a href="#Step-3" class="headerlink" title="Step 3"></a>Step 3</h3><p>使用 <code>npm</code> 指令安装<code>hexo</code>：</p>
 <pre><code>~$ npm install -g hexo-cli
 </code></pre>
 <p>初始化<code>hexo</code>，指定文件夹名为 blog：</p>
@@ -351,19 +360,19 @@ open .bash_profile
 </code></pre>
 <p>然后在 .bash_profile 文件内写入：</p>
 <pre><code>export NVM_DIR=&quot;$HOME/.nvm&quot;
-[ -s &quot;$NVM_DIR/nvm.sh&quot; ] &amp;&amp; \. &quot;$NVM_DIR/nvm.sh&quot; # This loads nvm
+[-s &quot;$NVM_DIR/nvm.sh&quot;] &amp;&amp; \. &quot;$NVM_DIR/nvm.sh&quot; # This loads nvm
 </code></pre>
 <p>写入完毕后，关闭文件，执行 .bash_profile 文件：</p>
 <pre><code>source .bash_profile
 </code></pre>
-<p>Q2：每次关闭<code>terminal</code>后，又出现<code>zsh: command not found: nvm</code>等无法找到某指令的情况，需要重新执行 .bash_profile 文件。</p>
-<p>A2：原因是采用的<code>terminal</code>是<code>zsh</code>，需要将配置添加到 .zshrc 文件中。</p>
+<p>Q2：每次关闭 <code>terminal</code> 后，又出现 <code>zsh: command not found: nvm</code> 等无法找到某指令的情况，需要重新执行 .bash_profile 文件。</p>
+<p>A2：原因是采用的 <code>terminal</code> 是<code>zsh</code>，需要将配置添加到 .zshrc 文件中。</p>
 <p>打开  .zshrc 文件：</p>
 <pre><code>open ~/.zshrc
 </code></pre>
 <p>在 .zshrc 文件内写入：</p>
 <pre><code>export NVM_DIR=~/.nvm
-[ -s &quot;$NVM_DIR/nvm.sh&quot; ] &amp;&amp; . &quot;$NVM_DIR/nvm.sh&quot;
+[-s &quot;$NVM_DIR/nvm.sh&quot;] &amp;&amp; . &quot;$NVM_DIR/nvm.sh&quot;
 </code></pre>
 <p>写入完毕后，关闭文件，执行 .zshrc 文件：</p>
 <pre><code>source ~/.zshrc
@@ -440,7 +449,7 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
     <a href="/2023/03/01/linkedlist/">
         <div class="post-paging-next">
             <span>下一篇</span>
-            <p>LeetCode算法笔记之链表(双指针解法)</p>
+            <p>LeetCode 算法笔记之链表 (双指针解法)</p>
         </div>
     </a>
     
@@ -449,7 +458,7 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
 		
 <div class="footer">
 	<div class="Copyright">
-		©2023 By LebronLe. 主题：<a
+		©2023 By LebronLe. Theme：<a
 			style="text-decoration: none;display: contents; color: #898F9F;"
 			target="_blank" rel="noopener" href="https://github.com/79e/hexo-theme-quiet">Quiet</a>
 	</div>
@@ -545,7 +554,7 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
     var _hmt = _hmt || [];
     (function () {
         var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?4b5fe1472f22fadsfs";
+        hm.src = "https://hm.baidu.com/hm.js?e2863d3856a812993ba034f5145bf77c";
         var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(hm, s);
     })();
@@ -566,6 +575,7 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
             gitalk.render('gitalk-container')
         }
     </script>
+
 
 <script>
 	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')
