@@ -2,7 +2,7 @@
 <html>
 	<head>
 		
-<title>校园社区论坛项目之 ElasticSearch-Quiet</title>
+<title>分布式搜索引擎 Elasticsearch-Quiet</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -12,7 +12,7 @@
 
 
 
-<meta name="keywords" content="Java,Spring Boot,ElasticSearch,">
+<meta name="keywords" content="Java,Spring Boot,Elasticsearch,">
 <meta name="description" content="">
 
 
@@ -297,12 +297,12 @@ var _hmt = _hmt || [];
             
             <li><a href="/tags/Spring Boot">Spring Boot</a></li>
             
-            <li><a href="/tags/ElasticSearch">ElasticSearch</a></li>
+            <li><a href="/tags/Elasticsearch">Elasticsearch</a></li>
             
             
         </ul>
         
-        <h1>校园社区论坛项目之 ElasticSearch</h1>
+        <h1>分布式搜索引擎 Elasticsearch</h1>
         <div class="post-header-info">
             <div class="post-header-info-author">
                 
@@ -316,7 +316,7 @@ var _hmt = _hmt || [];
                 <span class="post-header-info-author-text"> <a href="../../about">LebronLe</a></span>
                 <div class="post-header-info-author-categories">
                     
-                         <a href="../../categories/Java/" target="_blank" >Java</a>
+                         <a href="../../categories/Elasticsearch/" target="_blank" >Elasticsearch</a>
                     
                 </div>
                 <p>2023-03-07 22:25:50</p>
@@ -340,6 +340,86 @@ var _hmt = _hmt || [];
 </ul>
 </li>
 </ul>
+<h1 id="Elasticsearch- 配置"><a href="#Elasticsearch- 配置" class="headerlink" title="Elasticsearch 配置"></a>Elasticsearch 配置 </h1><ol>
+<li> 在 Elasticsearch 安装包下的 config 文件夹下的 <code>slasticsearch.yml</code> 文件内修改：</li>
+</ol>
+<pre><code class="yaml"># 集群名
+cluster.name = my-application
+# 数据存储路径
+path.data: /path/to/data
+# 日志存放路径
+path.logs: /path/to/logs
+</code></pre>
+<ol start="2">
+<li>ES 默认申请 1G 内存，可在 Elasticsearch 安装包下的 config 文件夹下的 <code>jvm.options</code> 文件内修改：</li>
+</ol>
+<pre><code class="properties"># 初始内存
+-Xms256m
+# 最大内存
+-Xmx512m
+</code></pre>
+<ol start="3">
+<li> 安装分词插件 <a target="_blank" rel="noopener" href="https://github.com/medcl/elasticsearch-analysis-ik">elasticsearch-analysis-ik</a>，将其放到 Elasticsearch 安装包下的 plugins 文件夹下的 ik 文件夹下。在 IKAnalyzer.cfg.xml 文件内可以配置自定义词，在同级目录下新建 <code>.dic</code> 文件即可。</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="center">IK version</th>
+<th align="center">ES version</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">master</td>
+<td align="center">7.x -&gt; master</td>
+</tr>
+<tr>
+<td align="center">6.x</td>
+<td align="center">6.x</td>
+</tr>
+<tr>
+<td align="center">5.x</td>
+<td align="center">5.x</td>
+</tr>
+<tr>
+<td align="center">1.10.6</td>
+<td align="center">2.4.6</td>
+</tr>
+<tr>
+<td align="center">1.9.5</td>
+<td align="center">2.3.5</td>
+</tr>
+<tr>
+<td align="center">1.8.1</td>
+<td align="center">2.2.1</td>
+</tr>
+<tr>
+<td align="center">1.7.0</td>
+<td align="center">2.1.1</td>
+</tr>
+<tr>
+<td align="center">1.5.0</td>
+<td align="center">2.0.0</td>
+</tr>
+<tr>
+<td align="center">1.2.6</td>
+<td align="center">1.0.0</td>
+</tr>
+<tr>
+<td align="center">1.2.5</td>
+<td align="center">0.90.x</td>
+</tr>
+<tr>
+<td align="center">1.1.3</td>
+<td align="center">0.20.x</td>
+</tr>
+<tr>
+<td align="center">1.0.0</td>
+<td align="center">0.16.2 -&gt; 0.19.0</td>
+</tr>
+</tbody></table>
+<ol start="4">
+<li> 安装 <a target="_blank" rel="noopener" href="https://www.postman.com/">Postman</a>，可通过其访问 Elasticsearch 服务器。</li>
+</ol>
 
   </div>
   <div id="gitalk-container"></div>
@@ -399,6 +479,13 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
 </style>
 
     <div class="post-paging">
+    
+    <a href="/2023/03/08/community6/">
+        <div class="post-paging-last">
+            <span>上一篇</span>
+            <p>校园社区论坛项目之 Elasticsearch</p>
+        </div>
+    </a>
     
 
     

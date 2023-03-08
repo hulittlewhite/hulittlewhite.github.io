@@ -2,7 +2,7 @@
 <html>
 	<head>
 		
-<title>分布式流媒体平台 Kafka-Quiet</title>
+<title>分布式 NoSQL 数据库 Redis-Quiet</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -12,7 +12,7 @@
 
 
 
-<meta name="keywords" content="Kafka,">
+<meta name="keywords" content="Redis,">
 <meta name="description" content="">
 
 
@@ -293,12 +293,12 @@ var _hmt = _hmt || [];
         <ul class="post-header-tag">
             
             
-            <li><a href="/tags/Kafka">Kafka</a></li>
+            <li><a href="/tags/Redis">Redis</a></li>
             
             
         </ul>
         
-        <h1>分布式流媒体平台 Kafka</h1>
+        <h1>分布式 NoSQL 数据库 Redis</h1>
         <div class="post-header-info">
             <div class="post-header-info-author">
                 
@@ -312,10 +312,10 @@ var _hmt = _hmt || [];
                 <span class="post-header-info-author-text"> <a href="../../about">LebronLe</a></span>
                 <div class="post-header-info-author-categories">
                     
-                         <a href="../../categories/Kafka/" target="_blank" >Kafka</a>
+                         <a href="../../categories/Redis/" target="_blank" >Redis</a>
                     
                 </div>
-                <p>2023-03-07 00:25:50</p>
+                <p>2023-03-01 08:10:12</p>
             </div>
         </div>
     </div>
@@ -325,82 +325,139 @@ var _hmt = _hmt || [];
   <div id="article" class="post-content-info">
     
 
-    <h1 id="Kafka- 简介"><a href="#Kafka- 简介" class="headerlink" title="Kafka 简介"></a>Kafka 简介 </h1><p>🌟 <a target="_blank" rel="noopener" href="http://kafka.apach.org/">Kafka 官网 </a></p>
+    <h1 id="1-Redis- 基础"><a href="#1-Redis- 基础" class="headerlink" title="1. Redis 基础"></a>1. Redis 基础</h1><h2 id="1-1- 简介"><a href="#1-1- 简介" class="headerlink" title="1.1 简介"></a>1.1 简介</h2><p>Redis 是一个基于 C 语言开发的开源数据库，区别于传统数据库，其数据存储于内存之中 (内存数据库)。</p>
+<h2 id="1-2- 特点"><a href="#1-2- 特点" class="headerlink" title="1.2 特点"></a>1.2 特点</h2><ul>
+<li><p>读写速度快 (缓存)</p>
+</li>
+<li><p>存储 key - value 键值对数据</p>
+</li>
+</ul>
+<h2 id="1-3- 数据结构"><a href="#1-3- 数据结构" class="headerlink" title="1.3 数据结构"></a>1.3 数据结构</h2><ul>
+<li>五种基础数据结构：<ul>
+<li>String</li>
+<li>List</li>
+<li>Hash</li>
+<li>Set</li>
+<li>Zset</li>
+</ul>
+</li>
+<li>三种特殊数据结构：<ul>
+<li>HyperLogLog</li>
+<li>Bitmap</li>
+<li>Geospatial</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-4- 应用场景"><a href="#1-4- 应用场景" class="headerlink" title="1.4 应用场景"></a>1.4 应用场景</h2><ul>
+<li>事务</li>
+<li>持久化</li>
+<li>Lua 脚本</li>
+<li>开箱即用的集群方案 (Redis Sentinel、Redis Cluster) 等</li>
+</ul>
+<h2 id="1-5-Redis- 为什么快？"><a href="#1-5-Redis- 为什么快？" class="headerlink" title="1.5 Redis 为什么快？"></a>1.5 Redis 为什么快？</h2><ul>
+<li>基于内存，内存的访问速度远超磁盘；</li>
+<li>基于 Reactor 设计模式，采用单线程架构和 IO 多路复用；</li>
+<li>内置了多种优化后的数据结构实现，性能高。</li>
+</ul>
+<h1 id="2-Redis- 与 -Memcached- 的异同点"><a href="#2-Redis- 与 -Memcached- 的异同点" class="headerlink" title="2. Redis 与 Memcached 的异同点"></a>2. Redis 与 Memcached 的异同点</h1><ul>
+<li>共同点<ul>
+<li>均基于内存，一般用作缓存；</li>
+<li>均有过期策略；</li>
+<li>均性能较高。</li>
+</ul>
+</li>
+<li>不同点<ul>
+<li>Redis 支持更丰富的数据类型即可用的场景更多；</li>
+<li>Redis 支持数据持久化，将内存的数据保持在磁盘中，重启时可以再次加载使用，Memcached 则将所有数据存于内存之中；</li>
+<li>Redis 有灾难恢复机制，可以将缓存中的数据持久化到磁盘上；</li>
+<li>Redis 在服务器内存使用完后将不用的数据放到磁盘上，Memcached 在服务器内存使用完后会报异常；</li>
+<li>Redis 原生支持 cluster 模式，Memcached 无原生的集群模式，依赖于客户端实现集群中分片写入数据；</li>
+<li>Redis 采用单线程的多路 IO 复用模型，Mencached 则是多线程的；</li>
+<li>Redis 支持发布 - 订阅模式、Lua 脚本、事务等功能，Memcached 则不支持；</li>
+<li>Redis 同时使用惰性删除和定期删除，Memcached 过期数据的删除策略只用了惰性删除。</li>
+</ul>
+</li>
+</ul>
+<h1 id="3- 为什么要用 -Redis- 缓存 -？"><a href="#3- 为什么要用 -Redis- 缓存 -？" class="headerlink" title="3. 为什么要用 Redis ( 缓存)？"></a>3. 为什么要用 Redis (缓存)？</h1><ul>
+<li><p>高性能	</p>
 <ul>
-<li>Kafka 是一个分布式的流媒体平台。</li>
-<li> 应用场景：消息系统、日志收集、用户行为追踪、流式处理。</li>
+<li>将用户经常访问的、不经常变更的高频数据存入缓存，相较于每次从硬盘读取数据要快得多。</li>
 </ul>
-<h1 id="Kafka- 特点"><a href="#Kafka- 特点" class="headerlink" title="Kafka 特点"></a>Kafka 特点 </h1><ul>
-<li> 高吞吐量 </li>
-<li> 消息持久化 </li>
-<li> 高可靠性 </li>
-<li> 高扩展性 </li>
+</li>
+<li><p>高并发</p>
+<ul>
+<li>采用 Redis 缓存的 QPS 高于 MySQL，使用 Redis 集群则会更高。将数据库中的部分数据转移到缓存中去，可以使得用户的部分请求不需要经过数据库而是直接从缓存中读取，从而提高整体的并发行。</li>
 </ul>
-<h1 id="Kafka- 术语"><a href="#Kafka- 术语" class="headerlink" title="Kafka 术语"></a>Kafka 术语 </h1><ul>
-<li>Broker</li>
-<li>Zookeeper</li>
-<li>Topic</li>
-<li>Partition</li>
-<li>Offset</li>
-<li>Leader Replica</li>
-<li>Follower Replica</li>
+</li>
 </ul>
-<h1 id="Kafka- 配置"><a href="#Kafka- 配置" class="headerlink" title="Kafka 配置"></a>Kafka 配置 </h1><ol>
-<li> 在 Kafka 安装包下的 config 文件夹下的 <code>zookeeper.properties</code> 文件内修改：</li>
+<h1 id="4-Redis- 的用途"><a href="#4-Redis- 的用途" class="headerlink" title="4. Redis 的用途"></a>4. Redis 的用途 </h1><p> 除了用作缓存意外以外，Redis 还可以用作：</p>
+<ul>
+<li>分布式锁：一般基于 Redisson 实现；</li>
+<li>限流：一般通过 Redis + Lua 脚本的方式实现；</li>
+<li>消息队列：自带的 list 可用作消息队列，Redis 5.0 新增的 Stream 类型的数据结构更适合用作消息队列，且支持消息持久化和 ACK 机制；</li>
+<li>复杂业务场景：通过 bitmap 统计活跃用户，通过 sorted set 维护排行榜。</li>
+</ul>
+<h1 id="5-Redis-5-0- 新增的 -Stream"><a href="#5-Redis-5-0- 新增的 -Stream" class="headerlink" title="5. Redis 5.0 新增的 Stream"></a>5. Redis 5.0 新增的 Stream</h1><p>新增的数据结构 Stream 支持：</p>
+<ul>
+<li>发布 - 订阅模式；</li>
+<li>按照消费者组进行消费；</li>
+<li>消息持久化 (RDB、AOF)。</li>
+</ul>
+<h1 id="6-Redis- 单线程模型"><a href="#6-Redis- 单线程模型" class="headerlink" title="6. Redis 单线程模型"></a>6. Redis 单线程模型</h1><p>Redis 基于 Reactor 设计模式开发了一套高效的事件处理模型，对应 Redis 中的文件事件处理器 (file event handler) ，该处理器是单线程的，因此一般说 Redis 是单线程模型。文件事件处理器以单线程方式运行，但是通过使用 I&#x2F;O 多路复用程序监听多个套接字，既实现了高性能的网络通信模型，又可以与 Redis 中的其他单线程模块对接，保持了 Redis 内部单线程设计的简单性。</p>
+<ul>
+<li>文件事件处理器 file event handler 的四个主要组成部分：<ul>
+<li>多个 socket (客户端连接)</li>
+<li>IO 多路复用程序 (支持多个客户端连接的关键)</li>
+<li>文件事件分派器 (将 socket 关联到相应的事件处理器)</li>
+<li>事件处理器 (连接应答处理器、命令请求处理器、命令回复处理器 、主从连接处理器)</li>
+</ul>
+</li>
+</ul>
+<h1 id="7- 过期数据的删除策略"><a href="#7- 过期数据的删除策略" class="headerlink" title="7. 过期数据的删除策略"></a>7. 过期数据的删除策略</h1><ul>
+<li>惰性删除：仅在取出 key 的时候对数据进行过期检测，但可能造成过多的过期 key 未被删除。</li>
+<li>定期删除：每隔一段时间抽取一批 key 执行删除过期 key 操作，Redis 底层会通过限制删除操作执行的时长和频率来减少删除操作对 CPU 时间的影响。</li>
+</ul>
+<p>惰性删除对 CPU 友好，定期删除对内存友好，因此 Redis 采用定期删除 + 惰性删除 &#x2F; 懒汉式删除，同时结合内存淘汰机制。</p>
+<h1 id="8-Redis- 持久化机制"><a href="#8-Redis- 持久化机制" class="headerlink" title="8. Redis 持久化机制"></a>8. Redis 持久化机制</h1><h2 id="8-1-RDB- 持久化"><a href="#8-1-RDB- 持久化" class="headerlink" title="8.1 RDB 持久化"></a>8.1 RDB 持久化</h2><p>RDB 持久化即快照持久化 (snapshooting)，Redis 通过创建快照来获得存储在内存中的数据在某个时间点上的副本。由于 Redis 具有主从结构，在其创建快照后，可以将快照备份至其他服务器即创建副本。</p>
+<h2 id="8-2-AOF- 持久化"><a href="#8-2-AOF- 持久化" class="headerlink" title="8.2 AOF 持久化"></a>8.2 AOF 持久化</h2><p>AOF (append only file) 持久化，相比快照持久化具有更好的实时性。开启 AOF 持久化方式后，每执行一条会更改 Redis 中的数据的命令，Redis 就会将该命令写入到内存缓存中，然后根据配置来决定何时将其同步到硬盘中的 AOF 文件中。Redis AOF 持久化机制在执行完命令后再记录日志。</p>
+<h1 id="9-Redis- 事务"><a href="#9-Redis- 事务" class="headerlink" title="9. Redis 事务"></a>9. Redis 事务 </h1><p>Redis 通过 <code>MULTI</code>、<code>EXEC</code>、<code>DISCARD</code>、<code>WATCH</code> 等命令实现事务。</p>
+<p>实现 Redis 事务流程：</p>
+<ul>
+<li>开始事务 (MULTI)；</li>
+<li>命令入队：批量操作 Redis 命令，按照 FIFO 的顺序执行；</li>
+<li>执行事务 (EXEC)。</li>
+</ul>
+<h1 id="10- 缓存穿透"><a href="#10- 缓存穿透" class="headerlink" title="10. 缓存穿透"></a>10. 缓存穿透 </h1><p> 当客户端向服务器发送大量读请求时，由于 Redis 缓存中没有对应的数据，大量读请求落到数据库上，但数据库也没有对应的数据，导致“缓存穿透”。</p>
+<p>注：此处大量读请求的 key 是不合理的。 </p>
+<p>🌟 解决方法：</p>
+<ul>
+<li>缓存无效 key</li>
+<li>布隆过滤器</li>
+</ul>
+<h1 id="11- 缓存击穿"><a href="#11- 缓存击穿" class="headerlink" title="11. 缓存击穿"></a>11. 缓存击穿 </h1><p> 当客户端向服务器发送大量读请求时，由于 Redis 缓存中没有对应的数据 (可能已经过期了)，大量读请求落到数据库中 (虽然数据库中存在该数据但是 Redis 缓存中没有该数据)，导致“缓存击穿”。</p>
+<p>注：此处大量读请求的 key 对应热点数据。</p>
+<p>🌟 解决方法：</p>
+<ul>
+<li>设置热点数据永不过期 &#x2F; 过期时间较长；</li>
+<li>针对热点数据提前预热，将其存入缓存并设置合理的过期时间；</li>
+<li>请求数据库写数据到缓存之前，先获取互斥锁，保证只有一个请求落到数据库上，减轻数据库的压力。</li>
+</ul>
+<h1 id="12- 缓存雪崩"><a href="#12- 缓存雪崩" class="headerlink" title="12. 缓存雪崩"></a>12. 缓存雪崩 </h1><p> 当客户端向服务器发送大量读请求时，由于 Redis 缓存中对应的大量数据同时过期，大量读请求落到数据库上 (数据库中存在对应的数据)，导致“缓存雪崩”。</p>
+<p>🌟 解决方法：</p>
+<ol>
+<li>针对 Redis 服务不可用情况：</li>
 </ol>
-<pre><code class="properties"># 默认存放路径
-dataDir=/tmp/zookeeper
-</code></pre>
+<ul>
+<li>采用 Redis 集群，避免单机出现问题导致整个缓存服务都没法使用；</li>
+<li>限流，避免同时处理大量的请求。</li>
+</ul>
 <ol start="2">
-<li> 在 Kafka 安装包下的 config 文件夹下的 <code>server.properties</code> 文件内修改：</li>
+<li>针对热点缓存失效情况：</li>
 </ol>
-<pre><code class="properties"># 默认存放路径
-log.dirs=/tmp/kafka-logs
-</code></pre>
-<h1 id="Kafka- 常用命令"><a href="#Kafka- 常用命令" class="headerlink" title="Kafka 常用命令"></a>Kafka 常用命令 </h1><ol>
-<li> 打开一个 terminal 窗口，启动 Zookeeper：</li>
-</ol>
-<pre><code class="sh"># cd 到 Kafka 的 bin 目录下，eg: /usr/local/kafka_2.13-3.4.0/bin
-~$ zookeeper-server-start.sh config\zookeeper.properties
-</code></pre>
-<ol start="2">
-<li> 打开另一个 terminal 窗口，启动 Kafka：</li>
-</ol>
-<pre><code class="sh"># cd 到 Kafka 的 bin 目录下，eg: /usr/local/kafka_2.13-3.4.0/bin
-~$ zookeeper-server-start.sh config\server.properties
-</code></pre>
-<ol start="3">
-<li> 打开另一个 terminal 窗口，发布 topic 为 test，创建 1 个副本，创建 1 个分区：</li>
-</ol>
-<pre><code class="sh"># cd 到 Kafka 的 bin 目录下，eg: /usr/local/kafka_2.13-3.4.0/bin
-~$ kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic test
-</code></pre>
-<ol start="4">
-<li> 查看是否成功发布 topic：</li>
-</ol>
-<pre><code class="sh"># cd 到 Kafka 的 bin 目录下，eg: /usr/local/kafka_2.13-3.4.0/bin
-~$ kafka-topics.sh --list --bootstrap-server localhost:9092
-</code></pre>
-<pre><code class="sh"># 发布 topic 成功，terminal 显示 test
-test
-</code></pre>
-<ol start="5">
-<li> 生产者发布消息：</li>
-</ol>
-<pre><code class="sh"># cd 到 Kafka 的 bin 目录下，eg: /usr/local/kafka_2.13-3.4.0/bin
-~$ kafka-console-producer.sh --broker-list localhost:9092 --topic test
-</code></pre>
-<ol start="6">
-<li> 消费者订阅消息：</li>
-</ol>
-<pre><code class="sh"># cd 到 Kafka 的 bin 目录下，eg: /usr/local/kafka_2.13-3.4.0/bin
-~$ kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning
-</code></pre>
-<h1 id="Windows- 下关于 -Kafka- 的使用注意点"><a href="#Windows- 下关于 -Kafka- 的使用注意点" class="headerlink" title="Windows 下关于 Kafka 的使用注意点"></a>Windows 下关于 Kafka 的使用注意点 </h1><ul>
-<li> 问题：在 Windows 的命令行里启动 Kafka 之后，当关闭命令行窗口时，就会强制关闭 Kafka。这种关闭方式为暴力关闭，很可能会导致 Kafka 无法完成对日志文件的解锁。届时，再次启动 Kafka 的时候，就会提示日志文件被锁，无法成功启动。</li>
-<li> 方案：将 Kafka 的日志文件全部删除，再次启动即可。</li>
-<li> 建议：不要暴力关闭 Kafka，建议通过在命令行执行 <code>kafka-server-stop</code> 命令来关闭它。</li>
-<li> 其他：将来在 Linux 上部署 Kafka 之后，采用后台运行的方式，就会避免这样的问题。</li>
+<ul>
+<li>设置不同的失效事件，例如随机设置缓存的失效时间；</li>
+<li>缓存永不失效，不推荐；</li>
+<li>设置二级缓存。</li>
 </ul>
 
   </div>
@@ -462,19 +519,19 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
 
     <div class="post-paging">
     
-    <a href="/2023/03/07/community4/">
+    <a href="/2023/03/05/macos_nodejs/">
         <div class="post-paging-last">
             <span>上一篇</span>
-            <p>校园社区论坛项目之 Redis</p>
+            <p>MacOS 下安装 Node.js 避坑指南</p>
         </div>
     </a>
     
 
     
-    <a href="/2023/03/05/hello-world/">
+    <a href="/2023/03/01/linkedlist/">
         <div class="post-paging-next">
             <span>下一篇</span>
-            <p>Welcome to My HomePage!</p>
+            <p>LeetCode 算法笔记之链表 (双指针解法)</p>
         </div>
     </a>
     
