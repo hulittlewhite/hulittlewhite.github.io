@@ -328,14 +328,16 @@ var _hmt = _hmt || [];
     
 
     <p>🌟 LeetCode 算法笔记之链表，复习整理双指针解决链表题目。</p>
-<h1 id="141-Linked-List-Cycle"><a href="#141-Linked-List-Cycle" class="headerlink" title="141. Linked List Cycle"></a>141. Linked List Cycle</h1><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/linked-list-cycle/"> 题源：141. Linked List Cycle</a></p>
-<p>Given head, the head of a linked list, determine if the linked list has a cycle in it.</p>
-<p>There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail’s next pointer is connected to. Note that pos is not passed as a parameter.</p>
-<p>Return <code>true</code> if there is a cycle in the linked list. Otherwise, return <code>false</code>.</p>
+<h1 id="141- 环形链表"><a href="#141- 环形链表" class="headerlink" title="141. 环形链表"></a>141. 环形链表 </h1><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/linked-list-cycle/"> 题源：141. Linked List Cycle</a></p>
+<blockquote>
+<p>给你一个链表的头结点 head ，判断链表中是否有环。</p>
+<p>如果链表中有某个结点，可以通过连续跟踪 next 指针再次到达，则链表中存在环。 为了表示给定链表中的环，评测系统内部使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。注意：pos 不作为参数进行传递 。仅仅是为了标识链表的实际情况。</p>
+<p>如果链表中存在环 ，则返回 <code>true</code> 。 否则，返回 <code>false</code> 。</p>
+</blockquote>
 <h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><ul>
-<li> 设置双指针，慢指针 slow 每次前进一步，快指针 fast 每次前进两步。</li>
-<li> 如果 fast 最终遇到空指针，说明链表中没有环.</li>
-<li> 如果 fast 最终和 slow 相遇，那肯定是 fast 超过了 slow 一圈，说明链表中含有环。</li>
+<li>设置双指针，慢指针 slow 每次前进一步，快指针 fast 每次前进两步。</li>
+<li>如果 fast 最终遇到空指针，说明链表中没有环。</li>
+<li>如果 fast 最终和 slow 相遇，那肯定是 fast 超过了 slow 一圈，说明链表中含有环。</li>
 </ul>
 <h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><pre><code class="java">/**
  * Definition for singly-linked list.
@@ -360,30 +362,47 @@ public class Solution &#123;
     &#125;
 &#125;
 </code></pre>
-<h1 id="142-Linked-List-Cycle-II"><a href="#142-Linked-List-Cycle-II" class="headerlink" title="142. Linked List Cycle II"></a>142. Linked List Cycle II</h1><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/linked-list-cycle-ii/"> 题源：142. Linked List Cycle II</a></p>
-<p>Given head, the head of a linked list, determine if the linked list has a cycle in it.</p>
-<p>There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail’s next pointer is connected to. Note that pos is not passed as a parameter.</p>
-<p>Return <code>true</code> if there is a cycle in the linked list. Otherwise, return <code>false</code>.</p>
-<h2 id="Solution-1"><a href="#Solution-1" class="headerlink" title="Solution"></a>Solution</h2><ul>
-<li><p> 设置双指针，慢指针 slow 每次前进一步，快指针 fast 每次前进两步。</p>
-</li>
-<li><p> 当快、慢指针相遇时：</p>
+<h1 id="142- 环形链表 -II"><a href="#142- 环形链表 -II" class="headerlink" title="142. 环形链表 II"></a>142. 环形链表 II</h1><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/linked-list-cycle-ii/">题源：142. Linked List Cycle II</a></p>
+<blockquote>
+<p>给定一个链表的头结点  head ，返回链表开始入环的第一个结点。 如果链表无环，则返回 null。</p>
+<p>如果链表中有某个结点，可以通过连续跟踪 next 指针再次到达，则链表中存在环。 为了表示给定链表中的环，评测系统内部使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。如果 pos 是 -1，则在该链表中没有环。注意：pos 不作为参数进行传递，仅仅是为了标识链表的实际情况。</p>
+<p>不允许修改 链表。</p>
+</blockquote>
+<h2 id="Solution-1"><a href="#Solution-1" class="headerlink" title="Solution"></a>Solution</h2><ol>
+<li>原理：</li>
+</ol>
 <ul>
-<li> 让其中一个指针指向头节点；</li>
-<li> 此时，设置快、慢指针前进速度一致，均每次前进一步。</li>
-</ul>
-</li>
-<li><p> 原理：当快、慢指针分别以 2v、v 的速度前进并第一次相遇时：</p>
+<li><p>当快、慢指针分别以 2v、v 的速度前进并第一次相遇时：</p>
 <ul>
-<li> 如果慢指针走了 k 步，则快指针一定走了 2k 步。</li>
-<li> 快指针比慢指针多走的 k 步，其实就是快指针在环内转圈，即 k 值为环长度的 <em> 整数倍 </em>。</li>
-<li> 假设相遇点 M 距离环的起点 C 的距离为 m，则慢指针从头节点 H 到环的起点 C 的移动距离 HC 为 <code>k - m</code>。</li>
-<li> 也就是说如果快、慢指针在相遇点 M 时，重置慢指针，让慢指针再次从头节点 H 出发，前进 <code>k - m</code> 步即可到达环的起点 C。</li>
-<li> 此时，如果快指针从相遇点继续前进，且速度和慢指针保持一致都为 v，恰巧也需前进 <code>k - m</code> 步即可到达环的起点 C。</li>
+<li><p>如果慢指针走了 k 步，则快指针一定走了 2k 步。</p>
+</li>
+<li><p>快指针比慢指针多走的 k 步，其实就是快指针在环内转圈，即 k 值为环长度的 <em>整数倍</em>。</p>
+</li>
+<li><p>假设相遇点 M 距离环的起点 C 的距离为 m，则慢指针从头结点 H 到环的起点 C 的移动距离 HC 为 <code>k - m</code>。</p>
+</li>
+<li><p>也就是说如果快、慢指针在相遇点 M 时，重置慢指针，让慢指针再次从头结点 H 出发，前进 <code>k - m</code> 步即可到达环的起点 C。</p>
+</li>
+<li><p>此时，如果快指针从相遇点继续前进，且速度和慢指针保持一致都为 v，恰巧也需前进 <code>k - m</code> 步即可到达环的起点 C。</p>
+</li>
 </ul>
 </li>
 </ul>
-<h2 id="Code-1"><a href="#Code-1" class="headerlink" title="Code"></a>Code</h2><pre><code class="java">/**
+<ol start="2">
+<li>解法：</li>
+</ol>
+<ul>
+<li>设置双指针，慢指针 slow 每次前进一步，快指针 fast 每次前进两步。</li>
+<li>当快、慢指针相遇时：<ul>
+<li>让其中一个指针指向头结点；</li>
+<li>此时，设置快、慢指针前进速度一致，均每次前进一步。</li>
+</ul>
+</li>
+</ul>
+<h2 id="Code-1"><a href="#Code-1" class="headerlink" title="Code"></a>Code</h2><ul>
+<li>第一个 while 循环是为了寻找相遇点 M。</li>
+<li>第二个 while 循环是为了重置慢指针到头结点，并寻找两个指针最终的位置即环起点。</li>
+</ul>
+<pre><code class="java">/**
  * Definition for singly-linked list.
  * class ListNode &#123;
  *     int val;
@@ -397,7 +416,6 @@ public class Solution &#123;
 public class Solution &#123;
     public ListNode detectCycle(ListNode head) &#123;
         ListNode fast = head, slow = head;
-          // 第一个 while 循环是为了寻找相遇点 M
         while (fast != null &amp;&amp; fast.next != null) &#123;
             fast = fast.next.next;
             slow = slow.next;
@@ -405,9 +423,275 @@ public class Solution &#123;
         &#125;
         if (fast == null || fast.next == null) return null;
         slow = head;
-          // 第二个 while 循环是为了重置慢指针到头节点并寻找两个指针最终的目的地即 环起点
         while (slow != fast) &#123;
             fast = fast.next;
+            slow = slow.next;
+        &#125;
+        return slow;
+    &#125;
+&#125;
+</code></pre>
+<h1 id="160- 相交链表"><a href="#160- 相交链表" class="headerlink" title="160. 相交链表"></a>160. 相交链表 </h1><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/intersection-of-two-linked-lists/"> 题源：160. 相交链表</a></p>
+<blockquote>
+<p>给你两个单链表的头结点 <code>headA</code> 和 <code>headB</code> ，请你找出并返回两个单链表相交的起始结点。如果两个链表不存在相交结点，返回 <code>null</code> 。</p>
+<p>题目数据 <strong>保证</strong> 整个链式结构中不存在环。</p>
+<p><strong>注意 </strong>，函数返回结果后，链表必须 <strong> 保持其原始结构</strong> 。</p>
+</blockquote>
+<h2 id="Solution-2"><a href="#Solution-2" class="headerlink" title="Solution"></a>Solution</h2><ul>
+<li>设置两个指针 p1 和 p2，分别指向 链表 A 和链表 B 的头结点。</li>
+<li>让指针 p1 和 p2 分别在在两条链表上遍历：<ul>
+<li>当指针 p1 遍历完链表 A 后，开始遍历链表 B；</li>
+<li>当指针 p2 遍历完链表 B 后，开始遍历链表 A；</li>
+<li>在逻辑上，两条链表“连接成了一条链表”。</li>
+</ul>
+</li>
+</ul>
+<h2 id="Code-2"><a href="#Code-2" class="headerlink" title="Code"></a>Code</h2><pre><code class="java">/**
+ * Definition for singly-linked list.
+ * public class ListNode &#123;
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) &#123;
+ *         val = x;
+ *         next = null;
+ *     &#125;
+ * &#125;
+ */
+public class Solution &#123;
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) &#123;
+        ListNode p1 = headA, p2 = headB;
+        while (p1 != p2) &#123;
+            if (p1 != null) &#123;
+                p1 = p1.next;
+            &#125; else &#123;
+                p1 = headB;
+            &#125;
+            if (p2 != null) &#123;
+                p2 = p2.next;
+            &#125; else &#123;
+                p2 =headA;
+            &#125;
+        &#125;
+        return p1;
+    &#125;
+&#125;
+</code></pre>
+<h1 id="19- 删除链表的倒数第 -N- 个结点"><a href="#19- 删除链表的倒数第 -N- 个结点" class="headerlink" title="19. 删除链表的倒数第 N 个结点"></a>19. 删除链表的倒数第 N 个结点 </h1><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/remove-nth-node-from-end-of-list/"> 题源：19. 删除链表的倒数第 N 个结点</a></p>
+<blockquote>
+<p>给你一个链表，删除链表的倒数第 <code>n</code> 个结点，并且返回链表的头结点。</p>
+</blockquote>
+<h2 id="Solution-3"><a href="#Solution-3" class="headerlink" title="Solution"></a>Solution</h2><ul>
+<li>要删除链表的倒数第 n 个结点，则需要获得倒数第 n + 1 个结点的引用。</li>
+<li>设置指针 p1 和 p2，首先让指针 p1 指向链表的头结点，并向前移动 k 步；</li>
+<li>此时，让指针 p2 指向链表的头结点，并让两个指针 p1 和 p2 同时向前移动；</li>
+<li>当指针 p1 移动至链表末尾的空指针时，其移动的第二段长度为 <code>n - k</code> 步，而此时指针 p2 也移动了 <code>n - k</code>步，位于链表的倒数第 k 个结点。</li>
+</ul>
+<h2 id="Code-3"><a href="#Code-3" class="headerlink" title="Code"></a>Code</h2><ul>
+<li>方法 <code>findFromEnd()</code> ：返回链表的倒数第 k 个结点。</li>
+<li>结点 x 用于存储链表的倒数第 n + 1 个结点</li>
+</ul>
+<p>🌟 在链表的头部添加一个虚拟结点 dummy：可以避免删除倒数第一个元素时出现空指针异常。</p>
+<pre><code class="java">/**
+ * Definition for singly-linked list.
+ * public class ListNode &#123;
+ *     int val;
+ *     ListNode next;
+ *     ListNode() &#123;&#125;
+ *     ListNode(int val) &#123; this.val = val; &#125;
+ *     ListNode(int val, ListNode next) &#123; this.val = val; this.next = next; &#125;
+ * &#125;
+ */
+class Solution &#123;
+    public ListNode removeNthFromEnd(ListNode head, int n) &#123;
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        // 删除倒数第 n 个，要先找倒数第 n + 1 个结点
+        ListNode x = findFromEnd(dummy, n + 1);
+        x.next = x.next.next;
+        return dummy.next;
+    &#125;
+
+    // 返回链表的倒数第 k 个结点
+    private ListNode findFromEnd(ListNode head, int k) &#123;
+        ListNode p1 = head;
+        for (int i = 0; i &lt; k; i++) &#123;
+            p1 = p1.next;
+        &#125;
+        ListNode p2 = head;
+        while (p1 != null) &#123;
+            p1 = p1.next;
+            p2 = p2.next;
+        &#125;
+        return p2;
+    &#125;
+&#125;
+</code></pre>
+<h1 id="21- 合并两个有序链表"><a href="#21- 合并两个有序链表" class="headerlink" title="21. 合并两个有序链表"></a>21. 合并两个有序链表 </h1><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/merge-two-sorted-lists/"> 题源：21. 合并两个有序链表</a></p>
+<blockquote>
+<p>将两个升序链表合并为一个新的 <strong>升序</strong> 链表并返回。新链表是通过拼接给定的两个链表的所有结点组成的。 </p>
+</blockquote>
+<h2 id="Solution-4"><a href="#Solution-4" class="headerlink" title="Solution"></a>Solution</h2><ul>
+<li>设置两个指针 p1 和 p2，分别指向链表的两个头结点。</li>
+<li>让指针 p1 和 p2 分别在两个链表上遍历，每次都比较两个指针所指向的结点的值：<ul>
+<li>若指针 p1 指向的结点值小于指针 p2 指向的结点值，则将指针 p1 指向的结点加入到新合并的链表中，并将指针 p1 往前移动一步；</li>
+<li>若指针 p1 指向的结点值大于指针 p2 指向的结点值，则将指针 p2 指向的结点加入到新合并的链表中，并将指针 p2 往前移动一步；</li>
+</ul>
+</li>
+</ul>
+<h2 id="Code-4"><a href="#Code-4" class="headerlink" title="Code"></a>Code</h2><p>🌟 在链表的头部添加一个虚拟结点 dummy：可以避免出现空指针异常、简化代码。</p>
+<pre><code class="java">/**
+ * Definition for singly-linked list.
+ * public class ListNode &#123;
+ *     int val;
+ *     ListNode next;
+ *     ListNode() &#123;&#125;
+ *     ListNode(int val) &#123; this.val = val; &#125;
+ *     ListNode(int val, ListNode next) &#123; this.val = val; this.next = next; &#125;
+ * &#125;
+ */
+class Solution &#123;
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) &#123;
+        ListNode dummy = new ListNode(-1);
+        ListNode p = dummy;
+        ListNode p1 = list1, p2 = list2;
+        while (p1 != null &amp;&amp; p2 != null) &#123;
+            if (p1.val &gt; p2.val) &#123;
+                p.next = p2;
+                p2= p2.next;
+            &#125; else &#123;
+                p.next = p1;
+                p1= p1.next;
+            &#125;
+            p = p.next;
+        &#125;
+        if (p1 != null) p.next = p1;
+        if (p2 != null) p.next = p2;
+        return dummy.next;
+    &#125;
+&#125;
+</code></pre>
+<h1 id="23- 合并 -K- 个升序链表"><a href="#23- 合并 -K- 个升序链表" class="headerlink" title="23. 合并 K 个升序链表"></a>23. 合并 K 个升序链表 </h1><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/merge-k-sorted-lists/"> 题源：23. 合并 K 个升序链表</a></p>
+<blockquote>
+<p>给你一个链表数组，每个链表都已经按升序排列。</p>
+<p>请你将所有链表合并到一个升序链表中，返回合并后的链表。</p>
+</blockquote>
+<h2 id="Solution-5"><a href="#Solution-5" class="headerlink" title="Solution"></a>Solution</h2><ul>
+<li>采用优先队列 <code>PriorityQueue</code> 实现小顶堆。</li>
+<li>将 k 个链表的头结点加入到最小堆中：<ul>
+<li>当优先队列不为空时，每次获取最小结点，加入到结果链表中。</li>
+</ul>
+</li>
+</ul>
+<h2 id="Code-5"><a href="#Code-5" class="headerlink" title="Code"></a>Code</h2><ul>
+<li><code>PriorityQueue&lt;ListNode&gt; pq = new PriorityQueue&lt;&gt;(lists.length, (a, b)-&gt;(a.val - b.val));</code>采用 lambda 表达式实现小顶堆。</li>
+<li>设置虚拟头结点 dummy。</li>
+</ul>
+<pre><code class="java">/**
+ * Definition for singly-linked list.
+ * public class ListNode &#123;
+ *     int val;
+ *     ListNode next;
+ *     ListNode() &#123;&#125;
+ *     ListNode(int val) &#123; this.val = val; &#125;
+ *     ListNode(int val, ListNode next) &#123; this.val = val; this.next = next; &#125;
+ * &#125;
+ */
+class Solution &#123;
+    public ListNode mergeKLists(ListNode[] lists) &#123;
+        if (lists.length == 0) return null;
+        ListNode dummy = new ListNode(-1);
+        ListNode p = dummy;
+        PriorityQueue&lt;ListNode&gt; pq = new PriorityQueue&lt;&gt;(lists.length, (a, b)-&gt;(a.val - b.val)
+        );
+        for (ListNode head : lists) &#123;
+            if (head != null) &#123;
+                pq.add(head);
+            &#125;
+        &#125;
+        while (!pq.isEmpty()) &#123;
+            ListNode node = pq.poll();
+            p.next = node;
+            if (node.next != null) &#123;
+                pq.add(node.next);
+            &#125;
+            p = p.next;
+        &#125;
+        return dummy.next;
+    &#125;
+&#125;
+</code></pre>
+<h1 id="86- 分隔链表"><a href="#86- 分隔链表" class="headerlink" title="86. 分隔链表"></a>86. 分隔链表 </h1><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/partition-list/"> 题源：86. 分隔链表</a></p>
+<blockquote>
+<p>给你一个链表的头结点 head 和一个特定值 x ，请你对链表进行分隔，使得所有 小于 x 的结点都出现在 大于或等于 x 的结点之前。</p>
+<p>你应当 保留 两个分区中每个结点的初始相对位置。</p>
+</blockquote>
+<h2 id="Solution-6"><a href="#Solution-6" class="headerlink" title="Solution"></a>Solution</h2><ul>
+<li>设置两个虚拟头结点 dummy1 和 dummy2，设置两个指针 p1 和 p2，让两个指针分别指向两个 dummy 结点。</li>
+<li>遍历给定的链表，判断每个遍历的结点：<ul>
+<li>如果当前结点的值小于给定的数值 x，将该结点接到 dummy1 结点所在链表，并将指针 p1 向前移动一步；</li>
+<li>如果当前结点的值大于给定的数值 x，将该结点接到 dummy2 结点所在链表，并将指针 p2 向前移动一步。</li>
+<li>进入下一个循环进行判断。</li>
+</ul>
+</li>
+<li>将 dummy2 所在链表拼接到 dummy1 所在链表之前，并将尾结点的后继结点设为 null。</li>
+</ul>
+<p>🌟 <code>p2.next = null;</code>是关键，没写可能导致超出内存限制。 </p>
+<h2 id="Code-6"><a href="#Code-6" class="headerlink" title="Code"></a>Code</h2><pre><code class="java">/**
+ * Definition for singly-linked list.
+ * public class ListNode &#123;
+ *     int val;
+ *     ListNode next;
+ *     ListNode() &#123;&#125;
+ *     ListNode(int val) &#123; this.val = val; &#125;
+ *     ListNode(int val, ListNode next) &#123; this.val = val; this.next = next; &#125;
+ * &#125;
+ */
+class Solution &#123;
+    public ListNode partition(ListNode head, int x) &#123;
+                ListNode dummy1 = new ListNode(-1);
+          ListNode dummy2 = new ListNode(-1);
+          ListNode p1 = dummy1;
+          ListNode p2 = dummy2;
+          while (head != null) &#123;
+              if (head.val &lt; x) &#123;
+                    p1.next = head;
+                  p1 = p1.next;
+              &#125; else &#123;
+                  p2.next = head;
+                  p2 = p2.next;
+            &#125;
+              head = head.next;
+        &#125;
+          p1.next = dummy2.next;
+          p2.next = null;
+          return dummy1.next;
+    &#125;
+&#125;
+</code></pre>
+<h1 id="876- 链表的中间结点"><a href="#876- 链表的中间结点" class="headerlink" title="876. 链表的中间结点"></a>876. 链表的中间结点 </h1><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/middle-of-the-linked-list/"> 题源：876. 链表的中间结点</a></p>
+<blockquote>
+<p>给你单链表的头结点 <code>head</code> ，请你找出并返回链表的中间结点。</p>
+<p>如果有两个中间结点，则返回第二个中间结点。</p>
+</blockquote>
+<h2 id="Solution-7"><a href="#Solution-7" class="headerlink" title="Solution"></a>Solution</h2><ul>
+<li>设置快、慢指针向前移动的速度分别为 2v、v。</li>
+<li>快指针每次移动两步，慢指针每次移动一步，当快指针移动到链表末尾时，慢指针恰好位于链表中点。</li>
+</ul>
+<h2 id="Code-7"><a href="#Code-7" class="headerlink" title="Code"></a>Code</h2><pre><code class="java">/**
+ * Definition for singly-linked list.
+ * public class ListNode &#123;
+ *     int val;
+ *     ListNode next;
+ *     ListNode() &#123;&#125;
+ *     ListNode(int val) &#123; this.val = val; &#125;
+ *     ListNode(int val, ListNode next) &#123; this.val = val; this.next = next; &#125;
+ * &#125;
+ */
+class Solution &#123;
+    public ListNode middleNode(ListNode head) &#123;
+        ListNode fast = head, slow = head;
+        while (fast != null &amp;&amp; fast.next != null) &#123;
+            fast = fast.next.next;
             slow = slow.next;
         &#125;
         return slow;
