@@ -371,11 +371,11 @@ public class RedisConfig &#123;
     &#125;
 &#125;
 </code></pre>
-<h1 id="1- 点赞"><a href="#1- 点赞" class="headerlink" title="1. 点赞"></a>1. 点赞 </h1><p> 点赞模块包含：</p>
+<h1 id="1- 点赞模块"><a href="#1- 点赞模块" class="headerlink" title="1. 点赞模块"></a>1. 点赞模块 </h1><p> 点赞模块包含：</p>
 <ol>
-<li>点赞：(1)支持对帖子、评论进行点赞；(2)第一次点击“赞”完成点赞操作，第二次点击“已赞”完成取消点赞操作。</li>
+<li>点赞：(1) 支持对帖子、评论进行点赞；(2) 第一次点击“赞”完成点赞操作，第二次点击“已赞”完成取消点赞操作。</li>
 <li>首页：统计帖子的点赞数。</li>
-<li>详情页：(1)统计帖子的点赞数；(2)显示点赞状态。</li>
+<li>详情页：(1) 统计帖子的点赞数；(2) 显示点赞状态。</li>
 </ol>
 <h2 id="创建工具类 -RedisKeyUtil"><a href="# 创建工具类 -RedisKeyUtil" class="headerlink" title="创建工具类 RedisKeyUtil"></a>创建工具类 RedisKeyUtil</h2><ul>
 <li>定义分隔符 <code>:</code></li>
@@ -395,44 +395,46 @@ public class RedisConfig &#123;
 </code></pre>
 <h2 id="创建业务层的 -LikeService- 类"><a href="# 创建业务层的 -LikeService- 类" class="headerlink" title="创建业务层的 LikeService 类"></a>创建业务层的 LikeService 类</h2><ul>
 <li>注入 <code>RedisTemplate</code> 实例</li>
+</ul>
+<pre><code class="java">@Autowired
+private RedisTemplate redisTemplate;
+</code></pre>
+<ul>
 <li>新增方法 <code>like()</code> 实现点赞功能：<ul>
 <li>首先，调用工具类 <code>RedisKeyUtil</code> 中的方法 <code>getEntityLikeKey()</code> 获得实体点赞的 key；</li>
-<li>然后，通过 <code>RedisTemplate</code> 的对象，调用 set 集合的方法 <code>isMember()</code> 查询 userId 是否存在于对应 key 的 set 集合中，如果存在则移出点赞的用户集合，如果不存在则添加到点赞的用户集合中。</li>
+<li>然后，通过 <code>RedisTemplate</code> 实例，调用 set 集合的方法 <code>isMember()</code> 查询 userId 是否存在于对应 key 的 set 集合中，如果存在则移出点赞的用户集合，如果不存在则添加到点赞的用户集合中。</li>
 </ul>
 </li>
-<li>新增方法 <code>findEntityLikeCount()</code>：查询某实体的点赞数，通过调用 set 集合的方法 <code>size()</code> 查询元素的个数。</li>
-<li>新增方法 <code>findEntityLikeStatus()</code>：查询某用户对某实体的点赞状态，逻辑实现同方法<code>like()</code>，即通过调用 set 集合的方法 <code>isMember()</code> 实现。</li>
 </ul>
-<pre><code class="java">@Service
-public class LikeService &#123;
-    @Autowired
-    private RedisTemplate redisTemplate;
-
-    // 点赞
-    public void like(int userId, int entityType, int entityId) &#123;
-        String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);
-        boolean isMember = redisTemplate.opsForSet().isMember(entityLikeKey, userId);
+<pre><code class="java"> // 点赞
+public void like(int userId, int entityType, int entityId) &#123;
+    String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);
+    boolean isMember = redisTemplate.opsForSet().isMember(entityLikeKey, userId);
       // 判断是否点过赞
-        if (isMember) &#123;
-            redisTemplate.opsForSet().remove(entityLikeKey, userId);
-        &#125; else &#123;
-            redisTemplate.opsForSet().add(entityLikeKey, userId);
-        &#125;
+    if (isMember) &#123;
+        redisTemplate.opsForSet().remove(entityLikeKey, userId);
+    &#125; else &#123;
+        redisTemplate.opsForSet().add(entityLikeKey, userId);
     &#125;
-
-    // 查询某实体点赞的数量
-    public long findEntityLikeCount(int entityType, int entityId) &#123;
-        String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);
-        return redisTemplate.opsForSet().size(entityLikeKey);
-    &#125;
-
-    // 查询某人对某实体的点赞状态
-    public int findEntityLikeStatus(int userId, int entityType, int entityId) &#123;
-        String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);
-          // 1 表示已赞；0 表示未赞
-        return redisTemplate.opsForSet().isMember(entityLikeKey, userId) ? 1 : 0;
-    &#125;
-
+&#125;
+</code></pre>
+<ul>
+<li>新增方法 <code>findEntityLikeCount()</code>：查询某实体的点赞数，通过调用 set 集合的方法 <code>size()</code> 查询元素的个数。</li>
+</ul>
+<pre><code class="java">// 查询某实体点赞的数量
+public long findEntityLikeCount(int entityType, int entityId) &#123;
+    String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);
+    return redisTemplate.opsForSet().size(entityLikeKey);
+&#125;
+</code></pre>
+<ul>
+<li>新增方法 <code>findEntityLikeStatus()</code>：查询某用户对某实体的点赞状态，逻辑实现同方法 <code>like()</code>，即通过调用 set 集合的方法 <code>isMember()</code> 实现。</li>
+</ul>
+<pre><code class="java">// 查询某人对某实体的点赞状态
+public int findEntityLikeStatus(int userId, int entityType, int entityId) &#123;
+    String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);
+    // 1 表示已赞；0 表示未赞
+    return redisTemplate.opsForSet().isMember(entityLikeKey, userId) ? 1 : 0;
 &#125;
 </code></pre>
 <h2 id="创建表现层的 -LikeController- 类"><a href="# 创建表现层的 -LikeController- 类" class="headerlink" title="创建表现层的 LikeController 类"></a>创建表现层的 LikeController 类</h2><ul>
@@ -475,7 +477,7 @@ public class LikeController &#123;
 <pre><code class="java">@GetMapping(&quot;/index&quot;)
 public String getIndexPage(Model model, Page page) &#123;
     // 方法调用之前，SpringMVC 会自动实例化 Model 和 Page，并将 Page 注入到 Model 中。
-    // 所以，在 thymeleaf 中可以直接访问 Page 对象中的数据.
+    // 所以，在 thymeleaf 中可以直接访问 Page 对象中的数据。
     page.setRows(discussPostService.findDiscussPostRows(0));
     page.setPath(&quot;/index&quot;);
 
@@ -615,7 +617,7 @@ public String getDiscussPost(@PathVariable(&quot;discussPostId&quot;) int discus
 </code></pre>
 <h2 id="更新业务层的 -LikeService 类"><a href="# 更新业务层的 -LikeService 类" class="headerlink" title="更新业务层的 LikeService 类"></a>更新业务层的 LikeService 类</h2><ul>
 <li>重构方法 <code>like()</code>，在参数列表中新增：entityUserId（表示被点赞用户的 id），该参数用来更新用户的被点赞数量。<ul>
-<li>调用 <code>RedisTemplate</code> 的对象的方法 <code>execute()</code> 实现事务，保证被点赞用户与点赞用户的数据更新保持一致。调用 <code>isMember()</code> 查询用户的点赞状态，之后调用 <code>multi()</code> 开启事务。</li>
+<li>调用 <code>RedisTemplate</code> 实例的方法 <code>execute()</code> 实现事务，保证被点赞用户与点赞用户的数据更新保持一致。调用 <code>isMember()</code> 查询用户的点赞状态，之后调用 <code>multi()</code> 开启事务。</li>
 <li>当用户已点赞时，调用方法 <code>remove()</code> 将当前用户从点赞的用户集合中移除，调用方法 <code>decrement()</code> 将被点赞用户的被点赞数减去 1；当用户未点赞时，调用方法 <code>add()</code> 将当前用户添加到点赞的用户集合中，调用方法 <code>increment()</code> 将被点赞用户的点赞数加上 1。</li>
 </ul>
 </li>
@@ -623,7 +625,6 @@ public String getDiscussPost(@PathVariable(&quot;discussPostId&quot;) int discus
 </ul>
 <pre><code class="java">@Service
 public class LikeService &#123;
-
     @Autowired
     private RedisTemplate redisTemplate;
 
@@ -646,7 +647,6 @@ public class LikeService &#123;
                     operations.opsForSet().add(entityLikeKey, userId);
                     operations.opsForValue().increment(userLikeKey);
                 &#125;
-
                 return operations.exec();
             &#125;
         &#125;);

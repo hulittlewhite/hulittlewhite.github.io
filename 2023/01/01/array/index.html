@@ -2,7 +2,7 @@
 <html>
 	<head>
 		
-<title>MacOS 下安装 Node.js 避坑指南-Quiet</title>
+<title>LeetCode 算法笔记之数组 (双指针解法)-Quiet</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -11,8 +11,9 @@
 <link rel="stylesheet" href="/css/index.css">
 
 
-<meta name="keywords" content="Computer Science & Technology,Programming,Java,Python">
-<meta name="description" content="描述">
+
+<meta name="keywords" content="Java,Algorithm,数组,">
+<meta name="description" content="">
 
 
 <script src="/js/jquery.min.js"></script>
@@ -291,9 +292,17 @@ var _hmt = _hmt || [];
     <div class="post-header-background-content">
         <ul class="post-header-tag">
             
+            
+            <li><a href="/tags/Java">Java</a></li>
+            
+            <li><a href="/tags/Algorithm">Algorithm</a></li>
+            
+            <li><a href="/tags/数组">数组</a></li>
+            
+            
         </ul>
         
-        <h1>MacOS 下安装 Node.js 避坑指南</h1>
+        <h1>LeetCode 算法笔记之数组 (双指针解法)</h1>
         <div class="post-header-info">
             <div class="post-header-info-author">
                 
@@ -307,8 +316,10 @@ var _hmt = _hmt || [];
                 <span class="post-header-info-author-text"> <a href="../../about">LebronLe</a></span>
                 <div class="post-header-info-author-categories">
                     
+                         <a href="../../categories/Java/" target="_blank" >Java</a>
+                    
                 </div>
-                <p>2023-03-05 23:50:46</p>
+                <p>2023-01-01 01:20:50</p>
             </div>
         </div>
     </div>
@@ -318,65 +329,211 @@ var _hmt = _hmt || [];
   <div id="article" class="post-content-info">
     
 
-    <ul>
-<li><p>不建议的方法：直接到 Node 官网下载 <code>.pkg</code> 文件进行安装。</p>
+    <h1 id="167- 两数之和 -II- 输入有序数组"><a href="#167- 两数之和 -II- 输入有序数组" class="headerlink" title="167. 两数之和 II - 输入有序数组"></a>167. 两数之和 II - 输入有序数组 </h1><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/two-sum-ii-input-array-is-sorted/"> 题源：167. 两数之和 II - 输入有序数组</a></p>
+<blockquote>
+<p>给你一个下标从 1 开始的整数数组 numbers ，该数组已按 非递减顺序排列  ，请你从数组中找出满足相加之和等于目标数 target 的两个数。如果设这两个数分别是 numbers[index1] 和 numbers[index2] ，则 1 &lt;&#x3D; index1 &lt; index2 &lt;&#x3D; numbers.length 。</p>
+<p>以长度为 2 的整数数组 [index1, index2] 的形式返回这两个整数的下标 index1 和 index2。</p>
+<p>你可以假设每个输入 只对应唯一的答案 ，而且你 不可以 重复使用相同的元素。</p>
+<p>你所设计的解决方案必须只使用常量级的额外空间。</p>
+</blockquote>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><ul>
+<li><p>设置双指针，左指针指向数组第一个元素，右指针指向数组最后一个元素。</p>
 </li>
-<li><p>可能出现的问题：使用 <code>npm install -g hexo-cli</code> 等指令会报错没有写入的权限，甚至尝试各种 <code>sudo</code> 权限都无效。</p>
+<li><p>将两个指针所指向的元素相加，得到一个和 sum，比较 sum 与 给定的目标和 target 的大小：</p>
+<ul>
+<li>若 sum 等于 target，则返回得到两个元素的数组下标；</li>
+<li>若 sum 小于 target，则左指针右移一位；</li>
+<li>若 sum 大于 target，则右指针左移一位。</li>
+</ul>
 </li>
-<li><p>npm 官网教程也不推荐采用 <code>installer</code> 进行安装。</p>
+<li><p>若找不到符合条件的元素，则返回数组 [-1, -1]。</p>
 </li>
 </ul>
-<h2 id="安装 Node-js 和 npm 的正确方法"><a href="# 安装 Node-js 和 npm 的正确方法" class="headerlink" title="安装 Node.js 和 npm 的正确方法"></a>安装 Node.js 和 npm 的正确方法 </h2><p>🌟 使用 node 版本管理工<code>nvm</code>(node version manager) 安装 Node.js 和 npm。</p>
-<h3 id="Step-1"><a href="#Step-1" class="headerlink" title="Step 1"></a>Step 1</h3><p>安装<code>nvm</code>：</p>
-<pre><code>~$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><pre><code class="java">class Solution &#123;
+    public int[] twoSum(int[] numbers, int target) &#123;
+        int l = 0;
+        int r = numbers.length - 1;
+        while (l &lt; r) &#123;
+            int sum = numbers[l] + numbers[r];
+            if (sum == target) &#123;
+                return new int[]&#123;l + 1, r + 1&#125;;
+            &#125; else if (sum &lt; target) &#123;
+                l++;
+            &#125; else &#123;
+                r--;
+            &#125;
+        &#125;
+        return new int[]&#123;-1, -1&#125;;
+    &#125;
+&#125;
 </code></pre>
-<p>验证 <code>nvm</code> 是否安装成功：</p>
-<pre><code>~$ command -v nvm
+<h1 id="26- 删除有序数组中的重复项"><a href="#26- 删除有序数组中的重复项" class="headerlink" title="26. 删除有序数组中的重复项"></a>26. 删除有序数组中的重复项 </h1><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/remove-duplicates-from-sorted-array/"> 题源：26. 删除有序数组中的重复项</a></p>
+<blockquote>
+<p>给你一个 升序排列 的数组 nums ，请你 原地 删除重复出现的元素，使每个元素 只出现一次 ，返回删除后数组的新长度。元素的 相对顺序 应该保持 一致 。</p>
+<p>由于在某些语言中不能改变数组的长度，所以必须将结果放在数组 nums 的第一部分。更规范地说，如果在删除重复项之后有 k 个元素，那么 nums 的前 k 个元素应该保存最终结果。</p>
+<p>将最终结果插入 nums 的前 k 个位置后返回 k 。</p>
+<p>不要使用额外的空间，你必须在 原地 修改输入数组 并在使用 O(1) 额外空间的条件下完成。</p>
+</blockquote>
+<h2 id="Solution-1"><a href="#Solution-1" class="headerlink" title="Solution"></a>Solution</h2><ul>
+<li>设置快、慢指针，让快指针在前，慢指针在后：<ul>
+<li>快指针每找到一个与慢指针不同的元素，就让慢指针向前移动一步并在当前位置元素替换为快指针所指向的元素。</li>
+<li>快指针若找不到非重复元素，则一直向前移动直至数组末尾。</li>
+</ul>
+</li>
+</ul>
+<h2 id="Code-1"><a href="#Code-1" class="headerlink" title="Code"></a>Code</h2><ul>
+<li><code>slow + 1</code> 表示最终返回的数组长度为慢指针所指向的元素数组下标 + 1。</li>
+</ul>
+<pre><code class="java">class Solution &#123;
+    public int removeDuplicates(int[] nums) &#123;
+        if (nums.length == 0) return 0;
+        int slow = 0, fast = 0;
+        while (fast &lt; nums.length) &#123;
+            if (nums[fast] != nums[slow]) &#123;
+                slow++;
+                nums[slow] = nums[fast];
+            &#125;
+            fast++;
+        &#125;
+        return slow + 1;
+    &#125;
+&#125;
 </code></pre>
-<p>若成功则出现一行 <code>nvm</code> 字符 (若未出现则重启<code>terminal</code>)，查询<code>nvm</code> 版本：</p>
-<pre><code>~$ nvm --version
+<h1 id="27- 移除元素"><a href="#27- 移除元素" class="headerlink" title="27. 移除元素"></a>27. 移除元素 </h1><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/remove-element/"> 题源：27. 移除元素</a></p>
+<blockquote>
+<p>给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素，并返回移除后数组的新长度。</p>
+<p>不要使用额外的数组空间，你必须仅使用 O(1) 额外空间并 原地 修改输入数组。</p>
+<p>元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。</p>
+</blockquote>
+<h2 id="Solution-2"><a href="#Solution-2" class="headerlink" title="Solution"></a>Solution</h2><ul>
+<li>设置快慢、指针：<ul>
+<li>如果快指针遇到需要去除的元素，则直接跳过；</li>
+<li>否则就告诉慢指针，并让慢指针前进一步。</li>
+</ul>
+</li>
+</ul>
+<h2 id="Code-2"><a href="#Code-2" class="headerlink" title="Code"></a>Code</h2><pre><code class="java">class Solution &#123;
+    public int removeElement(int[] nums, int val) &#123;
+        int slow = 0, fast = 0;
+        while (fast &lt; nums.length) &#123;
+            if (nums[fast] != val) &#123;
+                nums[slow] = nums[fast];
+                slow++;
+            &#125;
+            fast++;
+        &#125;
+        return slow;
+    &#125;
+&#125;
 </code></pre>
-<p>返回 <code>nvm</code> 版本号：<code>0.34.0</code></p>
-<h3 id="Step-2"><a href="#Step-2" class="headerlink" title="Step 2"></a>Step 2</h3><p>使用 <code>nvm</code> 安装<code>node</code>：</p>
-<pre><code>~$ nvm install node # &quot;node&quot; is an alias for the latest version
+<h1 id="283- 移动零"><a href="#283- 移动零" class="headerlink" title="283. 移动零"></a>283. 移动零 </h1><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/move-zeroes/"> 题源：283. 移动零</a></p>
+<blockquote>
+<p>给定一个数组 <code>nums</code>，编写一个函数将所有 <code>0</code> 移动到数组的末尾，同时保持非零元素的相对顺序。</p>
+<p><strong>请注意</strong> ，必须在不复制数组的情况下原地对数组进行操作。</p>
+</blockquote>
+<h2 id="Solution-3"><a href="#Solution-3" class="headerlink" title="Solution"></a>Solution</h2><p>可以直接复用 <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/remove-element">27. 移除元素</a> 的解法，先移除所有 0，然后把最后的元素都置为 0，就相当于移动 0 的效果。</p>
+<h2 id="Code-3"><a href="#Code-3" class="headerlink" title="Code"></a>Code</h2><ul>
+<li>新增方法 <code>removeElement()</code> ，直接复用 <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/remove-element">27. 移除元素</a> 的解法。</li>
+</ul>
+<pre><code class="java">class Solution &#123;
+    public void moveZeroes(int[] nums) &#123;
+        int p = removeElement(nums, 0);
+        for (; p &lt; nums.length; p++) &#123;
+            nums[p] = 0;
+        &#125;
+    &#125;
+    int removeElement(int[] nums, int val) &#123;
+        int fast = 0, slow = 0;
+        while (fast &lt; nums.length) &#123;
+            if (nums[fast] != val) &#123;
+                nums[slow] = nums[fast];
+                slow++;
+            &#125;
+            fast++;
+        &#125;
+        return slow;
+    &#125;
+&#125;
 </code></pre>
-<h3 id="Step-3"><a href="#Step-3" class="headerlink" title="Step 3"></a>Step 3</h3><p>使用 <code>npm</code> 指令安装<code>hexo</code>：</p>
-<pre><code>~$ npm install -g hexo-cli
+<h1 id="344- 反转字符串"><a href="#344- 反转字符串" class="headerlink" title="344. 反转字符串"></a>344. 反转字符串 </h1><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/reverse-string/"> 题源：344. 反转字符串</a></p>
+<blockquote>
+<p>编写一个函数，其作用是将输入的字符串反转过来。输入字符串以字符数组 s 的形式给出。</p>
+<p>不要给另外的数组分配额外的空间，你必须原地修改输入数组、使用 O(1) 的额外空间解决这一问题。</p>
+</blockquote>
+<h2 id="Solution-4"><a href="#Solution-4" class="headerlink" title="Solution"></a>Solution</h2><ul>
+<li>设置左右指针，分别从字符数组的两端开始遍历并交换。</li>
+</ul>
+<h2 id="Code-4"><a href="#Code-4" class="headerlink" title="Code"></a>Code</h2><pre><code class="java">class Solution &#123;
+    public void reverseString(char[] s) &#123;
+        int l = 0, r = s.length - 1;
+        while (l &lt; r) &#123;
+            char temp = s[l];
+            s[l] = s[r];
+            s[r] = temp;
+            l++;
+            r--;
+        &#125;
+    &#125;
+&#125;
 </code></pre>
-<p>初始化<code>hexo</code>，指定文件夹名为 blog：</p>
-<pre><code>~$ hexo init blog
+<h1 id="5- 最长回文子串"><a href="#5- 最长回文子串" class="headerlink" title="5. 最长回文子串"></a>5. 最长回文子串 </h1><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/longest-palindromic-substring/"> 题源：5. 最长回文子串</a></p>
+<blockquote>
+<p>给你一个字符串 <code>s</code>，找到 <code>s</code> 中最长的回文子串。</p>
+<p>如果字符串的反序与原始字符串相同，则该字符串称为回文字符串。</p>
+</blockquote>
+<h2 id="Solution-5"><a href="#Solution-5" class="headerlink" title="Solution"></a>Solution</h2><ul>
+<li>核心思想：从中间开始向两边扩散来判断回文串</li>
+</ul>
+<pre><code>for 0 &lt;= i &lt; len(s):
+        找到以 s[i] 为中心的回文串
+    更新答案
 </code></pre>
-<p>进入 blog 文件夹下，安装<code>npm</code>：</p>
-<pre><code>~ $ cd blog
-~ $ npm istall
+<ul>
+<li>设置左、右指针并向两边扩散：</li>
+</ul>
+<pre><code>for 0 &lt;= i &lt; len(s):
+    # 找到以 s[i] 为中心的回文串
+    palindrome(s, i, i)
+    # 找到以 s[i] 和 s[i+1] 为中心的回文串
+    palindrome(s, i, i + 1)
+    更新答案
 </code></pre>
-<h2 id="Q-amp-A"><a href="#Q-amp-A" class="headerlink" title="Q &amp; A"></a>Q &amp; A</h2><p>Q1：<code>zsh: command not found: nvm</code></p>
-<p>A1：进入 .nvm 文件夹，查看是否存在 .bash_profile 文件，若存在该文件则直接打开：</p>
-<pre><code>cd ~/.nvm
-open .bash_profile
+<h2 id="Code-5"><a href="#Code-5" class="headerlink" title="Code"></a>Code</h2><ul>
+<li>新增方法 <code>palindrome()</code> :<ul>
+<li>while 循环内条件：防止索引越界。</li>
+<li><code>return s.substring(l + 1, r);</code> 返回以 s[l] 和 s[r] 为中心的最长回文串。</li>
+</ul>
+</li>
+<li>方法 <code>longestPalindrome()</code> ：<ul>
+<li><code>String s1 = palindrome(s, i, i);</code> 代表以 s[i] 为中心的最长回文子串 (针对回文串长度为奇数的情况)；</li>
+<li><code>String s2 = palindrome(s, i, i + 1);</code> 代表以 s[i] 和 s[i+1] 为中心的最长回文子串 (针对回文串长度为偶数的情况)。</li>
+</ul>
+</li>
+</ul>
+<pre><code class="java">class Solution &#123;
+    public String longestPalindrome(String s) &#123;
+        String res = &quot;&quot;;
+        for (int i = 0; i &lt; s.length(); i++) &#123;
+            String s1 = palindrome(s, i, i);
+            String s2 = palindrome(s, i, i + 1);
+            res = res.length() &gt; s1.length() ? res : s1;
+            res = res.length() &gt; s2.length() ? res : s2;
+        &#125;
+        return res;
+    &#125;
+
+    String palindrome(String s, int l, int r) &#123;
+        while (l &gt;= 0 &amp;&amp; r &lt; s.length() &amp;&amp; s.charAt(l) == s.charAt(r)) &#123;
+            l--;
+            r++;
+        &#125;
+        return s.substring(l + 1, r);
+    &#125;
+&#125;
 </code></pre>
-<p>若不存在则先创建 .bash_profile 文件：</p>
-<pre><code>touch .bash_profile
-</code></pre>
-<p>然后在 .bash_profile 文件内写入：</p>
-<pre><code>export NVM_DIR=&quot;$HOME/.nvm&quot;
-[-s &quot;$NVM_DIR/nvm.sh&quot;] &amp;&amp; \. &quot;$NVM_DIR/nvm.sh&quot; # This loads nvm
-</code></pre>
-<p>写入完毕后，关闭文件，执行 .bash_profile 文件：</p>
-<pre><code>source .bash_profile
-</code></pre>
-<p>Q2：每次关闭 <code>terminal</code> 后，又出现 <code>zsh: command not found: nvm</code> 等无法找到某指令的情况，需要重新执行 .bash_profile 文件。</p>
-<p>A2：原因是采用的 <code>terminal</code> 是<code>zsh</code>，需要将配置添加到 .zshrc 文件中。</p>
-<p>打开  .zshrc 文件：</p>
-<pre><code>open ~/.zshrc
-</code></pre>
-<p>在 .zshrc 文件内写入：</p>
-<pre><code>export NVM_DIR=~/.nvm
-[-s &quot;$NVM_DIR/nvm.sh&quot;] &amp;&amp; . &quot;$NVM_DIR/nvm.sh&quot;
-</code></pre>
-<p>写入完毕后，关闭文件，执行 .zshrc 文件：</p>
-<pre><code>source ~/.zshrc
-</code></pre>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://labuladong.github.io/algo/di-yi-zhan-da78c/shou-ba-sh-48c1d/shuang-zhi-fa4bd/">labuladong 的算法小抄 - 双指针技巧秒杀七道数组题目</a></li>
+</ul>
 
   </div>
   <div id="gitalk-container"></div>
@@ -437,21 +594,14 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
 
     <div class="post-paging">
     
-    <a href="/2023/03/07/Kafka/">
+    <a href="/2023/01/15/tree/">
         <div class="post-paging-last">
             <span>上一篇</span>
-            <p>分布式流媒体平台 Kafka</p>
+            <p>LeetCode 算法笔记之二叉树</p>
         </div>
     </a>
     
 
-    
-    <a href="/2023/03/02/Elasticsearch/">
-        <div class="post-paging-next">
-            <span>下一篇</span>
-            <p>分布式搜索引擎 Elasticsearch</p>
-        </div>
-    </a>
     
 </div>
 </div>

@@ -2,7 +2,7 @@
 <html>
 	<head>
 		
-<title>分布式搜索引擎 Elasticsearch-Quiet</title>
+<title>Spring 框架之设计模式-Quiet</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -12,7 +12,7 @@
 
 
 
-<meta name="keywords" content="Java,Spring Boot,Elasticsearch,">
+<meta name="keywords" content="Java,Spring,设计模式,">
 <meta name="description" content="">
 
 
@@ -295,14 +295,14 @@ var _hmt = _hmt || [];
             
             <li><a href="/tags/Java">Java</a></li>
             
-            <li><a href="/tags/Spring Boot">Spring Boot</a></li>
+            <li><a href="/tags/Spring">Spring</a></li>
             
-            <li><a href="/tags/Elasticsearch">Elasticsearch</a></li>
+            <li><a href="/tags/设计模式">设计模式</a></li>
             
             
         </ul>
         
-        <h1>分布式搜索引擎 Elasticsearch</h1>
+        <h1>Spring 框架之设计模式</h1>
         <div class="post-header-info">
             <div class="post-header-info-author">
                 
@@ -316,10 +316,10 @@ var _hmt = _hmt || [];
                 <span class="post-header-info-author-text"> <a href="../../about">LebronLe</a></span>
                 <div class="post-header-info-author-categories">
                     
-                         <a href="../../categories/Elasticsearch/" target="_blank" >Elasticsearch</a>
+                         <a href="../../categories/Java/" target="_blank" >Java</a>
                     
                 </div>
-                <p>2023-03-07 22:25:50</p>
+                <p>2023-02-20 18:10:12</p>
             </div>
         </div>
     </div>
@@ -329,97 +329,21 @@ var _hmt = _hmt || [];
   <div id="article" class="post-content-info">
     
 
-    <h1 id="Elasticsearch 简介"><a href="#Elasticsearch 简介" class="headerlink" title="Elasticsearch 简介"></a>Elasticsearch 简介 </h1><ul>
-<li> 一个分布式的、Restful 风格的搜索引擎。 </li>
-<li> 支持对各种类型的数据的检索。 </li>
-<li> 搜索速度快，可以提供实时的搜索服务。 </li>
-<li> 便于水平扩展，每秒可以处理 PB 级海量数据。 </li>
-<li>Elasticsearch 术语 <ul>
-<li> 索引、类型、文档、字段 </li>
-<li> 集群、节点、分片、副本。</li>
-</ul>
-</li>
-</ul>
-<h1 id="Elasticsearch- 配置"><a href="#Elasticsearch- 配置" class="headerlink" title="Elasticsearch 配置"></a>Elasticsearch 配置 </h1><ol>
-<li> 在 Elasticsearch 安装包下的 config 文件夹下的 <code>slasticsearch.yml</code> 文件内修改：</li>
-</ol>
-<pre><code class="yaml"># 集群名
-cluster.name = my-application
-# 数据存储路径
-path.data: /path/to/data
-# 日志存放路径
-path.logs: /path/to/logs
-</code></pre>
-<ol start="2">
-<li>ES 默认申请 1G 内存，可在 Elasticsearch 安装包下的 config 文件夹下的 <code>jvm.options</code> 文件内修改：</li>
-</ol>
-<pre><code class="properties"># 初始内存
--Xms256m
-# 最大内存
--Xmx512m
-</code></pre>
-<ol start="3">
-<li> 安装分词插件 <a target="_blank" rel="noopener" href="https://github.com/medcl/elasticsearch-analysis-ik">elasticsearch-analysis-ik</a>，将其放到 Elasticsearch 安装包下的 plugins 文件夹下的 ik 文件夹下。在 IKAnalyzer.cfg.xml 文件内可以配置自定义词，在同级目录下新建 <code>.dic</code> 文件即可。</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th align="center">IK version</th>
-<th align="center">ES version</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">master</td>
-<td align="center">7.x -&gt; master</td>
-</tr>
-<tr>
-<td align="center">6.x</td>
-<td align="center">6.x</td>
-</tr>
-<tr>
-<td align="center">5.x</td>
-<td align="center">5.x</td>
-</tr>
-<tr>
-<td align="center">1.10.6</td>
-<td align="center">2.4.6</td>
-</tr>
-<tr>
-<td align="center">1.9.5</td>
-<td align="center">2.3.5</td>
-</tr>
-<tr>
-<td align="center">1.8.1</td>
-<td align="center">2.2.1</td>
-</tr>
-<tr>
-<td align="center">1.7.0</td>
-<td align="center">2.1.1</td>
-</tr>
-<tr>
-<td align="center">1.5.0</td>
-<td align="center">2.0.0</td>
-</tr>
-<tr>
-<td align="center">1.2.6</td>
-<td align="center">1.0.0</td>
-</tr>
-<tr>
-<td align="center">1.2.5</td>
-<td align="center">0.90.x</td>
-</tr>
-<tr>
-<td align="center">1.1.3</td>
-<td align="center">0.20.x</td>
-</tr>
-<tr>
-<td align="center">1.0.0</td>
-<td align="center">0.16.2 -&gt; 0.19.0</td>
-</tr>
-</tbody></table>
-<ol start="4">
-<li> 安装 <a target="_blank" rel="noopener" href="https://www.postman.com/">Postman</a>，可通过其访问 Elasticsearch 服务器。</li>
-</ol>
+    <h1 id="1- 工厂模式"><a href="#1- 工厂模式" class="headerlink" title="1. 工厂模式"></a>1. 工厂模式</h1><h2 id="1-1- 简单工厂模式"><a href="#1-1- 简单工厂模式" class="headerlink" title="1.1 简单工厂模式"></a>1.1 简单工厂模式</h2><p>Spring 中的 BeanFactory ，根据传入一个唯一的标识来获取 Bean 对象。</p>
+<h2 id="1-2- 工厂方法模式"><a href="#1-2- 工厂方法模式" class="headerlink" title="1.2 工厂方法模式"></a>1.2 工厂方法模式</h2><p>FactoryBean 接口，实现了该接口的 bean 是一类叫做 factory 的 bean。</p>
+<p>Spring 在调用方法 getBean() 来获取 bean 时，会自动调用该 bean 的方法 getObject()来获取该工厂 bean 产生的实例，而非工厂 bean 本身实例</p>
+<p>典型示例：Spring 整合 MyBatis</p>
+<h1 id="2- 代理模式"><a href="#2- 代理模式" class="headerlink" title="2. 代理模式"></a>2. 代理模式</h1><p>Spring AOP 的功能即为采用动态代理实现的，支持 JdkDynamicAopProxy 和 Cglib2AopProxy。</p>
+<h1 id="3- 单例模式"><a href="#3- 单例模式" class="headerlink" title="3. 单例模式"></a>3. 单例模式 </h1><p> 一个类在整个系统运行的过程中，只允许产生一个实例。</p>
+<p>Spring 依赖注入的 Bean 默认是单例的。</p>
+<h1 id="4- 模版方法模式"><a href="#4- 模版方法模式" class="headerlink" title="4. 模版方法模式"></a>4. 模版方法模式</h1><p>Spring 中的 JdbcTemplate 等以 Template 结尾的类均采用模版方法模式。</p>
+<h1 id="5- 观察者模式"><a href="#5- 观察者模式" class="headerlink" title="5. 观察者模式"></a>5. 观察者模式</h1><p>Spring 事件驱动模式即为观察者模式的经典应用。</p>
+<h1 id="6- 装饰器模式"><a href="#6- 装饰器模式" class="headerlink" title="6. 装饰器模式"></a>6. 装饰器模式 </h1><p> 缓存与数据库搭配使用时，可能出现以下情况：缓存写操作成功，但数据库事务回滚了，造成了脏数据的问题。Spring 的 TransactionAwareCacheDecorator 使用装饰器模式，增加了对事务的支持，在事务提交、回滚的时候分别对 Cache 的数据进行处理，解决了脏数据问题。</p>
+<h1 id="7- 策略模式"><a href="#7- 策略模式" class="headerlink" title="7. 策略模式"></a>7. 策略模式</h1><p>Spring 通过策略模式在运行时动态地选择不同的动态代理实现方式。</p>
+<h1 id="8- 适配器模式"><a href="#8- 适配器模式" class="headerlink" title="8. 适配器模式"></a>8. 适配器模式</h1><p>Spring MVC 采用适配器模式适配 Controller。 Spring MVC 中的 Controller 种类众多，不同类型的 Controller 通过不同的方法对请求进行处理。如果不用适配器模式，DispatcherServlet 则需要写一堆 if-else 逻辑来调用对应 Controller 的请求处理方法。</p>
+<p>采用适配器模式后，可以将不同方式定义的 Controller 类中的方法适配为统一的函数定义。这样即可在 DispatcherServlet 类中代码中，移除 if-else 分支判断逻辑，而调用统一的函数。</p>
+<h1 id="9- 责任链模式"><a href="#9- 责任链模式" class="headerlink" title="9. 责任链模式"></a>9. 责任链模式 </h1><p> 将能够处理同一类请求的对象连成一条链，使这些对象均有机会处理请求，所提交的请求沿着链传递，避免请求的发送者和接收者之间产生耦合关系。</p>
+<p>典型示例：Spring 拦截器</p>
 
   </div>
   <div id="gitalk-container"></div>
@@ -480,19 +404,19 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
 
     <div class="post-paging">
     
-    <a href="/2023/03/08/community6/">
+    <a href="/2023/02/28/hello-world/">
         <div class="post-paging-last">
             <span>上一篇</span>
-            <p>校园社区论坛项目之 Elasticsearch</p>
+            <p>Welcome to My HomePage!</p>
         </div>
     </a>
     
 
     
-    <a href="/2023/03/07/community5/">
+    <a href="/2023/01/15/tree/">
         <div class="post-paging-next">
             <span>下一篇</span>
-            <p>校园社区论坛项目之 Kafka</p>
+            <p>LeetCode 算法笔记之二叉树</p>
         </div>
     </a>
     
