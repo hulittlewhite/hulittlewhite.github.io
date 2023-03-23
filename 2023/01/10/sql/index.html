@@ -1,0 +1,1964 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+<title>SQL 练习题-Quiet</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" type="image/x-icon" href="/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/index.css">
+
+
+
+<meta name="keywords" content="SQL,">
+<meta name="description" content="">
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+<script src="/js/index.js"></script>
+
+
+<script src="/js/fancybox.umd.js"></script>
+
+
+<script src="/js/fancybox-images.js"></script>
+
+
+<script src="/js/gitalk.min.js"></script>
+
+
+<script src="/js/hljs.min.js"></script>
+ 
+<script>hljs.highlightAll();</script>
+
+	<meta name="generator" content="Hexo 6.3.0"></head>
+
+	<body>
+		<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?e2863d3856a812993ba034f5145bf77c";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+	<div class="header">
+		<div class="header-top" id="header-top">
+			<div class="h-left">
+				<a href="/">
+					<img src="/image/logo.png" alt="Quiet">
+				</a>
+			</div>
+			<div class="h-right">
+				<ul>
+					
+						
+								<li>
+									<a href="/">
+										HOME
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/archives">
+										ARCHIVE
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/categories">
+										CATEGORIES
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/tags">
+										TAGS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/links">
+										LINKS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/about">
+										ABOUT
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+				</ul>
+			</div>
+			<div class="h-right-close">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+					<path fill="none" d="M0 0h24v24H0z" />
+					<path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)" />
+				</svg>
+			</div>
+		</div>
+	</div>
+	<div class="sidebar">
+    <div class="topo">
+        <h2>LebronLe</h2>
+    </div>
+    <ul>
+        
+        <li>
+            <a href="/">HOME</a>
+        </li>
+        
+        <li>
+            <a href="/archives">ARCHIVE</a>
+        </li>
+        
+        <li>
+            <a href="/categories">CATEGORIES</a>
+        </li>
+        
+        <li>
+            <a href="/tags">TAGS</a>
+        </li>
+        
+        <li>
+            <a href="/links">LINKS</a>
+        </li>
+        
+        <li>
+            <a href="/about">ABOUT</a>
+        </li>
+        
+    </ul>
+    <div class="my_foot">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/79E/hexo-theme-quiet">
+            <img src="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Quiet主题">
+        </a>
+        
+    </div>
+</div>
+<div class='shelter'>
+</div>
+<style>
+    .shelter{
+        background-color: #333;
+        opacity:0.5;
+        cursor: pointer;
+        display: none; 
+        position: fixed;
+        left: 0;
+        top: 0; 
+        right: 0;
+        bottom: 0;
+        z-index: 1998;
+    }
+    .sidebar {
+        width: 66%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        bottom: 0;
+        background: #fff;
+        z-index: 1999;
+        text-align: center;
+        box-shadow: -6px 0 20px rgba(98, 94, 94, .815);
+    }
+
+    .topo {
+        width: 100%;
+        height: 200px;
+        background: url(https://api.ixiaowai.cn/gqapi/gqapi.php) no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        display: flex;
+        align-items: flex-end
+    }
+
+    .topo h2 {
+        color: #fff;
+        z-index: 1;
+        position: relative;
+        margin: 0 0 10px 10px;
+        font-size: 1.2em;
+        box-sizing: border-box
+    }
+
+    .topo:before {
+        content: '';
+        background-image: url(/image/pattern.png);
+        background-repeat: repeat;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 1
+    }
+
+    .sidebar ul {
+        width: 100%;
+        margin-top: 50px
+    }
+
+    .sidebar ul li {
+        height: 50px;
+        list-style: none;
+        font-size: 1.2em;
+        text-align: right;
+        margin-right: 10px
+    }
+
+    .sidebar ul li a {
+        display: grid;
+        color: #5d606a;
+        text-overflow: ellipsis;
+        width: 100%;
+        text-decoration: none
+    }
+
+    .my_foot {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        position: absolute;
+        bottom: 0
+    }
+
+    .my_foot a {
+        text-decoration: none;
+        margin-right: 10px;
+        display: inline-block
+    }
+
+    .my_foot a img {
+        width: 30px;
+        height: 30px
+    }
+</style>
+
+<script>
+    $( function () {
+	$( '.h-right-close>svg' )
+		.click( function () {
+			$( '.sidebar' )
+				.animate( {
+					right: "0"
+				}, 500 );
+			$( '.shelter' )
+				.fadeIn( "slow" )
+		} );
+	$( '.shelter' )
+		.click( function ( e ) {
+			$( '.sidebar' )
+				.animate( {
+					right: "-100%"
+				}, 500 );
+			$( '.shelter' )
+				.fadeOut( "slow" )
+		} )
+} )
+
+</script>
+
+<div class="post">
+    <div class="post-header-background post-header-img"
+    style="background: url('https://api.ixiaowai.cn/gqapi/gqapi.php')" 
+>
+    <div class="post-header-background-content">
+        <ul class="post-header-tag">
+            
+            
+            <li><a href="/tags/SQL">SQL</a></li>
+            
+            
+        </ul>
+        
+        <h1>SQL 练习题</h1>
+        <div class="post-header-info">
+            <div class="post-header-info-author">
+                
+                    <svg t="1604839279282" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg" p-id="2901" width="20" height="20">
+                        <path
+                            d="M513 956.3c-247.7 0-448-200.3-448-448S265.3 66.2 513 66.2s448 200.3 448 448-200.3 442.1-448 442.1z m0-830.9c-212.2 0-388.8 170.7-388.8 388.8C124.2 726.3 294.9 903 513 903c212.2 0 388.8-170.7 388.8-388.8S725.2 125.4 513 125.4z m0 430.2c-94.2 0-170.7-76.5-170.7-170.7S418.8 207.8 513 207.8s170.7 76.5 170.7 170.7S607.2 555.6 513 555.6z m0-289.1c-64.6 0-112 52.8-112 112s47.4 117.9 112 117.9 112-52.8 112-112-47.4-117.9-112-117.9z m0 689.8c-135.7 0-259-58.7-341.9-158.9l-11.8-17.8 11.8-17.8c76.5-117.9 206.2-188.5 347.8-188.5 135.7 0 265 64.6 341.9 182.6l11.8 17.8-11.8 17.8C778 897.1 648.7 956.3 513 956.3zM230.3 773.2C300.9 849.7 406.9 897 513 897c112 0 218.1-47.4 288.6-129.8-70.5-88.2-170.7-135.6-282.7-135.6s-218.1 53.3-288.6 141.6z"
+                            p-id="2902" fill="#ffffff"></path>
+                    </svg>
+                    
+                <span class="post-header-info-author-text"> <a href="../../about">LebronLe</a></span>
+                <div class="post-header-info-author-categories">
+                    
+                         <a href="../../categories/SQL/" target="_blank" >SQL</a>
+                    
+                </div>
+                <p>2023-01-10 08:10:50</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="post-content" id="content">
+  
+  <div id="article" class="post-content-info">
+    
+
+    <h1 id="1- 返回每个顾客不同订单的总金额"><a href="#1- 返回每个顾客不同订单的总金额" class="headerlink" title="1. 返回每个顾客不同订单的总金额"></a>1. 返回每个顾客不同订单的总金额</h1><h2 id="1-1- 题目描述"><a href="#1-1- 题目描述" class="headerlink" title="1.1 题目描述"></a>1.1 题目描述</h2><blockquote>
+<p>我们需要一个顾客 ID 列表，其中包含他们已订购的总金额。</p>
+<p>OrderItems 表代表订单信息，OrderItems 表有订单号：order_num 和商品售出价格：item_price、商品数量：quantity。</p>
+<table>
+<thead>
+<tr>
+<th>order_num</th>
+<th>item_price</th>
+<th>quantity</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a0001</td>
+<td>10</td>
+<td>105</td>
+</tr>
+<tr>
+<td>a0002</td>
+<td>1</td>
+<td>1100</td>
+</tr>
+<tr>
+<td>a0002</td>
+<td>1</td>
+<td>200</td>
+</tr>
+<tr>
+<td>a0013</td>
+<td>2</td>
+<td>1121</td>
+</tr>
+<tr>
+<td>a0003</td>
+<td>5</td>
+<td>10</td>
+</tr>
+<tr>
+<td>a0003</td>
+<td>1</td>
+<td>19</td>
+</tr>
+<tr>
+<td>a0003</td>
+<td>7</td>
+<td>5</td>
+</tr>
+</tbody></table>
+<p>Orders 表订单号：order_num、顾客 id：cust_id</p>
+<table>
+<thead>
+<tr>
+<th>order_num</th>
+<th>cust_id</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a0001</td>
+<td>cust10</td>
+</tr>
+<tr>
+<td>a0002</td>
+<td>cust1</td>
+</tr>
+<tr>
+<td>a0003</td>
+<td>cust1</td>
+</tr>
+<tr>
+<td>a0013</td>
+<td>cust2</td>
+</tr>
+</tbody></table>
+<p>【问题】</p>
+<p>编写 SQL 语句，返回顾客 ID（Orders 表中的 cust_id），并使用子查询返回 total_ordered 以便返回每个顾客的订单总数，将结果按金额从大到小排序。</p>
+<p>提示：你之前已经使用 <code>SUM()</code> 计算订单总数。</p>
+<p>【示例结果】返回顾客 id cust_id 和 total_order 下单总额</p>
+<table>
+<thead>
+<tr>
+<th>cust_id</th>
+<th>total_ordered</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cust2</td>
+<td>2242</td>
+</tr>
+<tr>
+<td>cust1</td>
+<td>1300</td>
+</tr>
+<tr>
+<td>cust10</td>
+<td>1050</td>
+</tr>
+<tr>
+<td>cust2</td>
+<td>104</td>
+</tr>
+</tbody></table>
+<p>【示例解析】cust2 在 Orders 里面的订单 a0013，a0013 的售出价格是 2，售出数量是 1121，总额是 2242，最后返回 cust2 的支付总额是 2242。</p>
+<h2 id="示例 1"><a href="# 示例 1" class="headerlink" title="示例 1"></a>示例 1</h2><p>输入：</p>
+<pre><code class="sql">DROP TABLE IF EXISTS `OrderItems`;
+CREATE TABLE IF NOT EXISTS `OrderItems`(order_num VARCHAR(255) NOT NULL COMMENT &#39; 商品订单号 &#39;,
+item_price INT(16) NOT NULL COMMENT &#39; 售出价格 &#39;,
+quantity INT(16) NOT NULL COMMENT &#39; 商品数量 &#39;
+);
+INSERT `OrderItems` VALUES (&#39;a0001&#39;,10,105),(&#39;a0002&#39;,1,1100),(&#39;a0002&#39;,1,200),(&#39;a0013&#39;,2,1121),(&#39;a0003&#39;,5,10),(&#39;a0003&#39;,1,19),(&#39;a0003&#39;,7,5);
+
+DROP TABLE IF EXISTS `Orders`;
+CREATE TABLE IF NOT EXISTS `Orders`(order_num VARCHAR(255) NOT NULL COMMENT &#39; 商品订单号 &#39;,
+ cust_id VARCHAR(255) NOT NULL COMMENT &#39; 顾客 id&#39;
+);
+INSERT `Orders` VALUES (&#39;a0001&#39;,&#39;cust10&#39;),(&#39;a0003&#39;,&#39;cust1&#39;),(&#39;a0013&#39;,&#39;cust2&#39;);
+</code></pre>
+<p>输出：</p>
+<pre><code>cust2|2242.000
+cust10|1050.000
+cust1|104.000
+</code></pre>
+</blockquote>
+<h2 id="1-2-SQL- 语句"><a href="#1-2-SQL- 语句" class="headerlink" title="1.2 SQL 语句"></a>1.2 SQL 语句</h2><pre><code class="mysql">select
+    o.cust_id as cust_id,
+    tb.total_ordered as total_ordered
+from
+    (
+        select
+            order_num,
+            sum(item_price * quantity) as total_ordered
+        from
+            OrderItems
+        group by
+            order_num
+    ) as tb,
+    Orders as o
+where
+    tb.order_num = o.order_num
+order by
+    total_ordered desc;
+</code></pre>
+<h1 id="2- 从 -Products- 表中检索所有的产品名称以及对应的销售总数"><a href="#2- 从 -Products- 表中检索所有的产品名称以及对应的销售总数" class="headerlink" title="2. 从 Products 表中检索所有的产品名称以及对应的销售总数"></a>2. 从 Products 表中检索所有的产品名称以及对应的销售总数</h1><h2 id="2-1- 题目描述"><a href="#2-1- 题目描述" class="headerlink" title="2.1 题目描述"></a>2.1 题目描述</h2><blockquote>
+<p>Products 表中检索所有的产品名称：prod_name、产品 id：prod_id</p>
+<table>
+<thead>
+<tr>
+<th>prod_id</th>
+<th>prod_name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a0001</td>
+<td>egg</td>
+</tr>
+<tr>
+<td>a0002</td>
+<td>sockets</td>
+</tr>
+<tr>
+<td>a0013</td>
+<td>coffee</td>
+</tr>
+<tr>
+<td>a0003</td>
+<td>cola</td>
+</tr>
+</tbody></table>
+<p>OrderItems 代表订单商品表，订单产品：prod_id、售出数量：quantity</p>
+<table>
+<thead>
+<tr>
+<th>prod_id</th>
+<th>quantity</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a0001</td>
+<td>105</td>
+</tr>
+<tr>
+<td>a0002</td>
+<td>1100</td>
+</tr>
+<tr>
+<td>a0002</td>
+<td>200</td>
+</tr>
+<tr>
+<td>a0013</td>
+<td>1121</td>
+</tr>
+<tr>
+<td>a0003</td>
+<td>10</td>
+</tr>
+<tr>
+<td>a0003</td>
+<td>19</td>
+</tr>
+<tr>
+<td>a0003</td>
+<td>5</td>
+</tr>
+</tbody></table>
+<p>【问题】</p>
+<p>编写 SQL 语句，从 Products 表中检索所有的产品名称（prod_name），以及名为 quant_sold 的计算列，其中包含所售产品的总数（在 OrderItems 表上使用子查询和 <code>SUM(quantity)</code>检索）。</p>
+<p>【示例结果】返回产品名称 prod_name 和产品售出数量总和</p>
+<table>
+<thead>
+<tr>
+<th>prod_name</th>
+<th>quant_sold</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>egg</td>
+<td>105</td>
+</tr>
+<tr>
+<td>sockets</td>
+<td>1300</td>
+</tr>
+<tr>
+<td>coffee</td>
+<td>1121</td>
+</tr>
+<tr>
+<td>cola</td>
+<td>34</td>
+</tr>
+</tbody></table>
+<p>【示例解析】prod_name 是 cola 的 prod_id 为 a0003，quantity 总量为 34，返回结果无需排序。</p>
+<h2 id="示例 1-1"><a href="# 示例 1-1" class="headerlink" title="示例 1"></a>示例 1</h2><p>输入：</p>
+<pre><code class="sql">DROP TABLE IF EXISTS `Products`;
+CREATE TABLE IF NOT EXISTS `Products` (`prod_id` VARCHAR(255) NOT NULL COMMENT &#39; 产品 ID&#39;,
+`prod_name` VARCHAR(255) NOT NULL COMMENT &#39; 产品名称 &#39;
+);
+INSERT INTO `Products` VALUES (&#39;a0001&#39;,&#39;egg&#39;),
+(&#39;a0002&#39;,&#39;sockets&#39;),
+(&#39;a0013&#39;,&#39;coffee&#39;),
+(&#39;a0003&#39;,&#39;cola&#39;);
+
+DROP TABLE IF EXISTS `OrderItems`;
+CREATE TABLE IF NOT EXISTS `OrderItems`(prod_id VARCHAR(255) NOT NULL COMMENT &#39; 产品 id&#39;,
+quantity INT(16) NOT NULL COMMENT &#39; 商品数量 &#39;
+);
+INSERT `OrderItems` VALUES (&#39;a0001&#39;,105),(&#39;a0002&#39;,1100),(&#39;a0002&#39;,200),(&#39;a0013&#39;,1121),(&#39;a0003&#39;,10),(&#39;a0003&#39;,19),(&#39;a0003&#39;,5);
+</code></pre>
+<p>输出：</p>
+<pre><code>egg|105.000
+sockets|1300.000
+coffee|1121.000
+cola|34.000
+</code></pre>
+</blockquote>
+<h2 id="2-2-SQL- 语句"><a href="#2-2-SQL- 语句" class="headerlink" title="2.2 SQL 语句"></a>2.2 SQL 语句</h2><pre><code class="mysql">select
+    p.prod_name as prod_name,
+    quant_sold
+from
+    (
+        select
+            prod_id,
+            sum(quantity) as quant_sold
+        from
+            OrderItems
+        group by
+            prod_id
+    ) as tb,
+    Products as p
+where
+    p.prod_id = tb.prod_id;
+</code></pre>
+<h1 id="3- 返回顾客名称和相关订单号"><a href="#3- 返回顾客名称和相关订单号" class="headerlink" title="3. 返回顾客名称和相关订单号"></a>3. 返回顾客名称和相关订单号</h1><h2 id="3-1- 题目描述"><a href="#3-1- 题目描述" class="headerlink" title="3.1 题目描述"></a>3.1 题目描述</h2><blockquote>
+<p>Customers 表有字段顾客名称 cust_name、顾客 id cust_id</p>
+<table>
+<thead>
+<tr>
+<th>cust_id</th>
+<th>cust_name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cust10</td>
+<td>andy</td>
+</tr>
+<tr>
+<td>cust1</td>
+<td>ben</td>
+</tr>
+<tr>
+<td>cust2</td>
+<td>tony</td>
+</tr>
+<tr>
+<td>cust22</td>
+<td>tom</td>
+</tr>
+<tr>
+<td>cust221</td>
+<td>an</td>
+</tr>
+<tr>
+<td>cust2217</td>
+<td>hex</td>
+</tr>
+</tbody></table>
+<p>Orders 订单信息表，含有字段 order_num 订单号、cust_id 顾客 id</p>
+<table>
+<thead>
+<tr>
+<th>order_num</th>
+<th>cust_id</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a1</td>
+<td>cust10</td>
+</tr>
+<tr>
+<td>a2</td>
+<td>cust1</td>
+</tr>
+<tr>
+<td>a3</td>
+<td>cust2</td>
+</tr>
+<tr>
+<td>a4</td>
+<td>cust22</td>
+</tr>
+<tr>
+<td>a5</td>
+<td>cust221</td>
+</tr>
+<tr>
+<td>a7</td>
+<td>cust2217</td>
+</tr>
+</tbody></table>
+<p>【问题】</p>
+<p>编写 SQL 语句，返回 Customers 表中的顾客名称（cust_name）和 Orders 表中的相关订单号（order_num），并按顾客名称再按订单号对结果进行升序排序。你可以尝试用两个不同的写法，一个使用简单的等联结语法，另外一个使用 INNER JOIN。</p>
+<p>【示例结果】cust_name 代表用户名称 cust_name 和订单号 order_num。</p>
+<table>
+<thead>
+<tr>
+<th>cust_name</th>
+<th>order_num</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>an</td>
+<td>a5</td>
+</tr>
+<tr>
+<td>andy</td>
+<td>a1</td>
+</tr>
+<tr>
+<td>ben</td>
+<td>a2</td>
+</tr>
+<tr>
+<td>hex</td>
+<td>a7</td>
+</tr>
+<tr>
+<td>tom</td>
+<td>a4</td>
+</tr>
+<tr>
+<td>tony</td>
+<td>a3</td>
+</tr>
+</tbody></table>
+<p>【示例解析】顾客名称为 an 的 cust_id 为 cust221，他的订单号为 a5。</p>
+<h2 id="示例 1-2"><a href="# 示例 1-2" class="headerlink" title="示例 1"></a>示例 1</h2><p>输入：</p>
+<pre><code class="sql">DROP TABLE IF EXISTS `Orders`;
+CREATE TABLE IF NOT EXISTS `Orders`(order_num VARCHAR(255) NOT NULL COMMENT &#39; 商品订单号 &#39;,
+ cust_id VARCHAR(255) NOT NULL COMMENT &#39; 顾客 id&#39;
+);
+INSERT `Orders` VALUES (&#39;a1&#39;,&#39;cust10&#39;),(&#39;a2&#39;,&#39;cust1&#39;),(&#39;a3&#39;,&#39;cust2&#39;),(&#39;a4&#39;,&#39;cust22&#39;),(&#39;a5&#39;,&#39;cust221&#39;),(&#39;a7&#39;,&#39;cust2217&#39;);
+
+DROP TABLE IF EXISTS `Customers`;
+CREATE TABLE IF NOT EXISTS `Customers`(cust_id VARCHAR(255) NOT NULL COMMENT &#39; 客户 id&#39;,
+cust_name VARCHAR(255) NOT NULL COMMENT &#39; 客户姓名 &#39;
+);
+INSERT `Customers` VALUES (&#39;cust10&#39;,&#39;andy&#39;),(&#39;cust1&#39;,&#39;ben&#39;),(&#39;cust2&#39;,&#39;tony&#39;),(&#39;cust22&#39;,&#39;tom&#39;),(&#39;cust221&#39;,&#39;an&#39;),(&#39;cust2217&#39;,&#39;hex&#39;);
+</code></pre>
+<p>输出：</p>
+<pre><code>an|a5
+andy|a1
+ben|a2
+hex|a7
+tom|a4
+tony|a3
+</code></pre>
+</blockquote>
+<h2 id="3-2-SQL- 语句"><a href="#3-2-SQL- 语句" class="headerlink" title="3.2 SQL 语句"></a>3.2 SQL 语句 </h2><p> 方法一：</p>
+<pre><code class="mysql">select
+    c.cust_name as cust_name,
+    o.order_num as order_num
+from
+    Customers as c,
+    Orders as o
+where
+    c.cust_id = o.cust_id
+order by
+    cust_name,
+    order_num
+</code></pre>
+<p>方法二：</p>
+<pre><code class="mysql">select
+    cust_name,
+    order_num
+from
+    Customers
+    INNER JOIN Orders ON Orders.cust_id = Customers.cust_id
+order by
+    cust_name,
+    order_num;
+</code></pre>
+<h1 id="4- 返回顾客名称和相关订单号以及每个订单的总价"><a href="#4- 返回顾客名称和相关订单号以及每个订单的总价" class="headerlink" title="4. 返回顾客名称和相关订单号以及每个订单的总价"></a>4. 返回顾客名称和相关订单号以及每个订单的总价</h1><h2 id="4-1- 题目描述"><a href="#4-1- 题目描述" class="headerlink" title="4.1 题目描述"></a>4.1 题目描述</h2><blockquote>
+<p>Customers 表有字段，顾客名称：cust_name、顾客 id：cust_id</p>
+<table>
+<thead>
+<tr>
+<th>cust_id</th>
+<th>cust_name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cust10</td>
+<td>andy</td>
+</tr>
+<tr>
+<td>cust1</td>
+<td>ben</td>
+</tr>
+<tr>
+<td>cust2</td>
+<td>tony</td>
+</tr>
+<tr>
+<td>cust22</td>
+<td>tom</td>
+</tr>
+<tr>
+<td>cust221</td>
+<td>an</td>
+</tr>
+<tr>
+<td>cust2217</td>
+<td>hex</td>
+</tr>
+</tbody></table>
+<p>Orders 订单信息表，含有字段，订单号：order_num、顾客 id：cust_id</p>
+<table>
+<thead>
+<tr>
+<th>order_num</th>
+<th>cust_id</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a1</td>
+<td>cust10</td>
+</tr>
+<tr>
+<td>a2</td>
+<td>cust1</td>
+</tr>
+<tr>
+<td>a3</td>
+<td>cust2</td>
+</tr>
+<tr>
+<td>a4</td>
+<td>cust22</td>
+</tr>
+<tr>
+<td>a5</td>
+<td>cust221</td>
+</tr>
+<tr>
+<td>a7</td>
+<td>cust2217</td>
+</tr>
+</tbody></table>
+<p>OrderItems 表有字段，商品订单号：order_num、商品数量：quantity、商品价格：item_price</p>
+<table>
+<thead>
+<tr>
+<th>order_num</th>
+<th>quantity</th>
+<th>item_price</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a1</td>
+<td>1000</td>
+<td>10</td>
+</tr>
+<tr>
+<td>a2</td>
+<td>200</td>
+<td>10</td>
+</tr>
+<tr>
+<td>a3</td>
+<td>10</td>
+<td>15</td>
+</tr>
+<tr>
+<td>a4</td>
+<td>25</td>
+<td>50</td>
+</tr>
+<tr>
+<td>a5</td>
+<td>15</td>
+<td>25</td>
+</tr>
+<tr>
+<td>a7</td>
+<td>7</td>
+<td>7</td>
+</tr>
+</tbody></table>
+<p>【问题】</p>
+<p>除了返回顾客名称和订单号，返回 Customers 表中的顾客名称（cust_name）和 Orders 表中的相关订单号（order_num），添加第三列 OrderTotal，其中包含每个订单的总价，并按顾客名称再按订单号对结果进行升序排序。</p>
+<p>【示例结果】返回顾客名称 cust_name、订单号 order_num、订单总额 OrderTotal</p>
+<table>
+<thead>
+<tr>
+<th>cust_name</th>
+<th>order_num</th>
+<th>OrderTotal</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>an</td>
+<td>a5</td>
+<td>375</td>
+</tr>
+<tr>
+<td>andy</td>
+<td>a1</td>
+<td>10000</td>
+</tr>
+<tr>
+<td>ben</td>
+<td>a2</td>
+<td>2000</td>
+</tr>
+<tr>
+<td>hex</td>
+<td>a7</td>
+<td>49</td>
+</tr>
+<tr>
+<td>tom</td>
+<td>a4</td>
+<td>1250</td>
+</tr>
+<tr>
+<td>tony</td>
+<td>a3</td>
+<td>150</td>
+</tr>
+</tbody></table>
+<p>【示例解析】</p>
+<p>例如顾客名称 cust_name 为 an 的顾客的订单 a5 的订单总额为 <code>quantity * item_price = 15 * 25 = 375</code>，最后以 cust_name 和 order_num 来进行升序排序。</p>
+<h2 id="示例 1-3"><a href="# 示例 1-3" class="headerlink" title="示例 1"></a>示例 1</h2><p>输入：</p>
+<pre><code class="sql">DROP TABLE IF EXISTS `Orders`;
+CREATE TABLE IF NOT EXISTS `Orders`(order_num VARCHAR(255) NOT NULL COMMENT &#39; 商品订单号 &#39;,
+ cust_id VARCHAR(255) NOT NULL COMMENT &#39; 顾客 id&#39;
+);
+INSERT `Orders` VALUES (&#39;a1&#39;,&#39;cust10&#39;),(&#39;a2&#39;,&#39;cust1&#39;),(&#39;a3&#39;,&#39;cust2&#39;),(&#39;a4&#39;,&#39;cust22&#39;),(&#39;a5&#39;,&#39;cust221&#39;),(&#39;a7&#39;,&#39;cust2217&#39;);
+
+DROP TABLE IF EXISTS `Customers`;
+CREATE TABLE IF NOT EXISTS `Customers`(cust_id VARCHAR(255) NOT NULL COMMENT &#39; 客户 id&#39;,
+cust_name VARCHAR(255) NOT NULL COMMENT &#39; 客户姓名 &#39;
+);
+INSERT `Customers` VALUES (&#39;cust10&#39;,&#39;andy&#39;),(&#39;cust1&#39;,&#39;ben&#39;),(&#39;cust2&#39;,&#39;tony&#39;),(&#39;cust22&#39;,&#39;tom&#39;),(&#39;cust221&#39;,&#39;an&#39;),(&#39;cust2217&#39;,&#39;hex&#39;);
+
+DROP TABLE IF EXISTS `OrderItems`;
+CREATE TABLE IF NOT EXISTS `OrderItems`(order_num VARCHAR(255) NOT NULL COMMENT &#39; 商品订单号 &#39;,
+ quantity INT(16) NOT NULL COMMENT &#39; 商品数量 &#39;,
+ item_price INT(16) NOT NULL COMMENT &#39; 商品价格 &#39;
+);
+INSERT `OrderItems` VALUES (&#39;a1&#39;,1000,10),(&#39;a2&#39;,200,10),(&#39;a3&#39;,10,15),(&#39;a4&#39;,25,50),(&#39;a5&#39;,15,25),(&#39;a7&#39;,7,7);
+</code></pre>
+<p>输出：</p>
+<pre><code>an|a5|375
+andy|a1|10000
+ben|a2|2000
+hex|a7|49
+tom|a4|1250
+tony|a3|150
+</code></pre>
+</blockquote>
+<h2 id="4-2-SQL- 语句"><a href="#4-2-SQL- 语句" class="headerlink" title="4.2 SQL 语句"></a>4.2 SQL 语句</h2><pre><code class="mysql">select
+    c.cust_name,
+    o.order_num,
+    tb.OrderTotal
+from
+    (
+        select
+            order_num,
+            quantity * item_price as OrderTotal
+        from
+            OrderItems
+    ) as tb,
+    Customers as c,
+    Orders as o
+where
+    c.cust_id = o.cust_id
+    and o.order_num = tb.order_num
+order by
+    cust_name,
+    order_num;
+</code></pre>
+<h1 id="5- 确定哪些订单购买了 -prod-id- 为 -BR01- 的产品（二）"><a href="#5- 确定哪些订单购买了 -prod-id- 为 -BR01- 的产品（二）" class="headerlink" title="5. 确定哪些订单购买了 prod_id 为 BR01 的产品（二）"></a>5. 确定哪些订单购买了 prod_id 为 BR01 的产品（二）</h1><h2 id="5-1- 题目描述"><a href="#5-1- 题目描述" class="headerlink" title="5.1 题目描述"></a>5.1 题目描述</h2><blockquote>
+<p>表 OrderItems 代表订单商品信息表，prod_id 为产品 id；Orders 表代表订单表有 cust_id 代表顾客 id 和订单日期 order_date</p>
+<p>OrderItems 表</p>
+<table>
+<thead>
+<tr>
+<th>prod_id</th>
+<th>order_num</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>BR01</td>
+<td>a0001</td>
+</tr>
+<tr>
+<td>BR01</td>
+<td>a0002</td>
+</tr>
+<tr>
+<td>BR02</td>
+<td>a0003</td>
+</tr>
+<tr>
+<td>BR02</td>
+<td>a0013</td>
+</tr>
+</tbody></table>
+<p>Orders 表</p>
+<table>
+<thead>
+<tr>
+<th>order_num</th>
+<th>cust_id</th>
+<th>order_date</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a0001</td>
+<td>cust10</td>
+<td>2022-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>a0002</td>
+<td>cust1</td>
+<td>2022-01-01 00:01:00</td>
+</tr>
+<tr>
+<td>a0003</td>
+<td>cust1</td>
+<td>2022-01-02 00:00:00</td>
+</tr>
+<tr>
+<td>a0013</td>
+<td>cust2</td>
+<td>2022-01-01 00:20:00</td>
+</tr>
+</tbody></table>
+<p>【问题】</p>
+<p>编写 SQL 语句，使用子查询来确定哪些订单（在 OrderItems 中）购买了 prod_id 为 “BR01” 的产品，然后从 Orders 表中返回每个产品对应的顾客 ID（cust_id）和订单日期（order_date），按订购日期对结果进行升序排序。</p>
+<p>提示：这一次使用联结和简单的等联结语法。</p>
+<p>【示例结果】</p>
+<p>返回顾客 id cust_id 和定单日期 order_date</p>
+<table>
+<thead>
+<tr>
+<th>cust_id</th>
+<th>order_date</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cust10</td>
+<td>2022-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>cust1</td>
+<td>2022-01-01 00:01:00</td>
+</tr>
+</tbody></table>
+<p>【示例解析】 </p>
+<p>产品 id 为 BR01 的订单 a0001 和 a002 的下单顾客 cust10 和 cust1 的下单时间分别为 2022-01-01 00:00:00 和 2022-01-01 00:01:00</p>
+<h2 id="示例 1-4"><a href="# 示例 1-4" class="headerlink" title="示例 1"></a>示例 1</h2><p>输入：</p>
+<pre><code class="sql">DROP TABLE IF EXISTS `OrderItems`;
+  CREATE TABLE IF NOT EXISTS `OrderItems`(prod_id VARCHAR(255) NOT NULL COMMENT &#39; 产品 id&#39;,
+    order_num VARCHAR(255) NOT NULL COMMENT &#39; 商品订单号 &#39;
+  );
+  INSERT `OrderItems` VALUES (&#39;BR01&#39;,&#39;a0001&#39;),(&#39;BR01&#39;,&#39;a0002&#39;),(&#39;BR02&#39;,&#39;a0003&#39;),(&#39;BR02&#39;,&#39;a0013&#39;);
+
+  DROP TABLE IF EXISTS `Orders`;
+  CREATE TABLE IF NOT EXISTS `Orders`(order_num VARCHAR(255) NOT NULL COMMENT &#39; 商品订单号 &#39;,
+    cust_id VARCHAR(255) NOT NULL COMMENT &#39; 顾客 id&#39;,
+    order_date TIMESTAMP NOT NULL COMMENT &#39; 下单时间 &#39;
+  );
+  INSERT `Orders` VALUES (&#39;a0001&#39;,&#39;cust10&#39;,&#39;2022-01-01 00:00:00&#39;),(&#39;a0002&#39;,&#39;cust1&#39;,&#39;2022-01-01 00:01:00&#39;),(&#39;a0003&#39;,&#39;cust1&#39;,&#39;2022-01-02 00:00:00&#39;),(&#39;a0013&#39;,&#39;cust2&#39;,&#39;2022-01-01 00:20:00&#39;);
+</code></pre>
+<p>输出：</p>
+<pre><code>cust10|2022-01-01 00:00:00
+cust1|2022-01-01 00:01:00
+</code></pre>
+</blockquote>
+<h2 id="5-2-SQL- 语句"><a href="#5-2-SQL- 语句" class="headerlink" title="5.2 SQL 语句"></a>5.2 SQL 语句</h2><pre><code class="mysql">select
+    o.cust_id,
+    o.order_date
+from
+    (
+        select
+            order_num
+        from
+            OrderItems
+        where
+            prod_id = &#39;BR01&#39;
+    ) as tb,
+    Orders as o
+where
+    tb.order_num = o.order_num
+order by
+    order_date;
+</code></pre>
+<h1 id="6- 返回购买 -prod-id- 为 -BR01- 的产品的所有顾客的电子邮件（二）"><a href="#6- 返回购买 -prod-id- 为 -BR01- 的产品的所有顾客的电子邮件（二）" class="headerlink" title="6. 返回购买 prod_id 为 BR01 的产品的所有顾客的电子邮件（二）"></a>6. 返回购买 prod_id 为 BR01 的产品的所有顾客的电子邮件（二）</h1><h2 id="6-1- 题目描述"><a href="#6-1- 题目描述" class="headerlink" title="6.1 题目描述"></a>6.1 题目描述</h2><blockquote>
+<p>有表 OrderItems 代表订单商品信息表，prod_id 为产品 id；Orders 表代表订单表有 cust_id 代表顾客 id 和订单日期 order_date；Customers 表含有 cust_email 顾客邮件和 cust_id 顾客 id</p>
+<p>OrderItems 表</p>
+<table>
+<thead>
+<tr>
+<th>prod_id</th>
+<th>order_num</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>BR01</td>
+<td>a0001</td>
+</tr>
+<tr>
+<td>BR01</td>
+<td>a0002</td>
+</tr>
+<tr>
+<td>BR02</td>
+<td>a0003</td>
+</tr>
+<tr>
+<td>BR02</td>
+<td>a0013</td>
+</tr>
+</tbody></table>
+<p>Orders 表</p>
+<table>
+<thead>
+<tr>
+<th>order_num</th>
+<th>cust_id</th>
+<th>order_date</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a0001</td>
+<td>cust10</td>
+<td>2022-01-01 00:00:00</td>
+</tr>
+<tr>
+<td>a0002</td>
+<td>cust1</td>
+<td>2022-01-01 00:01:00</td>
+</tr>
+<tr>
+<td>a0003</td>
+<td>cust1</td>
+<td>2022-01-02 00:00:00</td>
+</tr>
+<tr>
+<td>a0013</td>
+<td>cust2</td>
+<td>2022-01-01 00:20:00</td>
+</tr>
+</tbody></table>
+<p>Customers 表代表顾客信息，cust_id 为顾客 id，cust_email 为顾客 email</p>
+<p>【问题】返回购买 prod_id 为 BR01 的产品的所有顾客的电子邮件（Customers 表中的 cust_email），结果无需排序。</p>
+<p>提示：涉及到 SELECT 语句，最内层的从 OrderItems 表返回 order_num，中间的从 Customers 表返回 cust_id，但是必须使用 INNER JOIN 语法。</p>
+<p>【示例结果】返回顾客 email cust_email</p>
+<table>
+<thead>
+<tr>
+<th>cust_email</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="mailto:&#x63;&#x75;&#x73;&#x74;&#x31;&#x30;&#x40;&#x63;&#x75;&#x73;&#116;&#x2e;&#x63;&#x6f;&#x6d;">&#x63;&#x75;&#x73;&#x74;&#x31;&#x30;&#x40;&#x63;&#x75;&#x73;&#116;&#x2e;&#x63;&#x6f;&#x6d;</a></td>
+</tr>
+<tr>
+<td><a href="mailto:&#x63;&#117;&#x73;&#x74;&#x31;&#x40;&#99;&#117;&#115;&#x74;&#x2e;&#99;&#x6f;&#x6d;">&#x63;&#117;&#x73;&#x74;&#x31;&#x40;&#99;&#117;&#115;&#x74;&#x2e;&#99;&#x6f;&#x6d;</a></td>
+</tr>
+</tbody></table>
+<p>【示例解析】 </p>
+<p>产品 id 为 BR01 的订单 a0001 和 a002 的下单顾客 cust10 和 cust1 的顾客 email cust_email 分别是：<a href="mailto:&#99;&#x75;&#115;&#x74;&#49;&#x30;&#x40;&#x63;&#x75;&#115;&#x74;&#x2e;&#99;&#111;&#109;">&#99;&#x75;&#115;&#x74;&#49;&#x30;&#x40;&#x63;&#x75;&#115;&#x74;&#x2e;&#99;&#111;&#109;</a> 、<a href="mailto:&#99;&#117;&#x73;&#116;&#x31;&#64;&#x63;&#x75;&#115;&#116;&#46;&#x63;&#111;&#109;">&#99;&#117;&#x73;&#116;&#x31;&#64;&#x63;&#x75;&#115;&#116;&#46;&#x63;&#111;&#109;</a></p>
+<h2 id="示例 1-5"><a href="# 示例 1-5" class="headerlink" title="示例 1"></a>示例 1</h2><p>输入：</p>
+<pre><code class="sql">DROP TABLE IF EXISTS `OrderItems`;
+ CREATE TABLE IF NOT EXISTS `OrderItems`(prod_id VARCHAR(255) NOT NULL COMMENT &#39; 产品 id&#39;,
+   order_num VARCHAR(255) NOT NULL COMMENT &#39; 商品订单号 &#39;
+ );
+ INSERT `OrderItems` VALUES (&#39;BR01&#39;,&#39;a0001&#39;),(&#39;BR01&#39;,&#39;a0002&#39;),(&#39;BR02&#39;,&#39;a0003&#39;),(&#39;BR02&#39;,&#39;a0013&#39;);
+
+ DROP TABLE IF EXISTS `Orders`;
+ CREATE TABLE IF NOT EXISTS `Orders`(order_num VARCHAR(255) NOT NULL COMMENT &#39; 商品订单号 &#39;,
+   cust_id VARCHAR(255) NOT NULL COMMENT &#39; 顾客 id&#39;,
+   order_date TIMESTAMP NOT NULL COMMENT &#39; 下单时间 &#39;
+ );
+ INSERT `Orders` VALUES (&#39;a0001&#39;,&#39;cust10&#39;,&#39;2022-01-01 00:00:00&#39;),(&#39;a0002&#39;,&#39;cust1&#39;,&#39;2022-01-01 00:01:00&#39;),(&#39;a0003&#39;,&#39;cust1&#39;,&#39;2022-01-02 00:00:00&#39;),(&#39;a0013&#39;,&#39;cust2&#39;,&#39;2022-01-01 00:20:00&#39;);
+
+DROP TABLE IF EXISTS `Customers`;
+CREATE TABLE IF NOT EXISTS `Customers`(cust_id VARCHAR(255) NOT NULL COMMENT &#39; 顾客 id&#39;,
+   cust_email VARCHAR(255) NOT NULL COMMENT &#39; 顾客 email&#39;
+ );
+INSERT `Customers` VALUES (&#39;cust10&#39;,&#39;cust10@cust.com&#39;),(&#39;cust1&#39;,&#39;cust1@cust.com&#39;),(&#39;cust2&#39;,&#39;cust2@cust.com&#39;);
+</code></pre>
+<p>输出：</p>
+<pre><code>cust10@cust.com
+cust1@cust.com
+</code></pre>
+</blockquote>
+<h2 id="6-2-SQL- 语句"><a href="#6-2-SQL- 语句" class="headerlink" title="6.2 SQL 语句"></a>6.2 SQL 语句</h2><pre><code class="mysql">select
+    Customers.cust_email
+from
+    (
+        select
+            cust_id
+        from
+            Orders
+        where
+            order_num in (
+                select
+                    order_num
+                from
+                    OrderItems
+                where
+                    prod_id = &#39;BR01&#39;
+            )
+    ) as tb INNER JOIN Customers on tb.cust_id = Customers.cust_id;
+</code></pre>
+<h1 id="7- 确定最佳顾客的另一种方式（二）"><a href="#7- 确定最佳顾客的另一种方式（二）" class="headerlink" title="7. 确定最佳顾客的另一种方式（二）"></a>7. 确定最佳顾客的另一种方式（二）</h1><h2 id="7-1- 题目描述"><a href="#7-1- 题目描述" class="headerlink" title="7.1 题目描述"></a>7.1 题目描述</h2><blockquote>
+<p>OrderItems 表代表订单信息，确定最佳顾客的另一种方式是看他们花了多少钱，OrderItems 表有订单号 order_num 和 item_price 商品售出价格、quantity 商品数量</p>
+<table>
+<thead>
+<tr>
+<th>order_num</th>
+<th>item_price</th>
+<th>quantity</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a1</td>
+<td>10</td>
+<td>105</td>
+</tr>
+<tr>
+<td>a2</td>
+<td>1</td>
+<td>1100</td>
+</tr>
+<tr>
+<td>a2</td>
+<td>1</td>
+<td>200</td>
+</tr>
+<tr>
+<td>a4</td>
+<td>2</td>
+<td>1121</td>
+</tr>
+<tr>
+<td>a5</td>
+<td>5</td>
+<td>10</td>
+</tr>
+<tr>
+<td>a2</td>
+<td>1</td>
+<td>19</td>
+</tr>
+<tr>
+<td>a7</td>
+<td>7</td>
+<td>5</td>
+</tr>
+</tbody></table>
+<p>Orders 表含有字段 order_num 订单号、cust_id 顾客 id</p>
+<table>
+<thead>
+<tr>
+<th>order_num</th>
+<th>cust_id</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a1</td>
+<td>cust10</td>
+</tr>
+<tr>
+<td>a2</td>
+<td>cust1</td>
+</tr>
+<tr>
+<td>a3</td>
+<td>cust2</td>
+</tr>
+<tr>
+<td>a4</td>
+<td>cust22</td>
+</tr>
+<tr>
+<td>a5</td>
+<td>cust221</td>
+</tr>
+<tr>
+<td>a7</td>
+<td>cust2217</td>
+</tr>
+</tbody></table>
+<p>顾客表 Customers 有字段 cust_id  客户 id、cust_name 客户姓名</p>
+<table>
+<thead>
+<tr>
+<th>cust_id</th>
+<th>cust_name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cust10</td>
+<td>andy</td>
+</tr>
+<tr>
+<td>cust1</td>
+<td>ben</td>
+</tr>
+<tr>
+<td>cust2</td>
+<td>tony</td>
+</tr>
+<tr>
+<td>cust22</td>
+<td>tom</td>
+</tr>
+<tr>
+<td>cust221</td>
+<td>an</td>
+</tr>
+<tr>
+<td>cust2217</td>
+<td>hex</td>
+</tr>
+</tbody></table>
+<p>【问题】编写 SQL 语句，返回订单总价不小于 1000 的客户名称和总额（OrderItems 表中的 order_num）。</p>
+<p>提示：需要计算总和（item_price 乘以 quantity）。按总额对结果进行排序，请使用 INNER JOIN 语法。</p>
+<p>【示例结果】</p>
+<table>
+<thead>
+<tr>
+<th>cust_name</th>
+<th>total_price</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>andy</td>
+<td>1050</td>
+</tr>
+<tr>
+<td>ben</td>
+<td>1319</td>
+</tr>
+<tr>
+<td>tom</td>
+<td>2242</td>
+</tr>
+</tbody></table>
+<p>【示例解析】</p>
+<p>总额（item_price 乘以 quantity）大于等于 1000 的订单号，例如 a2 对应的顾客 id 为 cust1，cust1 的顾客名称 cust_name 是 ben，最后返回 ben 作为 order_num a2 的 quantity * item_price 总和的结果 1319。</p>
+<h2 id="示例 1-6"><a href="# 示例 1-6" class="headerlink" title="示例 1"></a>示例 1</h2><p>输入：</p>
+<pre><code class="sql">DROP TABLE IF EXISTS `OrderItems`;
+CREATE TABLE IF NOT EXISTS `OrderItems`(order_num VARCHAR(255) NOT NULL COMMENT &#39; 商品订单号 &#39;,
+item_price INT(16) NOT NULL COMMENT &#39; 售出价格 &#39;,
+quantity INT(16) NOT NULL COMMENT &#39; 商品数量 &#39;
+);
+INSERT `OrderItems` VALUES (&#39;a1&#39;,10,105),(&#39;a2&#39;,1,1100),(&#39;a2&#39;,1,200),(&#39;a4&#39;,2,1121),(&#39;a5&#39;,5,10),(&#39;a2&#39;,1,19),(&#39;a7&#39;,7,5);
+
+
+DROP TABLE IF EXISTS `Customers`;
+CREATE TABLE IF NOT EXISTS `Customers`(cust_id VARCHAR(255) NOT NULL COMMENT &#39; 客户 id&#39;,
+cust_name VARCHAR(255) NOT NULL COMMENT &#39; 客户姓名 &#39;
+);
+INSERT `Customers` VALUES (&#39;cust10&#39;,&#39;andy&#39;),(&#39;cust1&#39;,&#39;ben&#39;),(&#39;cust2&#39;,&#39;tony&#39;),(&#39;cust22&#39;,&#39;tom&#39;),(&#39;cust221&#39;,&#39;an&#39;),(&#39;cust2217&#39;,&#39;hex&#39;);
+
+DROP TABLE IF EXISTS `Orders`;
+CREATE TABLE IF NOT EXISTS `Orders`(order_num VARCHAR(255) NOT NULL COMMENT &#39; 商品订单号 &#39;,
+ cust_id VARCHAR(255) NOT NULL COMMENT &#39; 顾客 id&#39;
+);
+INSERT `Orders` VALUES (&#39;a1&#39;,&#39;cust10&#39;),(&#39;a2&#39;,&#39;cust1&#39;),(&#39;a3&#39;,&#39;cust2&#39;),(&#39;a4&#39;,&#39;cust22&#39;),(&#39;a5&#39;,&#39;cust221&#39;),(&#39;a7&#39;,&#39;cust2217&#39;);
+</code></pre>
+<p>输出：</p>
+<pre><code>andy|1050.000
+ben|1319.000
+tom|2242.000
+</code></pre>
+</blockquote>
+<h2 id="7-2-SQL- 语句"><a href="#7-2-SQL- 语句" class="headerlink" title="7.2 SQL 语句"></a>7.2 SQL 语句</h2><pre><code class="mysql">select
+    Customers.cust_name,
+    tb.total_price
+from
+    (
+        select
+            order_num,
+            sum(item_price * quantity) as total_price
+        from
+            OrderItems
+        group by
+            order_num
+        having
+            total_price &gt;= 1000
+    ) as tb
+    INNER JOIN Orders on Orders.order_num = tb.order_num
+    INNER JOIN Customers on Customers.cust_id = Orders.cust_id
+order by
+    tb.total_price;
+</code></pre>
+<h1 id="8- 返回产品名称和每一项产品的总订单数"><a href="#8- 返回产品名称和每一项产品的总订单数" class="headerlink" title="8. 返回产品名称和每一项产品的总订单数"></a>8. 返回产品名称和每一项产品的总订单数</h1><h2 id="8-1- 题目描述"><a href="#8-1- 题目描述" class="headerlink" title="8.1 题目描述"></a>8.1 题目描述</h2><blockquote>
+<p>Products 表为产品信息表含有字段 prod_id 产品 id、prod_name 产品名称</p>
+<table>
+<thead>
+<tr>
+<th>prod_id</th>
+<th>prod_name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a0001</td>
+<td>egg</td>
+</tr>
+<tr>
+<td>a0002</td>
+<td>sockets</td>
+</tr>
+<tr>
+<td>a0013</td>
+<td>coffee</td>
+</tr>
+<tr>
+<td>a0003</td>
+<td>cola</td>
+</tr>
+<tr>
+<td>a0023</td>
+<td>soda</td>
+</tr>
+</tbody></table>
+<p>OrderItems 表为订单信息表含有字段 order_num 订单号和产品 id prod_id</p>
+<table>
+<thead>
+<tr>
+<th>prod_id</th>
+<th>order_num</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a0001</td>
+<td>a105</td>
+</tr>
+<tr>
+<td>a0002</td>
+<td>a1100</td>
+</tr>
+<tr>
+<td>a0002</td>
+<td>a200</td>
+</tr>
+<tr>
+<td>a0013</td>
+<td>a1121</td>
+</tr>
+<tr>
+<td>a0003</td>
+<td>a10</td>
+</tr>
+<tr>
+<td>a0003</td>
+<td>a19</td>
+</tr>
+<tr>
+<td>a0003</td>
+<td>a5</td>
+</tr>
+</tbody></table>
+<p>【问题】</p>
+<p>使用 OUTER JOIN 联结 Products 表和 OrderItems 表，返回产品名称（prod_name）和每一项产品的总订单数（不是订单号），并按产品名称升序排序。</p>
+<p>【示例结果】</p>
+<p>返回产品名称 prod_name 和订单号订单数 orders</p>
+<table>
+<thead>
+<tr>
+<th>prod_name</th>
+<th>orders</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>coffee</td>
+<td>1</td>
+</tr>
+<tr>
+<td>cola</td>
+<td>3</td>
+</tr>
+<tr>
+<td>egg</td>
+<td>1</td>
+</tr>
+<tr>
+<td>sockets</td>
+<td>2</td>
+</tr>
+<tr>
+<td>soda</td>
+<td>0</td>
+</tr>
+</tbody></table>
+<p>【示例解析】</p>
+<p>返回产品和产品对应的实际支付的订单数，但是 <strong> 无实际订单的产品 soda 也返回</strong>，最后根据产品名称升序排序。</p>
+<h2 id="示例 1-7"><a href="# 示例 1-7" class="headerlink" title="示例 1"></a>示例 1</h2><p>输入：</p>
+<pre><code class="sql">DROP TABLE IF EXISTS `Products`;
+CREATE TABLE IF NOT EXISTS `Products` (`prod_id` VARCHAR(255) NOT NULL COMMENT &#39; 产品 ID&#39;,
+`prod_name` VARCHAR(255) NOT NULL COMMENT &#39; 产品名称 &#39;
+);
+INSERT INTO `Products` VALUES (&#39;a0001&#39;,&#39;egg&#39;),
+(&#39;a0002&#39;,&#39;sockets&#39;),
+(&#39;a0013&#39;,&#39;coffee&#39;),
+(&#39;a0003&#39;,&#39;cola&#39;),
+(&#39;a0023&#39;,&#39;soda&#39;);
+
+DROP TABLE IF EXISTS `OrderItems`;
+CREATE TABLE IF NOT EXISTS `OrderItems`(prod_id VARCHAR(255) NOT NULL COMMENT &#39; 产品 id&#39;,
+order_num VARCHAR(255) NOT NULL COMMENT &#39; 商品数量 &#39;
+);
+INSERT `OrderItems` VALUES (&#39;a0001&#39;,&#39;a105&#39;),(&#39;a0002&#39;,&#39;a1100&#39;),(&#39;a0002&#39;,&#39;a200&#39;),(&#39;a0013&#39;,&#39;a1121&#39;),(&#39;a0003&#39;,&#39;a10&#39;),(&#39;a0003&#39;,&#39;a19&#39;),(&#39;a0003&#39;,&#39;a5&#39;);
+</code></pre>
+<p>输出：</p>
+<pre><code>coffee|1
+cola|3
+egg|1
+sockets|2
+soda|0
+</code></pre>
+</blockquote>
+<h2 id="8-2-SQL- 语句"><a href="#8-2-SQL- 语句" class="headerlink" title="8.2 SQL 语句"></a>8.2 SQL 语句</h2><p>❌ 错误示范：</p>
+<pre><code class="mysql">select
+    p.prod_name,
+    tb.orders
+from
+    (
+        select
+            prod_id,
+            count(prod_id) as orders
+        from
+            OrderItems
+        group by
+            prod_id
+    ) as tb
+    INNER JOIN Products as p ON p.prod_id = tb.prod_id
+order by
+    prod_name
+</code></pre>
+<p>正确示范：</p>
+<pre><code class="mysql">select
+    p.prod_name,
+    ifnull (tb.orders, 0) as orders
+from
+    Products as p
+    LEFT JOIN (
+        select
+            prod_id,
+            count(prod_id) as orders
+        from
+            OrderItems
+        group by
+            prod_id
+    ) as tb on tb.prod_id = p.prod_id
+order by
+    prod_name;
+</code></pre>
+<h1 id="9- 列出供应商及其可供产品的数量"><a href="#9- 列出供应商及其可供产品的数量" class="headerlink" title="9. 列出供应商及其可供产品的数量"></a>9. 列出供应商及其可供产品的数量</h1><h2 id="9-1- 问题描述"><a href="#9-1- 问题描述" class="headerlink" title="9.1 问题描述"></a>9.1 问题描述</h2><blockquote>
+<p>有 Vendors 表含有 vend_id 供应商 id. </p>
+<table>
+<thead>
+<tr>
+<th>vend_id</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a0002</td>
+</tr>
+<tr>
+<td>a0013</td>
+</tr>
+<tr>
+<td>a0003</td>
+</tr>
+<tr>
+<td>a0010</td>
+</tr>
+</tbody></table>
+<p>有 Products 表含有供应商 id 和供应产品 id</p>
+<table>
+<thead>
+<tr>
+<th>vend_id</th>
+<th>prod_id</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a0001</td>
+<td>egg</td>
+</tr>
+<tr>
+<td>a0002</td>
+<td>prod_id_iphone</td>
+</tr>
+<tr>
+<td>a00113</td>
+<td>prod_id_tea</td>
+</tr>
+<tr>
+<td>a0003</td>
+<td>prod_id_vivo phone</td>
+</tr>
+<tr>
+<td>a0010</td>
+<td>prod_id_huawei phone</td>
+</tr>
+</tbody></table>
+<p>【问题】</p>
+<p>列出供应商（Vendors 表中的 vend_id）及其可供产品的数量，包括没有产品的供应商。你需要使用 OUTER JOIN 和 <code>COUNT()</code> 聚合函数来计算 Products 表中每种产品的数量，最后根据 vend_id 升序排序。</p>
+<p>注意：vend_id 列会显示在多个表中，因此在每次引用它时都需要完全限定它。</p>
+<p>【示例结果】</p>
+<p>返回供应商 id 和对应供应商供应的产品的个数</p>
+<table>
+<thead>
+<tr>
+<th>vend_id</th>
+<th>prod_id</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a0002</td>
+<td>1</td>
+</tr>
+<tr>
+<td>a0013</td>
+<td>0</td>
+</tr>
+<tr>
+<td>a0003</td>
+<td>1</td>
+</tr>
+<tr>
+<td>a0010</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>【示例解析】</p>
+<p>供应商 a00013 供应的商品不在 Products 表中所以为 0，其他供应商供应的产品为 1 个。</p>
+<h2 id="示例 1-8"><a href="# 示例 1-8" class="headerlink" title="示例 1"></a>示例 1</h2><p>输入：</p>
+<pre><code class="mysql">DROP TABLE IF EXISTS `Vendors`;
+CREATE TABLE IF NOT EXISTS `Vendors` (`vend_id` VARCHAR(255) NOT NULL COMMENT &#39;vend 名称 &#39;
+);
+INSERT INTO `Vendors` VALUES (&#39;a0002&#39;),
+(&#39;a0013&#39;),
+(&#39;a0003&#39;),
+(&#39;a0010&#39;);
+
+DROP TABLE IF EXISTS `Products`;
+CREATE TABLE IF NOT EXISTS `Products` (`vend_id` VARCHAR(255) NOT NULL COMMENT &#39; 产品 ID&#39;,
+`prod_id` VARCHAR(255) NOT NULL COMMENT &#39; 产品名称 &#39;
+);
+INSERT INTO `Products` VALUES (&#39;a0001&#39;,&#39;egg&#39;),
+(&#39;a0002&#39;,&#39;prod_id_iphone&#39;),
+(&#39;a00113&#39;,&#39;prod_id_tea&#39;),
+(&#39;a0003&#39;,&#39;prod_id_vivo phone&#39;),
+(&#39;a0010&#39;,&#39;prod_id_huawei phone&#39;);
+</code></pre>
+<p>输出：</p>
+<pre><code>a0002|1
+a0003|1
+a0010|1
+a0013|0
+</code></pre>
+</blockquote>
+<h2 id="9-2-SQL- 语句"><a href="#9-2-SQL- 语句" class="headerlink" title="9.2 SQL 语句"></a>9.2 SQL 语句</h2><pre><code class="mysql">select
+    v.vend_id,
+    ifnull (prod_id, 0) as prod_id
+from
+    Vendors as v
+    LEFT JOIN (
+        select
+            vend_id,
+            count(prod_id) as prod_id
+        from
+            Products
+        group by
+            vend_id
+    ) as tb on tb.vend_id = v.vend_id
+order by
+    vend_id;
+</code></pre>
+<h1 id="10- 将两个 -SELECT- 语句结合起来（一）"><a href="#10- 将两个 -SELECT- 语句结合起来（一）" class="headerlink" title="10. 将两个 SELECT 语句结合起来（一）"></a>10. 将两个 SELECT 语句结合起来（一）</h1><h2 id="10-1- 题目描述"><a href="#10-1- 题目描述" class="headerlink" title="10.1 题目描述"></a>10.1 题目描述</h2><blockquote>
+<p>表 OrderItems 包含订单产品信息，字段 prod_id 代表产品 id、quantity 代表产品数量</p>
+<table>
+<thead>
+<tr>
+<th>prod_id</th>
+<th>quantity</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a0001</td>
+<td>105</td>
+</tr>
+<tr>
+<td>a0002</td>
+<td>100</td>
+</tr>
+<tr>
+<td>a0002</td>
+<td>200</td>
+</tr>
+<tr>
+<td>a0013</td>
+<td>1121</td>
+</tr>
+<tr>
+<td>a0003</td>
+<td>10</td>
+</tr>
+<tr>
+<td>a0003</td>
+<td>19</td>
+</tr>
+<tr>
+<td>a0003</td>
+<td>5</td>
+</tr>
+<tr>
+<td>BNBG</td>
+<td>10002</td>
+</tr>
+</tbody></table>
+<p>【问题】</p>
+<p> 将两个 SELECT 语句结合起来，以便从 OrderItems 表中检索产品 id（prod_id）和 quantity。其中，一个 SELECT 语句过滤数量为 100 的行，另一个 SELECT 语句过滤 id 以 BNBG 开头的产品，最后按产品 id 对结果进行升序排序。</p>
+<p>【示例结果】</p>
+<p> 返回产品 id prod_id 和产品数量 quantity</p>
+<table>
+<thead>
+<tr>
+<th>prod_id</th>
+<th>quantity</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a0002</td>
+<td>100</td>
+</tr>
+<tr>
+<td>BNBG</td>
+<td>10002</td>
+</tr>
+</tbody></table>
+<p>【示例解析】</p>
+<p> 产品 id a0002 因为数量等于 100 被选取返回；BNBG 因为是以 BNBG 开头的产品所以返回；最后以产品 id 进行排序返回。</p>
+<h2 id="示例 1-9"><a href="# 示例 1-9" class="headerlink" title="示例 1"></a>示例 1</h2><p>输入：</p>
+<pre><code class="sql">DROP TABLE IF EXISTS `OrderItems`;
+CREATE TABLE IF NOT EXISTS `OrderItems`(prod_id VARCHAR(255) NOT NULL COMMENT &#39; 产品 id&#39;,
+quantity VARCHAR(255) NOT NULL COMMENT &#39; 商品数量 &#39;
+);
+INSERT `OrderItems` VALUES (&#39;a0001&#39;,105),(&#39;a0002&#39;,100),(&#39;a0002&#39;,200),(&#39;a0013&#39;,1121),(&#39;a0003&#39;,10),(&#39;a0003&#39;,19),(&#39;a0003&#39;,5),(&#39;BNBG&#39;,10002);
+</code></pre>
+<p>输出：</p>
+<pre><code>a0002|100.000
+BNBG|10002.000
+</code></pre>
+</blockquote>
+<h2 id="10-2-SQL- 语句"><a href="#10-2-SQL- 语句" class="headerlink" title="10.2 SQL 语句"></a>10.2 SQL 语句</h2><ul>
+<li>join: 连接表，对列操作。</li>
+<li>union: 连接表，对行操作。<ul>
+<li>union: 将两个表做行拼接，同时自动删除重复的行。</li>
+<li>union all: 将两个表做行拼接，保留重复的行。</li>
+</ul>
+</li>
+</ul>
+<pre><code class="mysql">select
+    prod_id,
+    quantity
+from
+    OrderItems
+where
+    quantity = 100
+UNION
+select
+    prod_id,
+    quantity
+from
+    OrderItems
+where
+    prod_id like &#39;BNBG%&#39;
+order by
+    prod_id;
+</code></pre>
+<p><strong>注：若要求只用一条 select 语句，那就用 or （在 where 子句中），不用 union 了。</strong></p>
+
+  </div>
+  <div id="gitalk-container"></div>
+</div>
+
+<script>
+  
+Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
+  dragToClose: true,
+  Toolbar: true,
+  closeButton: "top",
+  Image: {
+    zoom: true,
+  },
+  on: {
+    initCarousel: (fancybox) => {
+      const slide = fancybox.Carousel.slides[fancybox.Carousel.page];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+    "Carousel.change": (fancybox, carousel, to, from) => {
+      const slide = carousel.slides[to];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+  },
+});
+</script>
+
+<style>
+    #noneimg img {
+        display: none;
+        z-index: 9999;
+        /* width: 600px !important; */
+        min-width: 0%;
+        max-width: 90%;
+        max-height: 80%;
+        border-radius: 0px;
+        position: fixed;
+        box-shadow: 0 0 0px #c3c3c300 !important;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto !important;
+    }
+
+    @media screen and (max-width:600px) {
+        #noneimg img {
+            max-width: 88%
+        }
+    }
+</style>
+
+    <div class="post-paging">
+    
+    <a href="/2023/01/15/hot100/">
+        <div class="post-paging-last">
+            <span>上一篇</span>
+            <p>LeetCode 算法笔记之 Hot 100</p>
+        </div>
+    </a>
+    
+
+    
+    <a href="/2023/01/01/array/">
+        <div class="post-paging-next">
+            <span>下一篇</span>
+            <p>LeetCode 算法笔记之数组 (双指针解法)</p>
+        </div>
+    </a>
+    
+</div>
+</div>
+		
+<div class="footer">
+	<div class="Copyright">
+		©2023 By LebronLe. Theme：<a
+			style="text-decoration: none;display: contents; color: #898F9F;"
+			target="_blank" rel="noopener" href="https://github.com/79e/hexo-theme-quiet">Quiet</a>
+	</div>
+	<div class="contact">
+		
+		<a target="_blank" rel="noopener" href="https://github.com/79E/hexo-theme-quiet">
+			<img src="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Quiet主题">
+		</a>
+		
+	</div>
+</div>
+
+<script src="/js/gotop.js"></script>
+
+
+<style type="text/css">
+    @media screen and (min-width: 600px) {
+        .goTop>span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0.8;
+            background: rgba(18, 24, 58, 0.06);
+            text-align: center;
+            transition: border .5s;
+            border: 1px solid rgba(18, 24, 58, 0.06);
+
+            -moz-transition: border .5s;
+            /* Firefox 4 */
+            -webkit-transition: border .5s;
+            /* Safari 和 Chrome */
+            -o-transition: border .5s;
+            /* Opera */
+        }
+
+        .goTop>span:hover {
+            border: 1px solid #6680B3;
+        }
+
+
+        .goTop {
+            position: fixed;
+            right: 30px;
+            bottom: 80px;
+        }
+
+        .goTop>span>svg {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+
+    }
+
+    @media screen and (max-width: 600px) {
+        .goTop {
+            display: none;
+        }
+    }
+</style>
+<div class="goTop" id="js-go_top">
+    <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g>
+                <path d="M13 12v8h-2v-8H4l8-8 8 8z"></path>
+            </g>
+        </svg>
+    </span>
+</div>
+<script>
+    $( '#js-go_top' )
+	.gotoTop( {
+		offset: 500,
+		speed: 300,
+		animationShow: {
+			'transform': 'translate(0,0)',
+			'transition': 'transform .5s ease-in-out'
+		},
+		animationHide: {
+			'transform': 'translate(100px,0)',
+			'transition': 'transform .5s ease-in-out'
+		}
+	} );
+</script>
+
+
+<!-- Baidu Analytics -->
+<script defer>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?e2863d3856a812993ba034f5145bf77c";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+    <!-- Gitalk -->
+    <script>
+        const data = '{"clientID":"515c62b1616878ab4696","clientSecret":"8e7686de9c499016b4944eb232e1f5e4ddf0aacc","repo":"BlogComment","owner":"hulittlewhite","admin":"hulittlewhite"}'
+        const gitalk = new Gitalk({
+            ...JSON.parse( data),
+            id:location.pathname,
+            distractionFreeMode:false
+        })
+        
+        if(Boolean('true')){
+            gitalk.render('gitalk-container')
+        }
+    </script>
+
+
+<script>
+	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')
+</script>
+	</body>
+</html>
+

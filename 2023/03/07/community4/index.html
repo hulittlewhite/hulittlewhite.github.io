@@ -709,7 +709,7 @@ public class LikeController &#123;
 <li>新增方法<code>getProfilePage()</code>：调用业务层的方法查询用户和点赞数，并将两项信息存储于 Model 对象中。</li>
 </ul>
 <pre><code class="java">// 个人主页
-@RequestMapping(path = &quot;/profile/&#123;userId&#125;&quot;, method = RequestMethod.GET)
+@GetMapping(&quot;/profile/&#123;userId&#125;&quot;)
 public String getProfilePage(@PathVariable(&quot;userId&quot;) int userId, Model model) &#123;
     User user = userService.findUserById(userId);
     if (user == null) &#123;

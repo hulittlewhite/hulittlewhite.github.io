@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+<title>Java 基础-Quiet</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" type="image/x-icon" href="/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/index.css">
+
+
+
+<meta name="keywords" content="Java,">
+<meta name="description" content="">
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+<script src="/js/index.js"></script>
+
+
+<script src="/js/fancybox.umd.js"></script>
+
+
+<script src="/js/fancybox-images.js"></script>
+
+
+<script src="/js/gitalk.min.js"></script>
+
+
+<script src="/js/hljs.min.js"></script>
+ 
+<script>hljs.highlightAll();</script>
+
+	<meta name="generator" content="Hexo 6.3.0"></head>
+
+	<body>
+		<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?e2863d3856a812993ba034f5145bf77c";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+	<div class="header">
+		<div class="header-top" id="header-top">
+			<div class="h-left">
+				<a href="/">
+					<img src="/image/logo.png" alt="Quiet">
+				</a>
+			</div>
+			<div class="h-right">
+				<ul>
+					
+						
+								<li>
+									<a href="/">
+										HOME
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/archives">
+										ARCHIVE
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/categories">
+										CATEGORIES
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/tags">
+										TAGS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/links">
+										LINKS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/about">
+										ABOUT
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+				</ul>
+			</div>
+			<div class="h-right-close">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+					<path fill="none" d="M0 0h24v24H0z" />
+					<path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)" />
+				</svg>
+			</div>
+		</div>
+	</div>
+	<div class="sidebar">
+    <div class="topo">
+        <h2>LebronLe</h2>
+    </div>
+    <ul>
+        
+        <li>
+            <a href="/">HOME</a>
+        </li>
+        
+        <li>
+            <a href="/archives">ARCHIVE</a>
+        </li>
+        
+        <li>
+            <a href="/categories">CATEGORIES</a>
+        </li>
+        
+        <li>
+            <a href="/tags">TAGS</a>
+        </li>
+        
+        <li>
+            <a href="/links">LINKS</a>
+        </li>
+        
+        <li>
+            <a href="/about">ABOUT</a>
+        </li>
+        
+    </ul>
+    <div class="my_foot">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/79E/hexo-theme-quiet">
+            <img src="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Quiet主题">
+        </a>
+        
+    </div>
+</div>
+<div class='shelter'>
+</div>
+<style>
+    .shelter{
+        background-color: #333;
+        opacity:0.5;
+        cursor: pointer;
+        display: none; 
+        position: fixed;
+        left: 0;
+        top: 0; 
+        right: 0;
+        bottom: 0;
+        z-index: 1998;
+    }
+    .sidebar {
+        width: 66%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        bottom: 0;
+        background: #fff;
+        z-index: 1999;
+        text-align: center;
+        box-shadow: -6px 0 20px rgba(98, 94, 94, .815);
+    }
+
+    .topo {
+        width: 100%;
+        height: 200px;
+        background: url(https://api.ixiaowai.cn/gqapi/gqapi.php) no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        display: flex;
+        align-items: flex-end
+    }
+
+    .topo h2 {
+        color: #fff;
+        z-index: 1;
+        position: relative;
+        margin: 0 0 10px 10px;
+        font-size: 1.2em;
+        box-sizing: border-box
+    }
+
+    .topo:before {
+        content: '';
+        background-image: url(/image/pattern.png);
+        background-repeat: repeat;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 1
+    }
+
+    .sidebar ul {
+        width: 100%;
+        margin-top: 50px
+    }
+
+    .sidebar ul li {
+        height: 50px;
+        list-style: none;
+        font-size: 1.2em;
+        text-align: right;
+        margin-right: 10px
+    }
+
+    .sidebar ul li a {
+        display: grid;
+        color: #5d606a;
+        text-overflow: ellipsis;
+        width: 100%;
+        text-decoration: none
+    }
+
+    .my_foot {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        position: absolute;
+        bottom: 0
+    }
+
+    .my_foot a {
+        text-decoration: none;
+        margin-right: 10px;
+        display: inline-block
+    }
+
+    .my_foot a img {
+        width: 30px;
+        height: 30px
+    }
+</style>
+
+<script>
+    $( function () {
+	$( '.h-right-close>svg' )
+		.click( function () {
+			$( '.sidebar' )
+				.animate( {
+					right: "0"
+				}, 500 );
+			$( '.shelter' )
+				.fadeIn( "slow" )
+		} );
+	$( '.shelter' )
+		.click( function ( e ) {
+			$( '.sidebar' )
+				.animate( {
+					right: "-100%"
+				}, 500 );
+			$( '.shelter' )
+				.fadeOut( "slow" )
+		} )
+} )
+
+</script>
+
+<div class="post">
+    <div class="post-header-background post-header-img"
+    style="background: url('https://api.ixiaowai.cn/gqapi/gqapi.php')" 
+>
+    <div class="post-header-background-content">
+        <ul class="post-header-tag">
+            
+            
+            <li><a href="/tags/Java">Java</a></li>
+            
+            
+        </ul>
+        
+        <h1>Java 基础</h1>
+        <div class="post-header-info">
+            <div class="post-header-info-author">
+                
+                    <svg t="1604839279282" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg" p-id="2901" width="20" height="20">
+                        <path
+                            d="M513 956.3c-247.7 0-448-200.3-448-448S265.3 66.2 513 66.2s448 200.3 448 448-200.3 442.1-448 442.1z m0-830.9c-212.2 0-388.8 170.7-388.8 388.8C124.2 726.3 294.9 903 513 903c212.2 0 388.8-170.7 388.8-388.8S725.2 125.4 513 125.4z m0 430.2c-94.2 0-170.7-76.5-170.7-170.7S418.8 207.8 513 207.8s170.7 76.5 170.7 170.7S607.2 555.6 513 555.6z m0-289.1c-64.6 0-112 52.8-112 112s47.4 117.9 112 117.9 112-52.8 112-112-47.4-117.9-112-117.9z m0 689.8c-135.7 0-259-58.7-341.9-158.9l-11.8-17.8 11.8-17.8c76.5-117.9 206.2-188.5 347.8-188.5 135.7 0 265 64.6 341.9 182.6l11.8 17.8-11.8 17.8C778 897.1 648.7 956.3 513 956.3zM230.3 773.2C300.9 849.7 406.9 897 513 897c112 0 218.1-47.4 288.6-129.8-70.5-88.2-170.7-135.6-282.7-135.6s-218.1 53.3-288.6 141.6z"
+                            p-id="2902" fill="#ffffff"></path>
+                    </svg>
+                    
+                <span class="post-header-info-author-text"> <a href="../../about">LebronLe</a></span>
+                <div class="post-header-info-author-categories">
+                    
+                         <a href="../../categories/Java/" target="_blank" >Java</a>
+                    
+                </div>
+                <p>2022-12-10 08:10:34</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="post-content" id="content">
+  
+  <div id="article" class="post-content-info">
+    
+
+    <h1 id="1-Java- 的优点和特点以及为什么要选择 -Java"><a href="#1-Java- 的优点和特点以及为什么要选择 -Java" class="headerlink" title="1. Java 的优点和特点以及为什么要选择 Java"></a>1. Java 的优点和特点以及为什么要选择 Java</h1><ul>
+<li>Java 语言的特点是：一次编译，到处运行，即平台无关性；是纯面向对象的语言。</li>
+<li>Java 语言的优点有：内置的类库简化了开发人员的设计工作；具有较好的安全性和健壮性；开发人员不需要对内存的使用进行管理。</li>
+<li>选择 Java 的原因是：使用范围很广，安卓操作系统的应用软件目前大部分还是使用 Java 语言编写。</li>
+</ul>
+<h1 id="2-Java- 基本数据类型和引用类型"><a href="#2-Java- 基本数据类型和引用类型" class="headerlink" title="2. Java 基本数据类型和引用类型"></a>2. Java 基本数据类型和引用类型</h1><p>8 种基本数据类型：byte(8)、short(16)、int(32)、long(64)、float(32)、double(64)、char(16)、boolean，这些基本数据类型有对应的封装类。</p>
+<p>其他类型都是引用类型：类、接口、数组、String 等。</p>
+<h1 id="3- 抽象类和接口的区别"><a href="#3- 抽象类和接口的区别" class="headerlink" title="3. 抽象类和接口的区别"></a>3. 抽象类和接口的区别</h1><ul>
+<li><p>相同点：</p>
+<ul>
+<li>两者都不能实例化；</li>
+<li>可以拥有抽象方法。</li>
+</ul>
+</li>
+<li><p>不同点：</p>
+<ul>
+<li>抽象类定义的关键字是 abstract，接口定义的关键字是 interface；</li>
+<li>在属性方面，抽象类可以拥有静态变量、常量、成员变量，接口只能有常量；</li>
+<li>抽象方法可以有普通方法，而接口在 JDK 1.8 之前只能有抽象方法 (JDK 1.8 之后增加了静态方法和默认方法)；</li>
+<li>抽象方法可以有构造方法，接口不可以有构造方法；</li>
+<li>一个类只能单继承一个父类，而一个接口可以继承多个父接口，一个类可以实现多个接口；</li>
+<li>抽象方法在业务编程方面更像是一个模版，有自己的功能，同时也可以有优化补充的多种形式，而接口更相似一种规范和要求，通过实现接口完成特定的功能。</li>
+</ul>
+</li>
+</ul>
+<h1 id="4-final- 关键字"><a href="#4-final- 关键字" class="headerlink" title="4. final 关键字"></a>4. final 关键字</h1><ul>
+<li>final 可以修饰类、方法、变量；</li>
+<li>final 修饰类，则该类不可被继承；</li>
+<li>final 修饰方法，则该方法不可被重写；</li>
+<li>final 修饰变量，如果是基本变量，则该变量不能再改变，如果是引用变量，则该引用地址不能改变，但值可以改变。</li>
+</ul>
+<h1 id="5-static- 修饰符的用法"><a href="#5-static- 修饰符的用法" class="headerlink" title="5. static 修饰符的用法"></a>5. static 修饰符的用法</h1><ul>
+<li>static 可修饰类、方法、代码块、变量；</li>
+<li>static 修饰类，则该类被称为静态类，可以在不创建实例的情况下访问其静态方法或静态成员变量，而实例方法或实例成员变量只能通过其实例对象来访问；</li>
+<li>静态方法中不能使用关键字 this，因为 this 是随着对象的创建而存在的；</li>
+<li>静态成员变量随着静态类的加载而创建。</li>
+</ul>
+<h1 id="6- 说说 -String- 类 - 和 -new- 关键字"><a href="#6- 说说 -String- 类 - 和 -new- 关键字" class="headerlink" title="6. 说说 String 类 和 new 关键字"></a>6. 说说 String 类 和 new 关键字</h1><ul>
+<li>String 被 final 修饰，所以不能被继承；</li>
+<li>创建 String 对象时，可以使用字符串直接量，如 <code>String str = &quot;abc&quot;;</code> ，也可以采用 new 关键字创建，如 <code>String str = new String(&quot;abc&quot;);</code> ，前者使用常量池来管理，后者创建时先判断常量池中是否存在该字符串，若不存在则在常量池中创建，随后在堆内存中创建一个新的字符串对象，因此后者的开销更大。</li>
+</ul>
+<h1 id="7-String、StringBuffer、StringBuilder- 的区别"><a href="#7-String、StringBuffer、StringBuilder- 的区别" class="headerlink" title="7. String、StringBuffer、StringBuilder 的区别"></a>7. String、StringBuffer、StringBuilder 的区别</h1><ul>
+<li>String 是不可变的，StringBuffer、StringBuilder 均继承自 AbstractStringBuilder 类，可变。</li>
+<li>String 中的对象是不可变的，是线程安全的；StringBuffer 对方法 &#x2F; 调用的方法添加了同步锁，因此是线程安全的；StringBuilder 未对方法添加同步锁，因此是非线程安全的。</li>
+<li>性能：每次对 String 类型进行改变时，都会生成一个新的 String 对象，然后将指针指向该对象；StringBuffer 则是对其对象本身进行修改，相同情况下使用 StringBuilder 相较于使用 StringBuffer 仅能提升 10 %～15% 的性能，却有线程不安全的风险。</li>
+<li>总结：操作少量数据，选择 String；单线程下操作字符串缓冲区下大量数据，选择 StringBuilder；多线程下操作字符串缓冲区下大量数据，选择 StringBuffer。</li>
+</ul>
+<h1 id="8-x3D-x3D- 与 -equals- 的区别"><a href="#8-x3D-x3D- 与 -equals- 的区别" class="headerlink" title="8. &#x3D;&#x3D; 与 equals() 的区别"></a>8. &#x3D;&#x3D; 与 equals() 的区别</h1><ul>
+<li>对于基本数据类型，<code>==</code> 用于值的比较；对于引用数据类型，<code>==</code> 用于比较对象的内存地址。</li>
+<li>对于基本数据类型，<code>equals()</code> 不能用于比较，只能用于判断两个对象是否相等。<ul>
+<li>如果两个对象的 <code>hashCode()</code> 值不相等，可以认为这两个对象不相等；</li>
+<li>如果两个对象的 <code>hashCode()</code> 值相等，那么这两个对象不一定相等：<ul>
+<li>如果两个对象的 <code>hashCode()</code> 值相等，且方法 <code>quals()</code> 返回 true，才可以认为这两个对象相等。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>重写方法 <code>quals()</code> 时，必须重写 <code>hashCode()</code>。</li>
+</ul>
+<h1 id="9-Java-8- 的新特性"><a href="#9-Java-8- 的新特性" class="headerlink" title="9. Java 8 的新特性"></a>9. Java 8 的新特性</h1><p>Java 8 是一个拥有丰富特性的版本，新增了很多特性： </p>
+<ul>
+<li>Lambda 表达式：该特性可以将功能视为方法参数，或者将代码视为数据。使用 Lambda 表达式，可以更简洁地表示单方法接口（称为功能接口）的实例。 </li>
+<li>方法引用：方法引用提供了非常有用的语法，可以直接引用已有 Java 类或对象 (实例) 的方法或构造器。与 Lambda 联合使用，方法引用可以使语言的构造更紧凑简洁，减少冗余代码。 </li>
+<li>Java 8 对接口进行了改进：允许在接口中定义默认方法， 默认方法必须使用关键字 default 修饰。</li>
+<li>Stream API：新添加的 Stream API (java.util.stream) 支持对元素流进行函数式操作。Stream API 集成在 Collections API 中，可以对集合进行批量操作，例如顺序或并行的 map-reduce 转换。 </li>
+<li>Date Time API：加强对日期与时间的处理。</li>
+</ul>
+<h1 id="10- 包装类的自动拆箱与自动装箱"><a href="#10- 包装类的自动拆箱与自动装箱" class="headerlink" title="10. 包装类的自动拆箱与自动装箱"></a>10. 包装类的自动拆箱与自动装箱</h1><ul>
+<li>自动装箱、自动拆箱是 JDK 1.5 提供的功能。 </li>
+<li>自动装箱是指把一个基本类型的数据直接赋值给对应的包装类型；</li>
+<li>自动拆箱是指把一个包装类型的对象直接赋值给对应的基本类型；</li>
+<li>通过自动装箱、自动拆箱功能，可以大大简化基本类型变量和包装类对象之间的转换过程。</li>
+</ul>
+<h1 id="11-Java- 异常处理机制"><a href="#11-Java- 异常处理机制" class="headerlink" title="11. Java 异常处理机制"></a>11. Java 异常处理机制</h1><ul>
+<li><p>Java 的异常机制可以分成异常处理、抛出异常和异常跟踪栈问题三个部分，处理异常的语句由 <code>try</code>、<code>catch</code>、<code>finally</code> 三部分组成。</p>
+</li>
+<li><p><code>try</code> 块用于包裹业务代码，<code>catch</code> 用于捕获并处理某个异常，<code>finally</code> 块则用于回收资源。</p>
+</li>
+<li><p><code>throw</code> 和 <code>throws</code> 的区别：<code>throws</code> 只能在方法签名中使用，可表示多个异常中的一种，<code>throw</code> 表示异常的一种可能性，并抛出一个异常实例。</p>
+</li>
+</ul>
+<h1 id="12- 对于面向对象的理解"><a href="#12- 对于面向对象的理解" class="headerlink" title="12. 对于面向对象的理解"></a>12. 对于面向对象的理解</h1><ul>
+<li>面向对象的三大特征：<ul>
+<li>封装：将一个对象的属性隐藏在对象内部，不允许外部对象直接访问该对象的内部信息，但可以提供一些可被外界访问的方法来操作属性。</li>
+<li>继承：使用已存在的类为基础建立新的类，可以增加新数据 &#x2F; 功能，但不能选择性地继承。</li>
+<li>多态：一个对象具有多种不同的状态，具体表现为父类的引用指向子类的实例。</li>
+</ul>
+</li>
+</ul>
+<h1 id="13- 重载和重写的区别以及构造方法能否重写"><a href="#13- 重载和重写的区别以及构造方法能否重写" class="headerlink" title="13. 重载和重写的区别以及构造方法能否重写"></a>13. 重载和重写的区别以及构造方法能否重写</h1><ul>
+<li>重载发生于同一个类中，而重写发生于子类中。</li>
+<li>重载要求方法名相同，而参数列表、返回值、访问修饰符可以不同。</li>
+<li>重写要求方法名相同，参数列表相同，返回值类型要小于等于父类的方法，抛出的异常要小于等于父类方法，访问修饰符的权限要大于等于父类方法。</li>
+<li>关键字 final、private 修饰的方法不能重写，构造方法也不能重写。</li>
+</ul>
+<h1 id="14- 访问修饰符"><a href="#14- 访问修饰符" class="headerlink" title="14. 访问修饰符"></a>14. 访问修饰符</h1><p>Java 中的访问修饰符有四种，分别为 private、default、protected、public。</p>
+<ul>
+<li>private：类中被 private 修饰的只能在被当前类的内部访问。</li>
+<li>default：类中被 default 修饰的只能在当前类和当前类所在包的其他类访问。</li>
+<li>protected：类中被 protected 修饰的可以被当前类和当前类所在的包的其他类以及子类访问。</li>
+<li>public：类中被 public 修饰的能被当前项目下的所有类访问。</li>
+<li>访问权限：public &gt; protected &gt; default &gt; private。</li>
+</ul>
+<h1 id="15- 泛型与泛型擦除"><a href="#15- 泛型与泛型擦除" class="headerlink" title="15. 泛型与泛型擦除"></a>15. 泛型与泛型擦除</h1><ul>
+<li>泛型的本质：参数化类型，即给类型指定一个参数。</li>
+<li>泛型：泛型接口、泛型类、泛型方法。</li>
+<li>泛型的好处：<ul>
+<li>可以在编译时检查类型安全。</li>
+<li>所有的强制转换都是自动和隐式的，可以提高代码的重用率。</li>
+</ul>
+</li>
+<li>泛型擦除：编译器在编译期间将写好的泛型进行擦除，并相应的做出一些类型转换。</li>
+</ul>
+<h1 id="16- 对于反射的理解"><a href="#16- 对于反射的理解" class="headerlink" title="16. 对于反射的理解"></a>16. 对于反射的理解</h1><ul>
+<li>反射就是在程序运行期间，动态地获取对象的属性和方法的功能。</li>
+<li>反射能够在程序运行期间，对于任意一个类，都能知道它所有的方法和属性，对于任意一个对象，都能知道他的属性和方法。 </li>
+<li>获取 Class 对象的三种方式：<code>getClass();</code>、<code>xx.class;</code>、<code>Class.forName(&quot;xxx&quot;)</code>; </li>
+<li>反射的优缺点： <ul>
+<li>优点：运行期间能够动态地获取类，提高代码的灵活性。 </li>
+<li>缺点：性能比直接的 Java 代码要慢很多。 应用场景：Spring 的 xml 配置模式，以及动态代理模式都用到了反射。</li>
+</ul>
+</li>
+</ul>
+<h1 id="17- 对于多线程的理解"><a href="#17- 对于多线程的理解" class="headerlink" title="17. 对于多线程的理解"></a>17. 对于多线程的理解</h1><ul>
+<li>进程是 <strong> 操作系统资源 </strong> 调度的基本单位。</li>
+<li>线程是 <strong> 处理器任务 </strong> 调度和执行的基本单位，一个进程可以创建多个线程，每个线程有自己独立的程序计数器，本地方法栈和虚拟机栈，线程之间共享进程的堆和方法区。线程之间是通过 <strong> 时间片算法 </strong> 来争夺 CPU 的执行权的。 </li>
+<li>多线程的好处：当一个线程进入阻塞或者等待状态时，其他的线程可以获取 CPU 的执行权，提高了 CPU 的利用率。 </li>
+<li>多线程的缺点：<ul>
+<li>可能产生死锁；</li>
+<li>频繁的上下文切换可能会造成资源的浪费；</li>
+<li>在并发编程中如果因为资源的限制，多线程串行执行，可能速度会比单线程更慢。</li>
+</ul>
+</li>
+</ul>
+<h1 id="18- 线程创建的方式"><a href="#18- 线程创建的方式" class="headerlink" title="18. 线程创建的方式"></a>18. 线程创建的方式</h1><ul>
+<li>继承 Thread 类，重写方法 <code>run()</code> ；</li>
+<li>实现 Runnable 接口，并实现该接口的方法 <code>run()</code> ；</li>
+<li>实现 Callable 接口，并实现该接口的方法  <code>run()</code> 。</li>
+<li>前两种方式线程执行完后都没有返回值，最后一种带返回值；一般推荐实现 Runnable 接口的方式。</li>
+</ul>
+<h1 id="19- 线程的状态"><a href="#19- 线程的状态" class="headerlink" title="19. 线程的状态"></a>19. 线程的状态</h1><p>Java 线程在运行的生命周期中，在任意给定的时刻，只能处于下列 6 种状态之一：</p>
+<ul>
+<li>NEW ：初始状态, 线程被创建, 但是还没有调用方法 <code>start()</code>。 </li>
+<li>RUNNABLE：可运行状态, 线程正在 JVM 中执行，但是有可能在等待操作系统的调度。 </li>
+<li>BLOCKED ：阻塞状态，线程正在等待获取监视器锁。 </li>
+<li>WTING ：等待状态，线程正在等待其他线程的通知或中断。 </li>
+<li>TIMED_WTING：超时等待状态，在 WTING 的基础上增加了超时时间，即超出时间自动返回。</li>
+<li>TERMINATED：终止状态，线程已经执行完毕。</li>
+</ul>
+<p>线程在创建之后默认为初始状态，在调用方法 <code>start()</code>之后进入可运行状态，可运行状态不代表线程正在运行，它有可能正在等待操作系统的调度。进入等待状态的线程需要其他线程的通知才能返回到可运行状态，而超时等待状态相当于在等待状态的基础上增加了超时限制，除了其他线程的唤醒，在超时时间到达时也会返回运行状态。</p>
+<p>此外，线程在执行同步方法时，在没有获取到锁的情况下，会进入到阻塞状态。线程在执行完方法 <code>run()</code> 之后，会进入到终止状态。Java 将操作系统中的就绪和运行两个状态合并为可运行状态（RUNNABLE）。线程阻塞于 synchronized 的监视器锁时会进入阻塞状态, 而线程阻塞于 Lock 锁时进入的却是等待状态, 这是因为 Lock 接口实现类对于阻塞的实现均使用了 LockSupport 类中的相关方法。</p>
+<h1 id="20-wait- 和 -sleep- 的区别"><a href="#20-wait- 和 -sleep- 的区别" class="headerlink" title="20. wait() 和 sleep() 的区别"></a>20. <code>wait()</code> 和 <code>sleep()</code> 的区别</h1><ul>
+<li><code>sleep()</code> 没有释放锁，使线程进入休眠状态，是 Thread 类的静态方法。</li>
+<li><code>wait()</code> 释放锁，是 Object 类的实例方法。</li>
+<li>方法<code>sleep()</code> 到达时间后，自动恢复；而方法 <code>wait()</code> 需要使用 <code>notify() / notifyAll()</code> 唤醒线程。</li>
+<li>共同点：都可以使线程处于阻塞状态。</li>
+</ul>
+<h1 id="21- 如何保证线程安全"><a href="#21- 如何保证线程安全" class="headerlink" title="21. 如何保证线程安全"></a>21. 如何保证线程安全 </h1><p> 保证线程安全的有三种方式：原子类、volatile、锁。</p>
+<ul>
+<li>原子类：遵循 CAS 即“比较和替换”规则，比较要更新的值是否等于期望值，如果是则更新，如果不是则失败 (单共享变量)。</li>
+<li>volatile 关键字：轻量级的 synchronized，在多处理器开发中保证了共享变量的“可见性”，从而可以保证单个变量读写时的线程安全 (单共享变量)。</li>
+<li>synchronized：Java 中常用的锁有两种即 synchronized + JUC 包下的 lock 锁。支持响应中断、支持超时机制、支持以非阻塞的方式获取锁、支持多个条件变量。</li>
+</ul>
+<h1 id="22- 线程同步的方式"><a href="#22- 线程同步的方式" class="headerlink" title="22. 线程同步的方式"></a>22. 线程同步的方式</h1><p>Java 主要通过加锁的方式实现线程同步，而锁有两类，分别是 synchronized 和 Lock。</p>
+<p>synchronized 可以加在三个不同的位置，对应三种不同的使用方式，这三种方式的区别是锁对象不同：</p>
+<ol>
+<li>加在普通方法上，则锁是当前的实例 (this)。 </li>
+<li>加在静态方法上，则锁是当前类的 Class 对象。 </li>
+<li>加在代码块上，则需要在关键字后面的小括号里，显式指定一个对象作为锁对象。</li>
+</ol>
+<p>不同的锁对象，意味着不同的锁粒度。</p>
+<p>Lock 支持的功能包括：支持响应中断、支持超时机制、支持以非阻塞的方式获取锁、支持多个条件变量（阻塞队列）。</p>
+<p>Synchronized 采用 “CAS + Mark Word” 实现，为了性能的考虑，并通过锁升级机制降低锁的开销。在并发环境中，Synchronized 会随着多线程竞争的加剧，按照如下步骤逐步升级：无锁、偏向锁、轻量级锁、重量级锁。 </p>
+<p>Lock 则采用 “CAS + volatile” 实现，其实现的核心是 AQS。AQS 是线程同步器，是一个线程同步的基础框架，它基于模板方法模式。在具体的 Lock 实例中，锁的实现是通过继承 AQS 来实现的，并且可以根据锁的使用场景，派生出公平锁、不公平锁、读锁、写锁等具体的实现。</p>
+<h1 id="23- 线程的通信方式"><a href="#23- 线程的通信方式" class="headerlink" title="23. 线程的通信方式"></a>23. 线程的通信方式 </h1><p> 线程的通信方式有两种：monitor 和 condition 两种。具体使用哪一种通信方式与线程同步的方式有关。</p>
+<ul>
+<li><p>对于 Synchronized 来说，使用的是 monitor 的同步方式。常用的方法有 <code>wait()</code>、<code>notify()</code>、<code>notifyAll()</code>。</p>
+</li>
+<li><p>对于 lock 锁接口来说，使用的是 condition，依赖于 lock 锁的创建而创建。常用的方法有 <code>await()</code>、<code>signal()</code>、<code>signalAll()</code>。</p>
+</li>
+</ul>
+<h1 id="24-Java 中常用的锁与原理"><a href="#24-Java 中常用的锁与原理" class="headerlink" title="24. Java 中常用的锁与原理"></a>24. Java 中常用的锁与原理 </h1><p> 关键字 <code>Synchronized</code> 和 <code>lock</code> 锁接口：</p>
+<ul>
+<li>关键字 <code>Synchronized</code> 底层采用 Java 对象头来存储锁信息的。</li>
+<li><code>Lock</code> 锁接口是基于 AQS 实现的。AQS 内部定义一个 FIFO 的队列实现锁的同步，同时还定义了同步状态来记录锁信息。</li>
+</ul>
+<h1 id="25-Synchronized- 和 -Lock- 的区别"><a href="#25-Synchronized- 和 -Lock- 的区别" class="headerlink" title="25. Synchronized 和 Lock 的区别"></a>25. Synchronized 和 Lock 的区别</h1><ul>
+<li>Synchronized 是同步锁，可以修饰静态方法、普通方法和代码块。修饰静态方法时锁住的是类对象，修饰普通方法时锁住的是实例对象。当一个线程获取锁时，其他线程想要访问当前资源只能等当前线程释放锁。 </li>
+<li>Synchronized 是 Java 的关键字，Lock 是一个接口。</li>
+<li>Synchronized 可以作用在代码块和方法上，Lock 只能用在代码里。 </li>
+<li>Synchronized 在代码执行完或出现异常时会自动释放锁，Lock 不会自动释放，需要在 finally 中释放。 </li>
+<li>Synchronized 会导致线程拿不到锁一直等待，Lock 可以设置获取锁失败的超时时间。 Synchronized 无法获知是否获取锁成功，Lock 则可以通过 tryLock 判断是否加锁成功。</li>
+</ul>
+<h1 id="26-Synchronized- 的用法与原理"><a href="#26-Synchronized- 的用法与原理" class="headerlink" title="26. Synchronized 的用法与原理"></a>26. Synchronized 的用法与原理</h1><ul>
+<li>用法：<ul>
+<li>作用在静态方法上，则锁是当前类的 Class 对象。 </li>
+<li>作用在普通方法上，则锁是当前的实例 (this)。 </li>
+<li>作用在代码块上，则需要在关键字后面的小括号里，显式指定一个对象作为锁对象。 能够保证在同一个时刻，只有一个线程执行该段代码，保证线程安全。 在执行完或者出现异常时自动释放锁。</li>
+</ul>
+</li>
+<li>原理：底层是采用 Java 对象头来存储锁信息的，并且还支持锁升级。在 JVM 里的实现都是基于进入和退出 Monitor 对象来实现方法同步和代码块同步。</li>
+</ul>
+<h1 id="27- 谈谈对于 -AQS- 的理解"><a href="#27- 谈谈对于 -AQS- 的理解" class="headerlink" title="27. 谈谈对于 AQS 的理解"></a>27. 谈谈对于 AQS 的理解</h1><ul>
+<li>AQS (Abstract Queued Synchronizer) 队列同步器，用于构建锁的基础框架，Lock 实现类都是基于 AQS 实现的。</li>
+<li>AQS 是基于模版方法模式进行设计的，所以锁的实现需要继承 AQS 并重写它指定的方法。</li>
+<li>AQS 内部定义了一个 FIFO 的队列来实现线程的同步，同时还定义了同步状态来记录锁的信息。</li>
+<li>AQS 的模版方法，将管理同步状态的逻辑提炼出来形成标准流程，这些方法主要包括：独占式获取同步状态、独占式释放同步状态、共享式获取同步状态、共享式释放同步状态。</li>
+</ul>
+<h1 id="28- 谈谈对于线程池的理解"><a href="#28- 谈谈对于线程池的理解" class="headerlink" title="28. 谈谈对于线程池的理解"></a>28. 谈谈对于线程池的理解</h1><ul>
+<li>线程池的作用：有效管理线程。</li>
+<li>线程池可以管理线程的数量，可以避免无节制地创建线程，导致超出系统负荷直至崩溃。</li>
+<li>线程池可以实现线程的复用，可以大大地减少创建和销毁线程带来的开销。</li>
+<li>线程池需要依赖一些参数来控制任务的执行流程，其中最重要的参数有：<ul>
+<li>corePoolSize (核心线程数 ）</li>
+<li>workQueue（ 等待队列 ）</li>
+<li>maxinumPoolSize（ 最大线程数 ）</li>
+<li>handler（ 拒绝策略 ）</li>
+<li>keepAliveTime（ 空闲线程存活时间 ）</li>
+</ul>
+</li>
+</ul>
+<h1 id="29- 谈谈 -volatile- 的用法及原理"><a href="#29- 谈谈 -volatile- 的用法及原理" class="headerlink" title="29. 谈谈 volatile 的用法及原理"></a>29. 谈谈 volatile 的用法及原理</h1><ul>
+<li>修饰被不同线程访问和修改的变量；</li>
+<li>被 volatile 修饰的变量，系统每次使用它时都是直接从对应的内存中提取，而不是利用缓存（例如寄存器），所有线程在任何时候看到的变量的值都是相同的；</li>
+<li>对单个 volatile 变量的读写具有原子性，对 “volatile 变量 ++” 这种复合操作则不具有原子性，不能代替 Synchronized；</li>
+<li>建议尽量不要使用 volatile 关键字。</li>
+</ul>
+<h1 id="30- 谈谈对于 -ThreadLocal- 的理解"><a href="#30- 谈谈对于 -ThreadLocal- 的理解" class="headerlink" title="30. 谈谈对于 ThreadLocal 的理解"></a>30. 谈谈对于 ThreadLocal 的理解</h1><ul>
+<li>ThreadLocal 即线程变量，它将需要并发访问的资源复制多份，让每个线程都拥有一个该变量的副本。</li>
+<li>创建了一个 ThreadLocal 变量，则访问该变量的每个线程都会拥有这个变量的本地副本，可以使用 <code>get()</code> 和 <code>set()</code> 方法来获取默认值或将其值更改为当前线程所存的副本的值，从而避免了线程安全问题。</li>
+<li>每个 <code>Thread</code> 中都具备一个 <code>ThreadLocalMap</code>，而 <code>ThreadLocalMap</code> 可以存储以 <code>ThreadLocal</code> 为 key ，Object 对象为 value 的键值对。</li>
+<li>内存泄漏：<code>ThreadLocalMap</code> 中使用的 key 为 <code>ThreadLocal</code> 的 <strong> 弱</strong>引用，而 value 是 <strong> 强</strong>引用。所以，如果 <code>ThreadLocal</code> 没有被外部强引用的情况下，在垃圾回收的时候，key 会被清理掉，而 value 不会被清理掉。这样一来，<code>ThreadLocalMap</code> 中就会出现 key 为 null 的 Entry。假如我们不做任何措施的话，value 永远无法被 GC 回收，这个时候就可能会产生内存泄露。<code>ThreadLocalMap</code> 实现中已经考虑了这种情况，在调用 <code>set()</code>、<code>get()</code>、<code>remove()</code> 方法的时候，会清理掉 key 为 null 的记录。使用完 <code>ThreadLocal</code>方法后 最好手动调用 <code>remove()</code> 方法。</li>
+</ul>
+<h1 id="31- 谈谈对于 -JUC- 的理解"><a href="#31- 谈谈对于 -JUC- 的理解" class="headerlink" title="31. 谈谈对于 JUC 的理解"></a>31. 谈谈对于 JUC 的理解</h1><ul>
+<li>JUC 是 <code>java.util.concurrent</code> 的缩写，这个包中包含了支持并发操作的各种工具。</li>
+<li>原子类：遵循比较和替换原则。可以用于解决单个变量的线程安全问题。</li>
+<li>锁：与 Synchronized 类似，在包含 synchronized 所有功能的基础上，还支持超时机制，响应中断机制，主要用于解决多个变量的线程安全问题。</li>
+<li>线程池：可以更方便的管理线程，同时避免重复开线程和杀线程带来的消耗，效率高。</li>
+<li>并发容器：例如 ConcurrentHashMap，支持多线程操作的并发集合，效率更快。</li>
+</ul>
+<h1 id="32-Java- 哪些地方用到了 -CAS"><a href="#32-Java- 哪些地方用到了 -CAS" class="headerlink" title="32. Java 哪些地方用到了 CAS"></a>32. Java 哪些地方用到了 CAS</h1><ul>
+<li>典型使用 CAS （Compare and Swap）的场景：原子类、AQS、并发容器。</li>
+<li>对于原子类，以 AtomicInteger 为例, 它的内部提供了诸多原子操作的方法。如原子替换整数值、增加指定的值、加 1，这些方法的底层便是采用操作系统提供的 CAS 原子指令来实现的。</li>
+<li>对于 AQS，在向同步队列的尾部追加节点时，它首先会以 CAS 的方式尝试一次，如果失败则进入自旋状态，并反复以 CAS 的方式进行尝试。此外，在以共享方式释放同步状态时，它也是以 CAS 方式对同步状态进行修改的。</li>
+<li>对于并发容器，以 ConcurrentHashMap 为例，它的内部多次使用了 CAS 操作。在初始化数组时，它会以 CAS 的方式修改初始化状态，避免多个线程同时进行初始化。在执行 put 方法初始化头节点时，它会以 CAS 的方式将初始化好的头节点设置到指定槽的首位，避免多个线程同时设置头节点。</li>
+</ul>
+<h1 id="33- 谈谈对于 -Java- 集合的理解"><a href="#33- 谈谈对于 -Java- 集合的理解" class="headerlink" title="33. 谈谈对于 Java 集合的理解"></a>33. 谈谈对于 Java 集合的理解</h1><ul>
+<li>Java 中的集合类分为 4 大类，分别由 4 个接口来代表，它们是 Set、List、Queue、Map。其中，Set、List、Queue 三者都继承自 Collection 接口。<ul>
+<li>Set 代表无序的、元素不可重复的集合。 </li>
+<li>List 代表有序的、元素可以重复的集合。 </li>
+<li>Queue 代表先进先出（FIFO）的队列。 </li>
+<li>Map 代表具有映射关系（key - value）的集合。</li>
+</ul>
+</li>
+<li>Java 提供了众多集合的实现类，它们都是这些接口的直接或间接的实现类，其中比较常用的有：HashSet、TreeSet、ArrayList、LinkedList、ArrayDeque、HashMap、TreeMap 等。</li>
+</ul>
+<h1 id="34-Java- 集合中有哪些是线程安全的"><a href="#34-Java- 集合中有哪些是线程安全的" class="headerlink" title="34. Java 集合中有哪些是线程安全的"></a>34. Java 集合中有哪些是线程安全的</h1><ul>
+<li>java.util 包下的集合大部分都是非线程安全的，如实现 List 接口的 ArrayList、LinkedList，实现 set 接口的 HashSet 类，实现 SortSet 接口的 TreeSet 类。</li>
+<li>但是也有极少数的线程安全的集合，如 Vector、HashTable 等，但是它们是基于 Synchronized 关键字实现的，性能很差，在开发中不常用。</li>
+</ul>
+<h1 id="35-HashMap- 的底层原理"><a href="#35-HashMap- 的底层原理" class="headerlink" title="35. HashMap 的底层原理"></a>35. HashMap 的底层原理</h1><ul>
+<li>JDK 1.8 之前的 <code>HashMap</code> 由 数组 + 链表 组成的，数组是 HashMap 的主体，链表则是主要为了解决哈希冲突而存在的（“拉链法”解决冲突）。 </li>
+<li>JDK 1.8 以后的 <code>HashMap</code> 在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为 8）（将链表转换成红黑树前会判断，如果当前数组的长度小于 64，那么会选择先进行数组扩容，而不是转换为红黑树）时，将链表转化为红黑树，以减少搜索时间。</li>
+<li><code>HashMap</code> 默认的初始化大小为 16。之后每次扩充，容量变为原来的 2 倍。并且， <code>HashMap</code> 总是使用 2 的幂作为哈希表的大小。</li>
+</ul>
+<h1 id="36-HashMap- 与 -HashTable- 的区别"><a href="#36-HashMap- 与 -HashTable- 的区别" class="headerlink" title="36. HashMap 与 HashTable 的区别"></a>36. HashMap 与 HashTable 的区别</h1><ul>
+<li><p><strong>线程是否安全：</strong> <code>HashMap</code> 是非线程安全的，<code>Hashtable</code> 是线程安全的，因为 <code>Hashtable</code> 内部的方法基本都经过<code>synchronized</code> 修饰。（如果要保证线程安全的话，则推荐使用 <code>ConcurrentHashMap</code> ）；</p>
+</li>
+<li><p><strong>效率：</strong> 因为线程安全的问题，<code>HashMap</code> 要比 <code>Hashtable</code> 效率高一点。另外，<code>Hashtable</code> 基本被淘汰，不要在代码中使用它；</p>
+</li>
+<li><p><strong>对 Null key 和 Null value 的支持：</strong> <code>HashMap</code> 可以存储 null 的 key 和 value，但 null 作为键只能有一个，null 作为值可以有多个；Hashtable 不允许有 null 键和 null 值，否则会抛出 <code>NullPointerException</code>。</p>
+</li>
+<li><p><strong>初始容量大小和每次扩充容量大小的不同 ：</strong> ① 创建时如果不指定容量初始值，<code>Hashtable</code> 默认的初始大小为 11，之后每次扩充，容量变为原来的 2n+1。<code>HashMap</code> 默认的初始化大小为 16。之后每次扩充，容量变为原来的 2 倍。② 创建时如果给定了容量初始值，那么 <code>Hashtable</code> 会直接使用你给定的大小，而 <code>HashMap</code> 会将其扩充为 2 的幂次方大小（<code>HashMap</code> 中的 <code>tableSizeFor()</code> 方法保证 ）。也就是说 <code>HashMap</code> 总是使用 2 的幂作为哈希表的大小。</p>
+</li>
+<li><p><strong>底层数据结构：</strong> JDK1.8 以后的 <code>HashMap</code> 在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为 8）时，将链表转化为红黑树（将链表转换成红黑树前会判断，如果当前数组的长度小于 64，那么会选择先进行数组扩容，而不是转换为红黑树），以减少搜索时间（后文中我会结合源码对这一过程进行分析）。<code>Hashtable</code> 没有这样的机制。</p>
+</li>
+</ul>
+<h1 id="37-HashMap- 是否为线程安全，若不是线程安全则如何解决"><a href="#37-HashMap- 是否为线程安全，若不是线程安全则如何解决" class="headerlink" title="37.  HashMap 是否为线程安全，若不是线程安全则如何解决"></a>37.  HashMap 是否为线程安全，若不是线程安全则如何解决</h1><ul>
+<li>HashMap 是 <strong> 非线程安全 </strong> 的，在多线程环境下，多个线程同时触发 HashMap 的改变时，有可能会发生冲突。所以，在多线程环境下不建议使用 HashMap。</li>
+<li>想要使用线程安全的 HashMap，一共有三种办法：使用 HashTable（不推荐）、使用 Collections 将 HashMap 包装成线程安全的 HashMap、使用 ConcurrentHashMap，其中第三种方式最为高效，是最推荐的方式。</li>
+</ul>
+<h1 id="38- 谈谈对于 -ConcurrentHashMap- 的理解"><a href="#38- 谈谈对于 -ConcurrentHashMap- 的理解" class="headerlink" title="38. 谈谈对于 ConcurrentHashMap 的理解"></a>38. 谈谈对于 ConcurrentHashMap 的理解</h1><ul>
+<li>ConcurrentHashMap 是一个线程安全的集合，它的底层是 数组 + 链表 &#x2F; 红黑树 构成的。</li>
+<li>Java 7 中 <code>ConcurrentHashMap</code> 使用的分段锁，也就是每一个 Segment 上同时只有一个线程可以操作，每一个 <code>Segment</code> 都是一个类似 <code>HashMap</code> 数组的结构，它可以扩容，它的冲突会转化为链表。但是 <code>Segment</code> 的个数一旦初始化就不能改变。</li>
+<li>Java 8 中的 <code>ConcurrentHashMap</code> 使用的 <code>Synchronized</code> 锁加 CAS 的机制。结构也由 Java 7 中的 <strong><code>Segment</code> 数组 + <code>HashEntry</code> 数组 + 链表</strong> 进化成了 <strong>Node 数组 + 链表 &#x2F; 红黑树</strong>，Node 是类似于一个 HashEntry 的结构。它的冲突在达到一定大小时会转化成红黑树，在冲突小于一定数量时又退回链表。</li>
+</ul>
+<h1 id="39- 谈谈对于 -ArrayList- 的理解"><a href="#39- 谈谈对于 -ArrayList- 的理解" class="headerlink" title="39. 谈谈对于 ArrayList 的理解"></a>39. 谈谈对于 ArrayList 的理解</h1><ul>
+<li>ArrayList 是基于数组实现的，它的内部封装了一个 <code>Object[]</code> 数组。 通过默认构造器创建容器时，该数组先被初始化为空数组，之后在首次添加数据时再将其初始化成长度为 10 的数组。</li>
+<li>可以使用有参构造器来创建容器，并通过参数来显式指定数组的容量，届时该数组被初始化为指定容量的数组。 </li>
+<li>如果向 ArrayList 中添加数据会造成超出数组长度限制，则会触发自动扩容，然后再添加数据。扩容就是数组拷贝，将旧数组中的数据拷贝到新数组里，而新数组的长度为原来长度的 1.5 倍。 </li>
+<li>ArrayList 支持缩容，但不会自动缩容，即便是 ArrayList 中只剩下少量数据时也不会主动缩容。如果希望缩减 ArrayList 的容量，则需要自己调用它的 <code>trimToSize()</code> 方法，届时数组将按照元素的实际个数进行缩减。</li>
+</ul>
+
+  </div>
+  <div id="gitalk-container"></div>
+</div>
+
+<script>
+  
+Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
+  dragToClose: true,
+  Toolbar: true,
+  closeButton: "top",
+  Image: {
+    zoom: true,
+  },
+  on: {
+    initCarousel: (fancybox) => {
+      const slide = fancybox.Carousel.slides[fancybox.Carousel.page];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+    "Carousel.change": (fancybox, carousel, to, from) => {
+      const slide = carousel.slides[to];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+  },
+});
+</script>
+
+<style>
+    #noneimg img {
+        display: none;
+        z-index: 9999;
+        /* width: 600px !important; */
+        min-width: 0%;
+        max-width: 90%;
+        max-height: 80%;
+        border-radius: 0px;
+        position: fixed;
+        box-shadow: 0 0 0px #c3c3c300 !important;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto !important;
+    }
+
+    @media screen and (max-width:600px) {
+        #noneimg img {
+            max-width: 88%
+        }
+    }
+</style>
+
+    <div class="post-paging">
+    
+    <a href="/2023/01/01/array/">
+        <div class="post-paging-last">
+            <span>上一篇</span>
+            <p>LeetCode 算法笔记之数组 (双指针解法)</p>
+        </div>
+    </a>
+    
+
+    
+</div>
+</div>
+		
+<div class="footer">
+	<div class="Copyright">
+		©2023 By LebronLe. Theme：<a
+			style="text-decoration: none;display: contents; color: #898F9F;"
+			target="_blank" rel="noopener" href="https://github.com/79e/hexo-theme-quiet">Quiet</a>
+	</div>
+	<div class="contact">
+		
+		<a target="_blank" rel="noopener" href="https://github.com/79E/hexo-theme-quiet">
+			<img src="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Quiet主题">
+		</a>
+		
+	</div>
+</div>
+
+<script src="/js/gotop.js"></script>
+
+
+<style type="text/css">
+    @media screen and (min-width: 600px) {
+        .goTop>span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0.8;
+            background: rgba(18, 24, 58, 0.06);
+            text-align: center;
+            transition: border .5s;
+            border: 1px solid rgba(18, 24, 58, 0.06);
+
+            -moz-transition: border .5s;
+            /* Firefox 4 */
+            -webkit-transition: border .5s;
+            /* Safari 和 Chrome */
+            -o-transition: border .5s;
+            /* Opera */
+        }
+
+        .goTop>span:hover {
+            border: 1px solid #6680B3;
+        }
+
+
+        .goTop {
+            position: fixed;
+            right: 30px;
+            bottom: 80px;
+        }
+
+        .goTop>span>svg {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+
+    }
+
+    @media screen and (max-width: 600px) {
+        .goTop {
+            display: none;
+        }
+    }
+</style>
+<div class="goTop" id="js-go_top">
+    <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g>
+                <path d="M13 12v8h-2v-8H4l8-8 8 8z"></path>
+            </g>
+        </svg>
+    </span>
+</div>
+<script>
+    $( '#js-go_top' )
+	.gotoTop( {
+		offset: 500,
+		speed: 300,
+		animationShow: {
+			'transform': 'translate(0,0)',
+			'transition': 'transform .5s ease-in-out'
+		},
+		animationHide: {
+			'transform': 'translate(100px,0)',
+			'transition': 'transform .5s ease-in-out'
+		}
+	} );
+</script>
+
+
+<!-- Baidu Analytics -->
+<script defer>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?e2863d3856a812993ba034f5145bf77c";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+    <!-- Gitalk -->
+    <script>
+        const data = '{"clientID":"515c62b1616878ab4696","clientSecret":"8e7686de9c499016b4944eb232e1f5e4ddf0aacc","repo":"BlogComment","owner":"hulittlewhite","admin":"hulittlewhite"}'
+        const gitalk = new Gitalk({
+            ...JSON.parse( data),
+            id:location.pathname,
+            distractionFreeMode:false
+        })
+        
+        if(Boolean('true')){
+            gitalk.render('gitalk-container')
+        }
+    </script>
+
+
+<script>
+	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')
+</script>
+	</body>
+</html>
+

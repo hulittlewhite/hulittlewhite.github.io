@@ -351,17 +351,23 @@ spring.kafka.consumer.auto-commit-interval=3000
 <ol start="3">
 <li>访问 Kafka：</li>
 </ol>
-<p>生产者</p>
+<ul>
+<li>生产者</li>
+</ul>
 <pre><code>kafkaTemplate.send(topic, data);
 </code></pre>
-<p>消费者</p>
+<ul>
+<li>消费者</li>
+</ul>
 <pre><code>@KafkaListener(topic = &#123;&quot;test&quot;&#125;)
 </code></pre>
 <pre><code>public void handleMessage(ConsumerRecord record)&#123;&#125;
 </code></pre>
 <h1 id="1- 发送系统通知"><a href="#1- 发送系统通知" class="headerlink" title="1. 发送系统通知"></a>1. 发送系统通知</h1><ol>
-<li>触发事件：评论后发布通知；点赞后发布通知；关注后发布通知。</li>
-<li>处理事件：封装事件对象；开发事件的生产者；开发事件的消费者。</li>
+<li><p>触发事件：评论后发布通知；点赞后发布通知；关注后发布通知。</p>
+</li>
+<li><p>处理事件：封装事件对象；开发事件的生产者；开发事件的消费者。</p>
+</li>
 </ol>
 <h2 id="创建实体类 -Event"><a href="# 创建实体类 -Event" class="headerlink" title="创建实体类 Event"></a>创建实体类 Event</h2><ul>
 <li>封装事件对象，包括主题、用户 id、实体类型、实体 id、实体用户 id 以及一个 map 集合存放其它信息。</li>
