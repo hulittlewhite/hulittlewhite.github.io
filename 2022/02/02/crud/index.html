@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+<title>Spring Boot 增删改查（CRUD）简易案例-Quiet</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" type="image/x-icon" href="/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/index.css">
+
+
+
+<meta name="keywords" content="Java,Spring Boot,">
+<meta name="description" content="">
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+<script src="/js/index.js"></script>
+
+
+<script src="/js/fancybox.umd.js"></script>
+
+
+<script src="/js/fancybox-images.js"></script>
+
+
+<script src="/js/gitalk.min.js"></script>
+
+
+<script src="/js/hljs.min.js"></script>
+ 
+<script>hljs.highlightAll();</script>
+
+	<meta name="generator" content="Hexo 6.3.0"></head>
+
+	<body>
+		<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?e2863d3856a812993ba034f5145bf77c";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+	<div class="header">
+		<div class="header-top" id="header-top">
+			<div class="h-left">
+				<a href="/">
+					<img src="/image/logo.png" alt="Quiet">
+				</a>
+			</div>
+			<div class="h-right">
+				<ul>
+					
+						
+								<li>
+									<a href="/">
+										HOME
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/archives">
+										ARCHIVE
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/categories">
+										CATEGORIES
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/tags">
+										TAGS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/links">
+										LINKS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/about">
+										ABOUT
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+				</ul>
+			</div>
+			<div class="h-right-close">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+					<path fill="none" d="M0 0h24v24H0z" />
+					<path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)" />
+				</svg>
+			</div>
+		</div>
+	</div>
+	<div class="sidebar">
+    <div class="topo">
+        <h2>LebronLe</h2>
+    </div>
+    <ul>
+        
+        <li>
+            <a href="/">HOME</a>
+        </li>
+        
+        <li>
+            <a href="/archives">ARCHIVE</a>
+        </li>
+        
+        <li>
+            <a href="/categories">CATEGORIES</a>
+        </li>
+        
+        <li>
+            <a href="/tags">TAGS</a>
+        </li>
+        
+        <li>
+            <a href="/links">LINKS</a>
+        </li>
+        
+        <li>
+            <a href="/about">ABOUT</a>
+        </li>
+        
+    </ul>
+    <div class="my_foot">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/79E/hexo-theme-quiet">
+            <img src="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Quiet主题">
+        </a>
+        
+    </div>
+</div>
+<div class='shelter'>
+</div>
+<style>
+    .shelter{
+        background-color: #333;
+        opacity:0.5;
+        cursor: pointer;
+        display: none; 
+        position: fixed;
+        left: 0;
+        top: 0; 
+        right: 0;
+        bottom: 0;
+        z-index: 1998;
+    }
+    .sidebar {
+        width: 66%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        bottom: 0;
+        background: #fff;
+        z-index: 1999;
+        text-align: center;
+        box-shadow: -6px 0 20px rgba(98, 94, 94, .815);
+    }
+
+    .topo {
+        width: 100%;
+        height: 200px;
+        background: url(https://api.ixiaowai.cn/gqapi/gqapi.php) no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        display: flex;
+        align-items: flex-end
+    }
+
+    .topo h2 {
+        color: #fff;
+        z-index: 1;
+        position: relative;
+        margin: 0 0 10px 10px;
+        font-size: 1.2em;
+        box-sizing: border-box
+    }
+
+    .topo:before {
+        content: '';
+        background-image: url(/image/pattern.png);
+        background-repeat: repeat;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 1
+    }
+
+    .sidebar ul {
+        width: 100%;
+        margin-top: 50px
+    }
+
+    .sidebar ul li {
+        height: 50px;
+        list-style: none;
+        font-size: 1.2em;
+        text-align: right;
+        margin-right: 10px
+    }
+
+    .sidebar ul li a {
+        display: grid;
+        color: #5d606a;
+        text-overflow: ellipsis;
+        width: 100%;
+        text-decoration: none
+    }
+
+    .my_foot {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        position: absolute;
+        bottom: 0
+    }
+
+    .my_foot a {
+        text-decoration: none;
+        margin-right: 10px;
+        display: inline-block
+    }
+
+    .my_foot a img {
+        width: 30px;
+        height: 30px
+    }
+</style>
+
+<script>
+    $( function () {
+	$( '.h-right-close>svg' )
+		.click( function () {
+			$( '.sidebar' )
+				.animate( {
+					right: "0"
+				}, 500 );
+			$( '.shelter' )
+				.fadeIn( "slow" )
+		} );
+	$( '.shelter' )
+		.click( function ( e ) {
+			$( '.sidebar' )
+				.animate( {
+					right: "-100%"
+				}, 500 );
+			$( '.shelter' )
+				.fadeOut( "slow" )
+		} )
+} )
+
+</script>
+
+<div class="post">
+    <div class="post-header-background post-header-img"
+    style="background: url('https://api.ixiaowai.cn/gqapi/gqapi.php')" 
+>
+    <div class="post-header-background-content">
+        <ul class="post-header-tag">
+            
+            
+            <li><a href="/tags/Java">Java</a></li>
+            
+            <li><a href="/tags/Spring Boot">Spring Boot</a></li>
+            
+            
+        </ul>
+        
+        <h1>Spring Boot 增删改查（CRUD）简易案例</h1>
+        <div class="post-header-info">
+            <div class="post-header-info-author">
+                
+                    <svg t="1604839279282" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg" p-id="2901" width="20" height="20">
+                        <path
+                            d="M513 956.3c-247.7 0-448-200.3-448-448S265.3 66.2 513 66.2s448 200.3 448 448-200.3 442.1-448 442.1z m0-830.9c-212.2 0-388.8 170.7-388.8 388.8C124.2 726.3 294.9 903 513 903c212.2 0 388.8-170.7 388.8-388.8S725.2 125.4 513 125.4z m0 430.2c-94.2 0-170.7-76.5-170.7-170.7S418.8 207.8 513 207.8s170.7 76.5 170.7 170.7S607.2 555.6 513 555.6z m0-289.1c-64.6 0-112 52.8-112 112s47.4 117.9 112 117.9 112-52.8 112-112-47.4-117.9-112-117.9z m0 689.8c-135.7 0-259-58.7-341.9-158.9l-11.8-17.8 11.8-17.8c76.5-117.9 206.2-188.5 347.8-188.5 135.7 0 265 64.6 341.9 182.6l11.8 17.8-11.8 17.8C778 897.1 648.7 956.3 513 956.3zM230.3 773.2C300.9 849.7 406.9 897 513 897c112 0 218.1-47.4 288.6-129.8-70.5-88.2-170.7-135.6-282.7-135.6s-218.1 53.3-288.6 141.6z"
+                            p-id="2902" fill="#ffffff"></path>
+                    </svg>
+                    
+                <span class="post-header-info-author-text"> <a href="../../about">LebronLe</a></span>
+                <div class="post-header-info-author-categories">
+                    
+                         <a href="../../categories/Java/" target="_blank" >Java</a>
+                    
+                </div>
+                <p>2022-02-02 08:10:34</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="post-content" id="content">
+  
+  <div id="article" class="post-content-info">
+    
+
+    <h1 id="1- 项目概述"><a href="#1- 项目概述" class="headerlink" title="1. 项目概述"></a>1. 项目概述</h1><ul>
+<li><p>简介：Spring Boot 增删改查（CRUD）简易案例</p>
+</li>
+<li><p>前端：<code>HTML + Thymeleaf</code></p>
+</li>
+<li><p>项目架构：</p>
+</li>
+</ul>
+<pre><code>.
+├── src
+│   ├── main
+│   │   ├── java
+│   │   │   └── com.example
+│   │   │       └── crud                          -- 业务功能模块 即 CRUD
+│   │   │           ├── controller                --Controller 层
+│   │   │           │    └── UserController           
+│   │   │           ├── dao                       --Dao 层
+│   │   │           │    └── UserDao              --Dao 层接口         
+│   │   │           ├── pojo                      -- 数据模型
+│   │   │           │    └── User                 -- 请求体
+│   │   │           ├── service                   --Service 层
+│   │   │           │    ├── impl                 --Service 层接口的实现
+│   │   │           │    │    └── UserServiceImpl 
+│   │   │           │    └── UserService          --Service 层接口
+│   │   │           └── Application.java          -- 启动类
+│   │   └── resources
+│   │       ├── static                            -- 静态资源
+│   │       ├── template                          -- 模板
+│   │              ├── add.html                   -- 增加用户页面
+│   │              ├── index.html                 -- 主页面
+│   │              └── modify.html                -- 修改用户页面
+└── pom.xml                                       -- 项目依赖
+</code></pre>
+<h1 id="2- 数据库"><a href="#2- 数据库" class="headerlink" title="2. 数据库"></a>2. 数据库</h1><ul>
+<li><strong>MySQL</strong>：v8.0.29</li>
+<li><strong>Navicat Premium</strong> 15</li>
+<li><strong>新建连接 Connection：</strong>Spring Boot CRUD</li>
+<li><strong>新建 Database</strong>：crud</li>
+<li><strong>数据库表</strong>：user</li>
+<li><strong>包含三个字段</strong>：id，username，password</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>username</th>
+<th>password</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>Lebron</td>
+<td>1111</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Durant</td>
+<td>2222</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Curry</td>
+<td>3333</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Bryant</td>
+<td>4444</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Harden</td>
+<td>5555</td>
+</tr>
+</tbody></table>
+<p>建表 SQL 语句：</p>
+<pre><code class="sql">CREATE TABLE `user` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `password` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+</code></pre>
+<h1 id="3-POJO"><a href="#3-POJO" class="headerlink" title="3. POJO"></a>3. POJO</h1><ul>
+<li>包 <code>pojo</code> 下包含实体类 <code>User</code>。</li>
+<li>实体类有三个私有成员变量：<code>id</code>，<code>username</code>，<code>password</code>。</li>
+<li>这三个属性分别与数据库 crud 中的表 user 的字段相对应。</li>
+<li>实体类 <code>User</code> 包含带参构造方法、无参构造方法、三个属性对应的 get 和 set 方法，另外还包含一个重写的 toString 方法。</li>
+</ul>
+<p><code>User.java</code></p>
+<pre><code class="java">package com.example.crud.pojo;
+
+public class User &#123;
+    private Integer id;
+    private String username;
+    private String password;
+
+    public Integer getId() &#123;
+        return id;
+    &#125;
+
+    public void setId(Integer id) &#123;
+        this.id = id;
+    &#125;
+
+    public String getUsername() &#123;
+        return username;
+    &#125;
+
+    public void setUsername(String username) &#123;
+        this.username = username;
+    &#125;
+
+    public String getPassword() &#123;
+        return password;
+    &#125;
+
+    public void setPassword(String password) &#123;
+        this.password = password;
+    &#125;
+
+    public User(Integer id,String username,String password) &#123;
+        this.id = id;
+        this.username = username;
+        this.password = password;
+    &#125;
+    public User() &#123;
+
+    &#125;
+
+    @Override
+    public String toString() &#123;
+        return &quot;User&#123;&quot; +
+                &quot;id=&quot; + id +
+                &quot;, username=&#39;&quot; + username + &#39;\&#39;&#39; +
+                &quot;, password=&#39;&quot; + password + &#39;\&#39;&#39; +
+                &#39;&#125;&#39;;
+    &#125;
+&#125;
+</code></pre>
+<h1 id="4-Dao"><a href="#4-Dao" class="headerlink" title="4. Dao"></a>4. Dao</h1><ul>
+<li>包 <code>dao</code> 下包含接口<code>UserDao</code>。</li>
+<li>注解 <code>@Mapper</code> 用于修饰接口<code>UserDao</code>。</li>
+<li>注解 <code>@Insert</code>、<code>@Delete</code>、<code>@Update</code>、<code>@Select</code> 用于修饰接口内的方法（增删改查）。</li>
+</ul>
+<p>接口 <code>UserMapper.java</code></p>
+<pre><code class="java">package com.example.crud.dao;
+
+import com.example.crud.pojo.User;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
+
+@Mapper
+public interface UserMapper &#123;
+
+    /**
+     * 查询全部数据
+     */
+    @Select(&quot;select * from user&quot;)
+    public List&lt;User&gt; findAll();
+
+    /**
+     * 新增数据
+     */
+    @Insert(&quot;insert into user (username, password) values (#&#123;username&#125;, #&#123;password&#125;)&quot;)
+    public int save(User user);
+
+    /**
+     * 删除数据
+     */
+    @Delete(&quot;delete from user where id =#&#123;id&#125;&quot;)
+    public int delete(int id);
+
+    /**
+     * 根据 ID 查找
+     */
+    @Select(&quot;select * from user where id =#&#123;id&#125;&quot;)
+    public User get(int id);
+
+    /**
+     * 根据 ID 更新数据
+     */
+    @Update(&quot;update user set username=#&#123;username&#125;,password=#&#123;password&#125; where id=#&#123;id&#125;&quot;)
+    public int updateById(User user);
+
+&#125;
+</code></pre>
+<h1 id="5-Service"><a href="#5-Service" class="headerlink" title="5. Service"></a>5. Service</h1><ul>
+<li>包 <code>service</code> 下包含包 <code>impl</code> 和 Service 层的接口 <code>UserService</code></li>
+<li>其中，包 <code>impl</code> 包含 <code>Service</code> 层接口的实现类 <code>UserServiceImpl</code></li>
+<li><code>Service</code> 层既需要调用 <code>Dao</code> 层接口，又需要提供接口给 <code>Controller</code> 层的类进行调用。</li>
+</ul>
+<p>接口 <code>UserService.java</code></p>
+<pre><code class="java">package com.example.crud.service;
+
+import com.example.crud.pojo.User;
+
+import java.util.List;
+
+public interface UserService &#123;
+    /**
+     * 查询全部数据
+     */
+    public List&lt;User&gt; findAll();
+
+    /**
+     * 新增数据
+     */
+    public int save(User user);
+
+    /**
+     * 删除数据
+     */
+    public int delete(int id);
+
+    /**
+     * 根据 ID 查找
+     */
+    public User get(int id);
+
+    /**
+     * 更新数据
+     */
+    public int updateById(User user);
+&#125;
+</code></pre>
+<p>接口实现类 <code>UserServiceImpl.java</code></p>
+<pre><code class="java">package com.example.crud.service.impl;
+
+import com.example.crud.dao.UserMapper;
+import com.example.crud.pojo.User;
+import com.example.crud.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class UserServiceImpl implements UserService &#123;
+    @Autowired
+    private UserMapper userdDao;
+
+    @Override
+    public List&lt;User&gt; findAll() &#123;
+        return userdDao.findAll();
+    &#125;
+
+    @Override
+    public int save(User user) &#123;
+        return userdDao.save(user);
+    &#125;
+
+    @Override
+    public int delete(int id) &#123;
+        return userdDao.delete(id);
+    &#125;
+
+    @Override
+    public User get(int id) &#123;
+        return userdDao.get(id);
+    &#125;
+
+    @Override
+    public int updateById(User user) &#123;
+        return userdDao.updateById(user);
+    &#125;
+&#125;
+</code></pre>
+<h1 id="6-Controller"><a href="#6-Controller" class="headerlink" title="6. Controller"></a>6. Controller</h1><ul>
+<li>包 <code>controller</code> 包含类 <code>UserController</code>。</li>
+<li>注解 <code>@Controller</code> 用于修饰类 <code>UserController</code>。</li>
+<li>注解 <code>@Autowired</code> 表示自动注入 <code>Service</code> 层提供的接口，供 <code>Controller</code> 层使用。</li>
+</ul>
+<p><code>UserController.java</code></p>
+<pre><code class="java">package com.example.crud.controller;
+
+import com.example.crud.pojo.User;
+import com.example.crud.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+@Controller
+public class UserController &#123;
+    @Autowired
+    private UserService userService;
+
+    @GetMapping(&quot;/index.html&quot;)
+    public String userList(Map&lt;String, List&gt; result) &#123;
+        List&lt;User&gt; users = userService.findAll();
+        result.put(&quot;users&quot;, users);
+        return &quot;index&quot;;
+    &#125;
+
+    /**
+     * 新增数据
+     */
+    @PostMapping(&quot;/add&quot;)
+    public String save(User user) &#123;
+        userService.save(user);
+        // 表示重置 index.html 界面并且跳转到 index.html 界面
+        return &quot;redirect:/index.html&quot;;
+    &#125;
+
+    /**
+     * 删除数据, 本来需要使用 DeleteMapping，
+     * 但是由于没有界面可以隐藏，所以这里就直接写了 RequestMapping
+     */
+    @RequestMapping(&quot;/delete/&#123;id&#125;&quot;)
+    public String delete(@PathVariable int id, HttpServletResponse servletResponse) throws IOException &#123;
+        userService.delete(id);
+        System.out.println(&quot;-----delete 方法执行 -----&quot;);
+        return &quot;redirect:/index.html&quot;;
+    &#125;
+
+    /**
+     * 根据 id 进行修改
+     */
+    @GetMapping(&quot;/updatePage/&#123;id&#125;&quot;)
+    public String updatePage(Model model, @PathVariable int id)&#123;
+        User user = userService.get(id);
+        model.addAttribute(&quot;user&quot;,user);
+        // 表示跳转到 modify.html 界面
+        return &quot;modify&quot;;
+    &#125;
+
+    @PutMapping(&quot;/update&quot;)
+    public String updateUser(Model model, User user, HttpServletRequest request) &#123;
+        String id = request.getParameter(&quot;id&quot;);
+        User userById = userService.get(Integer.parseInt(id));
+        userService.updateById(user);
+        System.out.println(user);
+        return &quot;redirect:/index.html&quot;;
+    &#125;
+&#125;
+</code></pre>
+<h1 id="7- 前端页面"><a href="#7- 前端页面" class="headerlink" title="7. 前端页面"></a>7. 前端页面 </h1><p> 包 <code>resources</code> 下的包 <code>templates</code> 下有三个 html 文件。</p>
+<h2 id="7-1- 主页面"><a href="#7-1- 主页面" class="headerlink" title="7.1 主页面"></a>7.1 主页面 </h2><p> 主页面 <code>index.html</code></p>
+<pre><code class="html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot; xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt; 用户列表 &lt;/title&gt;
+  &lt;!-- 引入 Bootstrap --&gt;
+  &lt;link href=&quot;https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;/head&gt;
+
+&lt;style&gt;
+
+  a&#123;
+    color: #ffffff;
+  &#125;
+  h1&#123;
+    /* 文字对齐 */
+    text-align: center;
+  &#125;
+  button&#123;
+    height: 40px;
+    width: 40px;
+    background-color: cornflowerblue;
+  &#125;
+  .parent&#123;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  &#125;
+  .btn&#123;
+    width: auto;
+  &#125;
+
+&lt;/style&gt;
+
+&lt;body&gt;
+&lt;h1&gt;Spring Boot CRUD&lt;/h1&gt;
+&lt;!--table-striped: 斑马线格式，table-bordered：带边框的表格，table-hover：鼠标悬停高亮的表格 --&gt;
+&lt;table class=&quot;table table-striped table-bordered table-hover text-center&quot;&gt;
+  &lt;thead&gt;
+  &lt;tr style=&quot;text-align:center&quot;&gt;
+    &lt;!-- th 标签定义 html 表格中的表头单元格 --&gt;
+    &lt;th style=&quot;text-align:center&quot;&gt; 编号 &lt;/th&gt;
+    &lt;th style=&quot;text-align:center&quot;&gt; 用户名 &lt;/th&gt;
+    &lt;th style=&quot;text-align:center&quot;&gt; 密码 &lt;/th&gt;
+    &lt;th style=&quot;text-align:center&quot;&gt; 操作 &lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;!--tr 标签定义 html 表格中的所有行 --&gt;
+  &lt;!-- 遍历集合，如果被遍历的变量 users 为 null 或者不存在，则不会进行遍历，也不会报错 --&gt;
+  &lt;tr th:each=&quot;user:$&#123;users&#125;&quot;&gt;
+    &lt;!-- td 标签定义 html 表格中的标准单元格 --&gt;
+    &lt;td th:text=&quot;$&#123;user.id&#125;&quot;&gt;&lt;/td&gt;
+    &lt;td th:text=&quot;$&#123;user.username&#125;&quot;&gt;&lt;/td&gt;
+    &lt;td th:text=&quot;$&#123;user.password&#125;&quot;&gt;&lt;/td&gt;
+    &lt;td&gt;
+      &lt;!-- a 标签用来定义超链接 href 表示超链接 --&gt;
+      &lt;a class=&quot;btn btn-primary&quot; th:href=&quot;@&#123;&#39;/updatePage/&#39;+$&#123;user.id&#125;&#125;&quot;&gt; 更改 &lt;/a&gt;
+      &lt;a class=&quot;btn btn-danger&quot; th:href=&quot;@&#123;&#39;/delete/&#39;+$&#123;user.id&#125;&#125;&quot; onclick=&quot;return confirm(&#39; 确定删除？&#39;)&quot;&gt; 删除 &lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;div class=&quot;parent&quot;&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn btn-block&quot;&gt;&lt;a href=&quot;/add.html&quot;&gt; 添加用户 &lt;/a&gt;&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre>
+<h2 id="7-2- 增加用户页面"><a href="#7-2- 增加用户页面" class="headerlink" title="7.2 增加用户页面"></a>7.2 增加用户页面 </h2><p> 新增用户页面 <code>add.html</code></p>
+<pre><code class="html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot; xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt; 添加用户 &lt;/title&gt;
+    &lt;link href=&quot;https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;/head&gt;
+&lt;sty&gt;
+
+    &lt;body&gt;
+
+    &lt;div style=&quot;width:600px;height:100%;margin-left:350px;margin-top: 180px;&quot;&gt;
+        &lt;form action=&quot;/add&quot; method=&quot;post&quot;&gt;
+            &lt;!-- form-control 给 input 添加这个 class 后就会使用 bootstrap 自带的 input 框 --&gt;
+            用户名：&lt;input class=&quot;form-control&quot; type=&quot;text&quot; th:value=&quot;$&#123;username&#125;&quot; name=&quot;username&quot;&gt;&lt;br&gt;
+            &lt;!-- 注意参数的拼接 --&gt;
+            密 码：&lt;input class=&quot;form-control&quot; type=&quot;text&quot; th:value=&quot;$&#123;password&#125;&quot; name=&quot;password&quot;&gt;&lt;br&gt;
+            &lt;button class=&quot;btn btn-primary btn-lg btn-block&quot;&gt; 保存 &lt;/button&gt;
+        &lt;/form&gt;
+    &lt;/div&gt;
+
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 id="7-3- 更改用户信息页面"><a href="#7-3- 更改用户信息页面" class="headerlink" title="7.3 更改用户信息页面"></a>7.3 更改用户信息页面 </h2><p> 更改用户信息页面 <code>modify.html</code></p>
+<pre><code class="html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot; xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt; 修改用户 &lt;/title&gt;
+  &lt;link href=&quot;https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div style=&quot;width:600px;height:100%;margin-left:350px;margin-top: 180px;&quot;&gt;
+  &lt;form action=&quot;/update&quot; method=&quot;post&quot;&gt;
+    &lt;!-- rest 风格中的更新是 put 请求，
+    所以这块先使用 post 请求，然后隐藏起来改为 put 请求 --&gt;
+    &lt;input name=&quot;_method&quot; type=&quot;hidden&quot; value=&quot;put&quot;&gt;
+    ID：&lt;input class=&quot;form-control&quot;  type=&quot;text&quot; th:value=&quot;$&#123;user.id&#125;&quot; name=&quot;id&quot;&gt;&lt;br&gt;
+    用户名：&lt;input class=&quot;form-control&quot; type=&quot;text&quot; th:value=&quot;$&#123;user.username&#125;&quot; name=&quot;username&quot;&gt;&lt;br&gt;
+    密 码：&lt;input class=&quot;form-control&quot; type=&quot;text&quot; th:value=&quot;$&#123;user.password&#125;&quot; name=&quot;password&quot;&gt;&lt;br&gt;
+    &lt;button class=&quot;btn btn-primary btn-lg btn-block&quot; type=&quot;submit&quot; onclick=&quot;return confirm(&#39; 确认修改？&#39;)&quot;&gt; 提交 &lt;/button&gt;
+  &lt;/form&gt;
+&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h1 id="8- 配置文件"><a href="#8- 配置文件" class="headerlink" title="8. 配置文件"></a>8. 配置文件</h1><p><code>application.yml</code></p>
+<pre><code class="properties">spring:
+  web:
+    resources:
+      static-locations: classpath:/static/,classpath:/templates/
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/crud?useSSL=false
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 普通浏览器只能 get 和 post 请求，
+    # 所以如果需要其他的请求方式，需要这个，然后隐藏起来
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  devtools:
+    restart:
+      enabled: true # 设置开启热部署
+  freemarker:
+    cache: false # 页面不加载缓存，修改即使生效
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true # 下划线驼峰设置
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl   # 打印 SQL 语句
+</code></pre>
+<p><code>pom.xml</code></p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+    &lt;parent&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+        &lt;version&gt;2.6.2&lt;/version&gt;
+        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
+    &lt;/parent&gt;
+    &lt;groupId&gt;com.csq&lt;/groupId&gt;
+    &lt;artifactId&gt;csqtest&lt;/artifactId&gt;
+    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+    &lt;name&gt;hutianle&lt;/name&gt;
+    &lt;description&gt;Demo project for Spring Boot&lt;/description&gt;
+    &lt;properties&gt;
+        &lt;java.version&gt;1.8&lt;/java.version&gt;
+    &lt;/properties&gt;
+
+    &lt;dependencies&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+        &lt;!-- mybatis --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;
+            &lt;version&gt;2.2.1&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;!--mysql 连接器 --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;mysql&lt;/groupId&gt;
+            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+
+        &lt;!-- 阿里数据源 --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+            &lt;artifactId&gt;druid&lt;/artifactId&gt;
+            &lt;version&gt;1.1.9&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;!-- 获取页面 session 对象 request 对象 response 对象 HttpServletXXX jar 包 --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;javax.servlet&lt;/groupId&gt;
+            &lt;artifactId&gt;javax.servlet-api&lt;/artifactId&gt;
+            &lt;version&gt;3.0.1&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;!--json 转换工具包 --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+            &lt;artifactId&gt;fastjson&lt;/artifactId&gt;
+            &lt;version&gt;1.2.47&lt;/version&gt;
+        &lt;/dependency&gt;
+
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+            &lt;exclusions&gt;
+                &lt;exclusion&gt;
+                    &lt;groupId&gt;org.junit.vintage&lt;/groupId&gt;
+                    &lt;artifactId&gt;junit-vintage-engine&lt;/artifactId&gt;
+                &lt;/exclusion&gt;
+            &lt;/exclusions&gt;
+        &lt;/dependency&gt;
+
+        &lt;!-- 热部署 --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;
+            &lt;optional&gt;true&lt;/optional&gt;
+            &lt;scope&gt;runtime&lt;/scope&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-thymeleaf&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+
+    &lt;build&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+                &lt;configuration&gt;
+                    &lt;!-- 如果不配置 fork，devtools 就不会起作用,devtools 是前端开发工具 --&gt;
+                    &lt;fork&gt;true&lt;/fork&gt;
+                &lt;/configuration&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+
+&lt;/project&gt;
+</code></pre>
+<h1 id="9- 运行"><a href="#9- 运行" class="headerlink" title="9. 运行"></a>9. 运行 </h1><p> 在 Chrome 浏览器中输入<code>http://localhost:8080/index.html</code>，即可进入用户信息主页面。</p>
+
+  </div>
+  <div id="gitalk-container"></div>
+</div>
+
+<script>
+  
+Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
+  dragToClose: true,
+  Toolbar: true,
+  closeButton: "top",
+  Image: {
+    zoom: true,
+  },
+  on: {
+    initCarousel: (fancybox) => {
+      const slide = fancybox.Carousel.slides[fancybox.Carousel.page];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+    "Carousel.change": (fancybox, carousel, to, from) => {
+      const slide = carousel.slides[to];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+  },
+});
+</script>
+
+<style>
+    #noneimg img {
+        display: none;
+        z-index: 9999;
+        /* width: 600px !important; */
+        min-width: 0%;
+        max-width: 90%;
+        max-height: 80%;
+        border-radius: 0px;
+        position: fixed;
+        box-shadow: 0 0 0px #c3c3c300 !important;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto !important;
+    }
+
+    @media screen and (max-width:600px) {
+        #noneimg img {
+            max-width: 88%
+        }
+    }
+</style>
+
+    <div class="post-paging">
+    
+    <a href="/2022/12/10/JavaSE/">
+        <div class="post-paging-last">
+            <span>上一篇</span>
+            <p>Java 基础</p>
+        </div>
+    </a>
+    
+
+    
+</div>
+</div>
+		
+<div class="footer">
+	<div class="Copyright">
+		©2023 By LebronLe. Theme：<a
+			style="text-decoration: none;display: contents; color: #898F9F;"
+			target="_blank" rel="noopener" href="https://github.com/79e/hexo-theme-quiet">Quiet</a>
+	</div>
+	<div class="contact">
+		
+		<a target="_blank" rel="noopener" href="https://github.com/79E/hexo-theme-quiet">
+			<img src="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Quiet主题">
+		</a>
+		
+	</div>
+</div>
+
+<script src="/js/gotop.js"></script>
+
+
+<style type="text/css">
+    @media screen and (min-width: 600px) {
+        .goTop>span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0.8;
+            background: rgba(18, 24, 58, 0.06);
+            text-align: center;
+            transition: border .5s;
+            border: 1px solid rgba(18, 24, 58, 0.06);
+
+            -moz-transition: border .5s;
+            /* Firefox 4 */
+            -webkit-transition: border .5s;
+            /* Safari 和 Chrome */
+            -o-transition: border .5s;
+            /* Opera */
+        }
+
+        .goTop>span:hover {
+            border: 1px solid #6680B3;
+        }
+
+
+        .goTop {
+            position: fixed;
+            right: 30px;
+            bottom: 80px;
+        }
+
+        .goTop>span>svg {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+
+    }
+
+    @media screen and (max-width: 600px) {
+        .goTop {
+            display: none;
+        }
+    }
+</style>
+<div class="goTop" id="js-go_top">
+    <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g>
+                <path d="M13 12v8h-2v-8H4l8-8 8 8z"></path>
+            </g>
+        </svg>
+    </span>
+</div>
+<script>
+    $( '#js-go_top' )
+	.gotoTop( {
+		offset: 500,
+		speed: 300,
+		animationShow: {
+			'transform': 'translate(0,0)',
+			'transition': 'transform .5s ease-in-out'
+		},
+		animationHide: {
+			'transform': 'translate(100px,0)',
+			'transition': 'transform .5s ease-in-out'
+		}
+	} );
+</script>
+
+
+<!-- Baidu Analytics -->
+<script defer>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?e2863d3856a812993ba034f5145bf77c";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+    <!-- Gitalk -->
+    <script>
+        const data = '{"clientID":"515c62b1616878ab4696","clientSecret":"8e7686de9c499016b4944eb232e1f5e4ddf0aacc","repo":"BlogComment","owner":"hulittlewhite","admin":"hulittlewhite"}'
+        const gitalk = new Gitalk({
+            ...JSON.parse( data),
+            id:location.pathname,
+            distractionFreeMode:false
+        })
+        
+        if(Boolean('true')){
+            gitalk.render('gitalk-container')
+        }
+    </script>
+
+
+<script>
+	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')
+</script>
+	</body>
+</html>
+
